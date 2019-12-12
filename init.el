@@ -49,7 +49,6 @@
 ;; Reset garbage collection threshold
 (setq gc-cons-threshold (* 2 1000 1000))
 
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -60,7 +59,7 @@
     ("a455366c5cdacebd8adaa99d50e37430b0170326e7640a688e9d9ad406e2edfd" default)))
  '(package-selected-packages
    (quote
-    (delight erc-image erc-hl-nicks flycheck-ledger ledger-mode erlang yaml-mode glsl-mode company-lsp lsp-ui wpuzzle fzf rg ack map spinner lsp-mode evil restclient hideshowvis all-the-icons-ivy all-the-icons counsel-projectile latex-preview-pane elpy ace-window escreen flycheck-rust racer cargo rust-mode auctex emmet-mode racket-mode web-mode slime-company use-package undo-tree smex slime rainbow-delimiters projectile paredit magit flycheck diminish counsel company color-theme-molokai beacon)))
+    (ranger delight erc-image erc-hl-nicks flycheck-ledger ledger-mode erlang yaml-mode glsl-mode company-lsp lsp-ui wpuzzle fzf rg ack map spinner lsp-mode evil restclient hideshowvis all-the-icons-ivy all-the-icons counsel-projectile latex-preview-pane elpy ace-window escreen flycheck-rust racer cargo rust-mode auctex emmet-mode racket-mode web-mode slime-company use-package undo-tree smex slime rainbow-delimiters projectile paredit magit flycheck diminish counsel company color-theme-molokai beacon)))
  '(safe-local-variable-values
    (quote
     ((eval setq-local org-babel-default-header-args:Python

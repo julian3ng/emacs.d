@@ -1,5 +1,7 @@
 (fset 'yes-or-no-p 'y-or-n-p) ; y/n instead of yes/no
 
+(fringe-mode '(16 . 16))
+
 (setq inhibit-startup-message t)     ; no startup message
 (line-number-mode t)                 ; line number in modeline
 (column-number-mode t)               ; column number in modeline
