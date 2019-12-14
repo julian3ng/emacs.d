@@ -74,12 +74,19 @@
 (use-package erc-hl-nicks :after erc)
 (use-package erc-image :after erc)
 
+(use-package expand-region
+  :commands expand-region
+  :bind (("C-=" . er/expand-region)))
+
 (use-package flycheck :init (global-flycheck-mode)
   :config
   (setq-default flycheck-disabled-checkers '(emacs-lisp
                                              emacs-lisp-checkdoc)
                 flycheck-emacs-lisp-load-path 'inherit)
-         :diminish global-flycheck-mode flycheck-mode)
+  :diminish global-flycheck-mode flycheck-mode)
+
+
+
 
 (add-hook 'prog-mode-hook #'hs-minor-mode)
 (diminish 'hs-minor-mode "")
@@ -132,46 +139,54 @@
 
 (use-package counsel-projectile
   :diminish counsel-projectile-mode
-  :config (counsel-projectile-mode t))
+  :config (counsel-projectile-mode t)
+  (setq counsel-projectile-switch-project-action 'counsel-projectile-switch-project-action-dired))
 
 (use-package rainbow-delimiters :diminish ""
   :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode-enable))
 
-(use-package ranger
-  :config
-  (setq ranger-show-literal nil
-        ranger-show-hidden t))
+(use-package cargo
+  :hook (rust-mode . cargo-minor-mode))
 
-(use-package cargo)
-(use-package rust-mode
-  :config
+(use-package rust-mode)
 
-  (add-hook 'rust-mode-hook #'cargo-minor-mode))
 (use-package racer
-  :config
-  (add-hook 'rust-mode-hook #'racer-mode)
-  (add-hook 'racer-mode-hook #'eldoc-mode))
+  :hook ((rust-mode . racer-mode)
+         (rust-mode . eldoc-mode)))
+
 (use-package flycheck-rust
-  :init
-  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+  :hook (flycheck-mode-hook . flycheck-rust-setup))
 
 (use-package restclient)
 
 (use-package lsp-mode
-
   :hook (rust-mode . lsp)
   :commands lsp)
 
-(use-package lsp-ui :commands lsp-ui-mode)
-(use-package company-lsp :commands company-lsp)
+(use-package lsp-ui
+  :hook (lsp-ui-mode . lsp-ui-mode)
+  :config (setq lsp-ui-doc-enable nil
+                lsp-prefer-flymake nil))
+
+(require 'company-lsp)
+(add-to-list 'company-backends 'company-lsp)
 
 (use-package slime
-
   :config
   (setq inferior-lisp-program "sbcl"
         slime-lisp-implementations '((sbcl ("/usr/bin/sbcl")))
         slime-contribs '(slime-fancy))
   (add-to-list 'auto-mode-alist '("\\.lisp\\'" . common-lisp-mode)))
+
+(use-package symbol-overlay
+  :bind (("C-c h h" . symbol-overlay-put)
+         ("C-c h n" . symbol-overlay-jump-next)
+         ("C-c h p" . symbol-overlay-jump-prev)
+         ("C-c h f" . symbol-overlay-switch-forward)
+         ("C-c h b" . symbol-overlay-switch-backward)
+         ("C-c h r" . symbol-overlay-rename)
+         ("C-c h m" . symbol-overlay-mode)
+         ("C-c h C" . symbol-overlay-remove-all)))
 
 (use-package undo-tree
 
@@ -192,5 +207,12 @@
   (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
   (setq web-mode-engines-alist
         '("django" . "\\.html\\'")))
+
+(use-package yasnippet
+  :commands yas-global-mode
+  :config
+  (yas-global-mode 1))
+
+(use-package common-lisp-snippets)
 
 (provide 'my-packages)

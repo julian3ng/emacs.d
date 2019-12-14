@@ -59,7 +59,7 @@
     ("a455366c5cdacebd8adaa99d50e37430b0170326e7640a688e9d9ad406e2edfd" default)))
  '(package-selected-packages
    (quote
-    (ranger delight erc-image erc-hl-nicks flycheck-ledger ledger-mode erlang yaml-mode glsl-mode company-lsp lsp-ui wpuzzle fzf rg ack map spinner lsp-mode evil restclient hideshowvis all-the-icons-ivy all-the-icons counsel-projectile latex-preview-pane elpy ace-window escreen flycheck-rust racer cargo rust-mode auctex emmet-mode racket-mode web-mode slime-company use-package undo-tree smex slime rainbow-delimiters projectile paredit magit flycheck diminish counsel company color-theme-molokai beacon)))
+    (common-lisp-snippets expand-region symbol-overlay delight erc-image erc-hl-nicks flycheck-ledger ledger-mode erlang yaml-mode glsl-mode company-lsp lsp-ui wpuzzle fzf rg ack map spinner lsp-mode evil hideshowvis all-the-icons-ivy counsel-projectile latex-preview-pane elpy ace-window escreen flycheck-rust cargo auctex emmet-mode racket-mode slime-company use-package undo-tree smex slime rainbow-delimiters paredit magit flycheck diminish counsel color-theme-molokai beacon)))
  '(safe-local-variable-values
    (quote
     ((eval setq-local org-babel-default-header-args:Python

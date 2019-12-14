@@ -44,4 +44,7 @@
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 
+(when (member "DejaVu Sans Mono" (font-family-list))
+  (set-frame-font "DejaVu Sans Mono"))
+
 (provide 'my-ui)
