@@ -40,7 +40,7 @@
       use-package-always-ensure t)
 (setq load-prefer-newer t)
 
-(add-to-list 'load-path "/home/julian/.emacs.d/elisp/")
+(add-to-list 'load-path "~/.emacs.d/elisp/")
 (require 'my-system)
 (require 'my-ui)
 (require 'my-keybinds)
