@@ -8,6 +8,8 @@
 (global-display-line-numbers-mode t) ; line numbers on left
 (transient-mark-mode t)              ; highlight the active region
 
+(set-face-background 'region "#355")
+
 (setq scroll-margin 0                    ; how far from top to start scrolling
       scroll-preserve-screen-position 1  ; keep point at screen position when scrolling
       scroll-step 1                      ; number of lines to scroll
@@ -44,7 +46,10 @@
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 
-(when (member "DejaVu Sans Mono" (font-family-list))
-  (set-frame-font "DejaVu Sans Mono"))
+(when (member "JuliaMono" (font-family-list))
+  (set-frame-font (font-spec :family "JuliaMono" :weight 'light :size 28)))
+
+;(set-frame-font  (font-spec :family "Roboto Mono" :weight 'light :size 28))
 
 (provide 'my-ui)
+

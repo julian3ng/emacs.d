@@ -3,7 +3,9 @@
 (desktop-save-mode 1)
 
 (set-register ?e '(file . "~/.emacs.d/init.el"))
-(set-register ?t '(file . "~/TODO.org"))
+(set-register ?p '(file . "~/.emacs.d/elisp/my-packages.el"))
+(set-register ?i '(file . "~/Dropbox/org/inbox.org"))
+(set-register ?t '(file . "~/Dropbox/org/tracker.org"))
 
 (global-subword-mode t)
 
@@ -49,5 +51,9 @@
                                '((tramp-parse-sconfig "~/.ssh/config")))
 (setq password-cache-expiry nil)
 (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+
+;; info
+(add-to-list 'Info-directory-list "~/info")
+
 
 (provide 'my-system)

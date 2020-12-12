@@ -10,6 +10,11 @@
   ("M-o" . ace-window)
   ("C-x o" . other-window))
 
+(load-file (let ((coding-system-for-read 'utf-8))
+             (shell-command-to-string "agda-mode locate")))
+
+(require 'agda-input)
+
 (use-package all-the-icons)
 (use-package all-the-icons-ivy
   :after (all-the-icons ivy)
@@ -26,24 +31,48 @@
 
 (use-package beacon :init (beacon-mode) :diminish "")
 
-(use-package company :diminish company-mode global-company-mode
-  :init (add-hook 'after-init-hook 'global-company-mode))
+(use-package cider)
+
+;; (use-package company :diminish company-mode global-company-mode
+;;   :init (add-hook 'after-init-hook 'global-company-mode))
 (use-package slime-company)
 (global-set-key (kbd "C-M-i") 'company-complete)
 
-(use-package color-theme-modern )
+(use-package color-theme-modern)
 
 (use-package counsel :bind (("M-x" . counsel-M-x)
                       ("C-x C-f" . counsel-find-file)
                       ("C-x 8 C-<return>" . counsel-unicode-char)))
 
-(use-package smex)
+(use-package counsel-projectile
+  :diminish counsel-projectile-mode
+  :config (counsel-projectile-mode t)
+  (setq counsel-projectile-switch-project-action 'counsel-projectile-switch-project-action-dired))
 
+;; M-x stuff
+(use-package smex)
 (use-package diminish)
 (use-package delight)
+
+(use-package elfeed
+  :bind (("C-c e" . elfeed))
+  :config (setq elfeed-feeds '(("http://feeds.bbci.co.uk/news/video_and_audio/world/rss.xml" news world)
+                               ("https://www.techmeme.com/feed.xml" news tech)
+                               ("https://www.engadget.com/rss.xml" news tech)
+                               ("http://rss.slashdot.org/Slashdot/slashdotMain" news tech)
+                               ("https://www.wired.com/feed/rss" news tech)
+                               ("https://css-tricks.com/feed/" tech)
+                               ("https://feeds.feedburner.com/codinghorror" blog tech)
+                               ("https://jvns.ca/atom.xml" blog tech)
+                               ("https://feeds.feedburner.com/codinghorror" blog tech)                               
+                               ("https://slatestarcodex.com/feed/" blog)
+                               ("https://mathbabe.org/feed/" blog math)
+)))
+
+;; HTML/CSS expansion
 (use-package emmet-mode :diminish emmet-mode)
 
-;; ERC
+;; ERC ================
 (use-package erc
   :delight "Ɛ "
   :custom
@@ -74,6 +103,8 @@
 (use-package erc-hl-nicks :after erc)
 (use-package erc-image :after erc)
 
+;; END ERC ================
+
 (use-package expand-region
   :commands expand-region
   :bind (("C-=" . er/expand-region)))
@@ -86,7 +117,10 @@
   :diminish global-flycheck-mode flycheck-mode)
 
 
-
+(use-package gnu-apl-mode
+  :config
+  (setq gnu-apl-mode-map-prefix "H-")
+  (setq gnu-apl-mode-map (gnu-apl--make-apl-mode-map)))
 
 (add-hook 'prog-mode-hook #'hs-minor-mode)
 (diminish 'hs-minor-mode "")
@@ -103,17 +137,33 @@
 
 (use-package magit :bind (("C-x g" . magit-status)))
 
+;; ORG MODE CONFIG ============================================================
 (use-package org
   :bind (:map org-mode-map
-              ("C-'" . nil))
+              ("C-'" . nil)
+              )
+  :bind (("C-c a" . org-agenda)
+         ("C-c c" . org-capture))  
   :config (setq org-catch-invisible-edits 'show-and-error
-                org-hide-emphasis-markers t))
+                org-hide-emphasis-markers t
+                org-hide-leading-stars t
+                org-todo-keywords '((sequence "TODO(t)" "STARTED(s)" "|" "DONE(d!)"))
+                org-directory "~/Dropbox/org/"
+                org-capture-templates `(("i" "Inbox" entry (file "inbox.org")
+                                         ,(concat "* TODO %?\n"
+                                                  "/Entered on/ %U"))))
+  (add-to-list 'org-modules 'org-habit))
 
 (require 'ob-C)
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((C . t)
    (python . t)))
+
+(use-package org-journal)
+
+;; END ORG MODE CONFIG ========================================================
+
 
 (use-package paredit
   :diminish paredit-mode
@@ -137,16 +187,23 @@
   :bind (:map projectile-mode-map
               ("s-p" . 'projectile-command-map)))
 
-(use-package counsel-projectile
-  :diminish counsel-projectile-mode
-  :config (counsel-projectile-mode t)
-  (setq counsel-projectile-switch-project-action 'counsel-projectile-switch-project-action-dired))
+(use-package racket-mode)
+
+
+(use-package rainbow-mode :diminish rainbow-mode
+  :config (rainbow-mode 1))
 
 (use-package rainbow-delimiters :diminish ""
   :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode-enable))
 
 (use-package cargo
   :hook (rust-mode . cargo-minor-mode))
+
+(use-package rspec-mode)
+(use-package inf-ruby
+  :hook ((ruby-mode . inf-ruby-minor-mode)))
+(use-package ruby-electric
+  :hook ((ruby-mode . ruby-electric-mode)))
 
 (use-package rust-mode)
 
@@ -161,15 +218,24 @@
 
 (use-package lsp-mode
   :hook (rust-mode . lsp)
-  :commands lsp)
+  :commands lsp
+  :config
+  (setq lsp-rust-clippy-preference "on"))
 
 (use-package lsp-ui
-  :hook (lsp-ui-mode . lsp-ui-mode)
-  :config (setq lsp-ui-doc-enable nil
+  :hook (lsp-mode . lsp-ui-mode)
+  :config (setq lsp-ui-doc-enable t
                 lsp-prefer-flymake nil))
 
 (require 'company-lsp)
 (add-to-list 'company-backends 'company-lsp)
+
+(use-package lua-mode)
+(use-package love-minor-mode)
+
+(use-package nyan-mode
+  :hook (text-mode . nyan-mode))
+
 
 (use-package slime
   :config

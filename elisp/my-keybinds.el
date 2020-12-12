@@ -1,5 +1,6 @@
 (global-set-key (kbd "C-c C-w") 'whitespace-cleanup)
 (define-key global-map (kbd "RET") 'newline-and-indent)
+(global-set-key (kbd "M-SPC") 'cycle-spacing)
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "M-j") 'join-line)
 (global-set-key (kbd "s-a") 'mark-whole-buffer)

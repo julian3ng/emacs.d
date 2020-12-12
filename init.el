@@ -21,13 +21,13 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 
-;; (setq package-archives
-;;       '(("melpa" . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/melpa/")
-;;         ("org"   . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/org/")
-;;         ("gnu"   . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/gnu/")))
-(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-             ("marmalade" . "https://marmalade-repo.org/packages/")
-             ("melpa" . "https://melpa.org/packages/")))
+(setq package-archives
+      '(("melpa" . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/melpa/")
+        ("org"   . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/org/")
+        ("gnu"   . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/gnu/")))
+;; (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+;;              ("marmalade" . "https://marmalade-repo.org/packages/")
+;;              ("melpa" . "https://melpa.org/packages/")))
 
 (package-initialize)
 
@@ -55,19 +55,22 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   (quote
-    ("a455366c5cdacebd8adaa99d50e37430b0170326e7640a688e9d9ad406e2edfd" default)))
+   '("a455366c5cdacebd8adaa99d50e37430b0170326e7640a688e9d9ad406e2edfd" default))
+ '(org-agenda-files '("~/agenda.org"))
  '(package-selected-packages
-   (quote
-    (common-lisp-snippets expand-region symbol-overlay delight erc-image erc-hl-nicks flycheck-ledger ledger-mode erlang yaml-mode glsl-mode company-lsp lsp-ui wpuzzle fzf rg ack map spinner lsp-mode evil hideshowvis all-the-icons-ivy counsel-projectile latex-preview-pane elpy ace-window escreen flycheck-rust cargo auctex emmet-mode racket-mode slime-company use-package undo-tree smex slime rainbow-delimiters paredit magit flycheck diminish counsel color-theme-molokai beacon)))
+   '(selectrum julia-mode julia-repl nyan-mode ruby-electric-mode inf-ruby-mode inf-ruby rspec-mode ruby-electric company-lua love-minor-mode lua-mode web-mode which-key restclient racer color-theme-modern :gnu-apl-mode gnu-apl-mode cider clojure-mode sonic-pi elfeed org-journal rainbow-mode common-lisp-snippets expand-region symbol-overlay delight erc-image erc-hl-nicks flycheck-ledger ledger-mode erlang yaml-mode glsl-mode company-lsp lsp-ui wpuzzle fzf rg ack map spinner lsp-mode evil hideshowvis all-the-icons-ivy counsel-projectile latex-preview-pane elpy ace-window escreen flycheck-rust cargo auctex emmet-mode racket-mode slime-company use-package undo-tree smex slime rainbow-delimiters paredit magit flycheck diminish counsel color-theme-molokai beacon))
  '(safe-local-variable-values
-   (quote
-    ((eval setq-local org-babel-default-header-args:Python
-           (quote
-            ((:session . "*ctci*"))))))))
+   '((eval setq-local org-babel-default-header-args:Python
+           '((:session . "*ctci*"))))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(agda2-highlight-datatype-face ((t (:foreground "deep sky blue"))))
+ '(agda2-highlight-function-face ((t (:foreground "deep sky blue"))))
+ '(agda2-highlight-postulate-face ((t (:foreground "deep sky blue"))))
+ '(agda2-highlight-primitive-face ((t (:foreground "deep sky blue"))))
+ '(agda2-highlight-primitive-type-face ((t (:foreground "deep sky blue"))))
+ '(agda2-highlight-record-face ((t (:foreground "deep sky blue")))))
+(put 'upcase-region 'disabled nil)
