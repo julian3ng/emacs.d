@@ -1,3 +1,6 @@
+(setq mac-option-modifier 'meta)
+(setq mac-command-modifier 'super)
+(setq mac-function-modifier 'hyper)
 (global-set-key (kbd "C-c C-w") 'whitespace-cleanup)
 (define-key global-map (kbd "RET") 'newline-and-indent)
 (global-set-key (kbd "M-SPC") 'cycle-spacing)
