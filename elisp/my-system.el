@@ -1,22 +1,17 @@
 (setq backup-directory-alist '(("." . "~/.emacs-backups")))
 
-(desktop-save-mode 1)
-
 (set-register ?e '(file . "~/.emacs.d/init.el"))
-(set-register ?p '(file . "~/.emacs.d/elisp/my-packages.el"))
 (set-register ?i '(file . "~/Dropbox/org/inbox.org"))
+(set-register ?k '(file . "~/.emacs.d/elisp/my-keybinds.el"))
+(set-register ?p '(file . "~/.emacs.d/elisp/my-packages.el"))
+(set-register ?s '(file . "~/.emacs.d/elisp/my-system.el"))
 (set-register ?t '(file . "~/Dropbox/org/tracker.org"))
-
-(global-subword-mode t)
+(set-register ?u '(file . "~/.emacs.d/elisp/my-ui.el"))
 
 
 ;; Coding stuff ===============================================================
 (setq-default indent-tabs-mode nil
               tab-width 4)
-
-
-
-(setq require-final-newline t)
 
 ;; c ==================================
 (setq-default c-basic-offset 4)
@@ -27,11 +22,10 @@
 
 ;; python =============================
 (setq python-indent-guess-indent-offset-verbose nil)
-
-
-
 (setq python-shell-completion-native nil)
 
+
+;; Make C-x C-b group things in the specified way
 (setq ibuffer-saved-filter-groups
       (quote (("default"
                ("magit" (or (mode . magit-status-mode)
@@ -45,6 +39,7 @@
 
 (add-hook 'ibuffer-mode-hook (lambda () (ibuffer-switch-to-saved-filter-groups "default")))
 
+
 ;; tramp
 (require 'tramp)
 (tramp-set-completion-function "ssh"
@@ -54,6 +49,5 @@
 
 ;; info
 (add-to-list 'Info-directory-list "~/info")
-
 
 (provide 'my-system)

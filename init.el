@@ -1,3 +1,5 @@
+(setq byte-compile-warnings '(cl-functions)) ;; TEMPORARY: turn off cl package deprecation warning
+
 ;; Increase garbage collection threshold to speed up initialization
 (setq gc-cons-threshold (* 100 1000 1000))
 (add-hook 'emacs-startup-hook
@@ -8,11 +10,6 @@
                   (time-subtract after-init-time before-init-time)))
              gcs-done)))
 
-;; Remove unnecessary bars
-(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-
 ;; whoami
 (setq user-full-name "Julian Eng"
       user-mail-address "julian3ng@gmail.com")
@@ -21,13 +18,13 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 
-(setq package-archives
-      '(("melpa" . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/melpa/")
-        ("org"   . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/org/")
-        ("gnu"   . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/gnu/")))
-;; (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-;;              ("marmalade" . "https://marmalade-repo.org/packages/")
-;;              ("melpa" . "https://melpa.org/packages/")))
+;; (setq package-archives
+;;       '(("melpa" . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/melpa/")
+;;         ("org"   . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/org/")
+;;         ("gnu"   . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/gnu/")))
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+             ("marmalade" . "https://marmalade-repo.org/packages/")
+             ("melpa" . "https://melpa.org/packages/")))
 
 (package-initialize)
 
@@ -55,10 +52,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("a455366c5cdacebd8adaa99d50e37430b0170326e7640a688e9d9ad406e2edfd" default))
- '(org-agenda-files '("~/agenda.org"))
+   '("ff8be9ed2696bf7bc999423d909a603cb23a9525bb43135c0d256b0b9377c958" "a455366c5cdacebd8adaa99d50e37430b0170326e7640a688e9d9ad406e2edfd" default))
  '(package-selected-packages
-   '(selectrum julia-mode julia-repl nyan-mode ruby-electric-mode inf-ruby-mode inf-ruby rspec-mode ruby-electric company-lua love-minor-mode lua-mode web-mode which-key restclient racer color-theme-modern :gnu-apl-mode gnu-apl-mode cider clojure-mode sonic-pi elfeed org-journal rainbow-mode common-lisp-snippets expand-region symbol-overlay delight erc-image erc-hl-nicks flycheck-ledger ledger-mode erlang yaml-mode glsl-mode company-lsp lsp-ui wpuzzle fzf rg ack map spinner lsp-mode evil hideshowvis all-the-icons-ivy counsel-projectile latex-preview-pane elpy ace-window escreen flycheck-rust cargo auctex emmet-mode racket-mode slime-company use-package undo-tree smex slime rainbow-delimiters paredit magit flycheck diminish counsel color-theme-molokai beacon))
+   '(rubocopfmt rvm exec-path-from-shell seeing-is-believing geiser selectrum julia-mode julia-repl nyan-mode ruby-electric-mode inf-ruby-mode inf-ruby rspec-mode company-lua love-minor-mode lua-mode web-mode which-key restclient racer color-theme-modern :gnu-apl-mode gnu-apl-mode cider clojure-mode sonic-pi elfeed org-journal rainbow-mode common-lisp-snippets expand-region symbol-overlay delight erc-image erc-hl-nicks flycheck-ledger ledger-mode erlang yaml-mode glsl-mode company-lsp lsp-ui wpuzzle fzf rg ack map spinner lsp-mode evil hideshowvis all-the-icons-ivy counsel-projectile latex-preview-pane elpy ace-window escreen flycheck-rust cargo auctex emmet-mode racket-mode slime-company use-package undo-tree smex slime rainbow-delimiters paredit magit flycheck diminish counsel color-theme-molokai beacon))
  '(safe-local-variable-values
    '((eval setq-local org-babel-default-header-args:Python
            '((:session . "*ctci*"))))))

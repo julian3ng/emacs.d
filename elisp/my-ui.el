@@ -1,11 +1,15 @@
-(fset 'yes-or-no-p 'y-or-n-p) ; y/n instead of yes/no
+;; Remove unnecessary bars
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(if (fboundp 'tooltip-mode) (tooltip-mode -1))
 
-(fringe-mode '(16 . 16))
+(fset 'yes-or-no-p 'y-or-n-p) ; y/n instead of yes/no
 
 (setq inhibit-startup-message t)     ; no startup message
 (line-number-mode t)                 ; line number in modeline
 (column-number-mode t)               ; column number in modeline
-(global-display-line-numbers-mode t) ; line numbers on left
+(global-display-line-numbers-mode 0) ; Turn this on for line numbers
 (transient-mark-mode t)              ; highlight the active region
 
 (set-face-background 'region "#355")
@@ -26,11 +30,10 @@
 
 (global-font-lock-mode t) ; always syntax highlight
 (global-hl-line-mode t)   ; always highlight current line
-(set-face-background 'hl-line "#222") 
+(set-face-background 'hl-line "#333") 
 
-(setq ring-bell-function 'ignore) ; call 'ignore when bell would rinig
-
-(setq fill-column 79) ; wraparound column
+(setq visible-bell t) ; use a visible bell
+(setq ring-bell-function 'ignore) ; call 'ignore when bell would ring
 
 ;; Comments
 (set-face-foreground 'font-lock-comment-face "#888")
@@ -46,10 +49,24 @@
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 
-(when (member "JuliaMono" (font-family-list))
-  (set-frame-font (font-spec :family "JuliaMono" :weight 'light :size 28)))
+;; Fonts
 
-;(set-frame-font  (font-spec :family "Roboto Mono" :weight 'light :size 28))
+;; (when (member "JuliaMono" (font-family-list))
+;;   (set-frame-font (font-spec :family "JuliaMono" :weight 'light :size 28)))
+;; (when (member "Roboto Mono" (font-family-list))
+;;   (set-frame-font  (font-spec :family "Roboto Mono" :weight 'light :size 28)))
+(when (member "DejaVu Sans Mono" (font-family-list))
+  (set-frame-font  (font-spec :family "DejaVu Sans Mono" :weight 'light :size 28)))
+
+(setq widget-image-enable nil)
+
+;; Cursor
+(setq-default cursor-type '(hbar . 4))
+(blink-cursor-mode 0)
+
+;; Margins and stuff
+(fringe-mode '(0 . 0))
+(set-window-margins nil 1 1)
+(setq fill-column 79) ; wraparound column
 
 (provide 'my-ui)
-

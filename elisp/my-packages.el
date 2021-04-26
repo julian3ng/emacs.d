@@ -10,10 +10,10 @@
   ("M-o" . ace-window)
   ("C-x o" . other-window))
 
-(load-file (let ((coding-system-for-read 'utf-8))
-             (shell-command-to-string "agda-mode locate")))
+;; (load-file (let ((coding-system-for-read 'utf-8))
+;;              (shell-command-to-string "agda-mode locate")))
 
-(require 'agda-input)
+;; (require 'agda-input)
 
 (use-package all-the-icons)
 (use-package all-the-icons-ivy
@@ -31,14 +31,11 @@
 
 (use-package beacon :init (beacon-mode) :diminish "")
 
-(use-package cider)
+(use-package company :diminish company-mode global-company-mode
+  :init (add-hook 'after-init-hook 'global-company-mode))
 
-;; (use-package company :diminish company-mode global-company-mode
-;;   :init (add-hook 'after-init-hook 'global-company-mode))
 (use-package slime-company)
 (global-set-key (kbd "C-M-i") 'company-complete)
-
-(use-package color-theme-modern)
 
 (use-package counsel :bind (("M-x" . counsel-M-x)
                       ("C-x C-f" . counsel-find-file)
@@ -72,38 +69,7 @@
 ;; HTML/CSS expansion
 (use-package emmet-mode :diminish emmet-mode)
 
-;; ERC ================
-(use-package erc
-  :delight "Ɛ "
-  :custom
-  (erc-autojoin-channels-alist nil)
-  (erc-autojoin-timing 'ident)
-  (erc-fill-function 'erc-fill-static)
-  (erc-fill-static-center 22)
-  (erc-hide-list '("JOIN" "PART" "QUIT"))
-  (erc-lurker-threshold-time 43200)
-  (erc-prompt-for-password nil)
-  (erc-track-exclude-types '("JOIN" "MODE" "NICK" "PART" "QUIT"
-                             "324" "329" "332" "333" "353" "477"))
-  :config
-  (add-to-list 'erc-modules 'notifications)
-  (add-to-list 'erc-modules 'spelling)
-  (erc-services-mode 1)
-  (erc-update-modules))
-
-(defun my/erc-start-or-switch ()
-  (interactive)
-  (if (get-buffer "irc.freenode.net:6667")
-      (erc-track-switch-buffer 1)
-    (when (y-or-n-p "Start ERC?")
-      (erc :server "irc.freenode.net" :port 6667 :nick "themonkeybob11"))))
-
-(setq auth-sources '("~/.authinfo"  "~/.authinfo.gpg" "~/.netrc"))
-
-(use-package erc-hl-nicks :after erc)
-(use-package erc-image :after erc)
-
-;; END ERC ================
+(use-package exec-path-from-shell)
 
 (use-package expand-region
   :commands expand-region
@@ -117,10 +83,10 @@
   :diminish global-flycheck-mode flycheck-mode)
 
 
-(use-package gnu-apl-mode
-  :config
-  (setq gnu-apl-mode-map-prefix "H-")
-  (setq gnu-apl-mode-map (gnu-apl--make-apl-mode-map)))
+;; (use-package gnu-apl-mode
+;;   :config
+;;   (setq gnu-apl-mode-map-prefix "H-")
+;;   (setq gnu-apl-mode-map (gnu-apl--make-apl-mode-map)))
 
 (add-hook 'prog-mode-hook #'hs-minor-mode)
 (diminish 'hs-minor-mode "")
@@ -144,14 +110,16 @@
               )
   :bind (("C-c a" . org-agenda)
          ("C-c c" . org-capture))  
-  :config (setq org-catch-invisible-edits 'show-and-error
-                org-hide-emphasis-markers t
-                org-hide-leading-stars t
-                org-todo-keywords '((sequence "TODO(t)" "STARTED(s)" "|" "DONE(d!)"))
-                org-directory "~/Dropbox/org/"
-                org-capture-templates `(("i" "Inbox" entry (file "inbox.org")
-                                         ,(concat "* TODO %?\n"
-                                                  "/Entered on/ %U"))))
+  :config (progn (setq org-catch-invisible-edits 'show-and-error
+                        org-hide-emphasis-markers t
+                        org-hide-leading-stars t
+                        org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d!)"))
+                        org-directory "~/Dropbox/org/"
+                        org-capture-templates `(("i" "Inbox" entry (file "inbox.org")
+                                                 ,(concat "* TODO %?\n"
+                                                          "/Entered on/ %U"))))
+                 (setq org-agenda-files (list "~/Dropbox/org/inbox.org" "~/Dropbox/org/agenda.org")
+                       org-agenda-hide-tags-regexp "."))
   (add-to-list 'org-modules 'org-habit))
 
 (require 'ob-C)
@@ -163,7 +131,6 @@
 (use-package org-journal)
 
 ;; END ORG MODE CONFIG ========================================================
-
 
 (use-package paredit
   :diminish paredit-mode
@@ -189,28 +156,27 @@
 
 (use-package racket-mode)
 
-
 (use-package rainbow-mode :diminish rainbow-mode
   :config (rainbow-mode 1))
 
 (use-package rainbow-delimiters :diminish ""
   :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode-enable))
 
-(use-package cargo
-  :hook (rust-mode . cargo-minor-mode))
-
 (use-package rspec-mode)
+(use-package rvm
+  :config (rvm-use-default))
 (use-package inf-ruby
   :hook ((ruby-mode . inf-ruby-minor-mode)))
-(use-package ruby-electric
-  :hook ((ruby-mode . ruby-electric-mode)))
+(use-package seeing-is-believing
+  :config (setq seeing-is-believing-prefix "C-.")
+  :hook ((ruby-mode . seeing-is-believing)))
 
 (use-package rust-mode)
-
+(use-package cargo
+  :hook (rust-mode . cargo-minor-mode))
 (use-package racer
   :hook ((rust-mode . racer-mode)
          (rust-mode . eldoc-mode)))
-
 (use-package flycheck-rust
   :hook (flycheck-mode-hook . flycheck-rust-setup))
 
@@ -227,15 +193,8 @@
   :config (setq lsp-ui-doc-enable t
                 lsp-prefer-flymake nil))
 
-(require 'company-lsp)
-(add-to-list 'company-backends 'company-lsp)
-
 (use-package lua-mode)
 (use-package love-minor-mode)
-
-(use-package nyan-mode
-  :hook (text-mode . nyan-mode))
-
 
 (use-package slime
   :config
@@ -255,13 +214,11 @@
          ("C-c h C" . symbol-overlay-remove-all)))
 
 (use-package undo-tree
-
   :diminish ""
   :init (progn (global-undo-tree-mode) (setq undo-tree-visualizer-timestamps t))
   :bind (("s-u" . undo-tree-visualize)))
 
 (use-package which-key
-
   :diminish which-key-mode
   :init (which-key-mode)
   :config (which-key-setup-side-window-right-bottom))
@@ -280,5 +237,8 @@
   (yas-global-mode 1))
 
 (use-package common-lisp-snippets)
+(use-package geiser)
+
 
 (provide 'my-packages)
+

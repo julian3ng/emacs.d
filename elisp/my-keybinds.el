@@ -14,6 +14,11 @@
 (global-set-key (kbd "s--") 'text-scale-decrease)
 (put 'overwrite-mode 'disabled t)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "C-x C-M-t") 'transpose-regions)
+
+
+
+
 
 
 (defun toggle-window-split ()
@@ -44,3 +49,5 @@
 (global-set-key (kbd "C-x |") 'toggle-window-split)
 
 (provide 'my-keybinds)
+
+
