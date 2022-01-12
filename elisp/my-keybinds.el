@@ -16,9 +16,9 @@
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x C-M-t") 'transpose-regions)
 
-
-
-
+(global-set-key (kbd "M-u") 'upcase-dwim)
+(global-set-key (kbd "M-l") 'downcase-dwim)
+(global-set-key (kbd "M-c") 'capitalize-dwim)
 
 
 (defun toggle-window-split ()
@@ -49,5 +49,7 @@
 (global-set-key (kbd "C-x |") 'toggle-window-split)
 
 (provide 'my-keybinds)
+
+
 
 

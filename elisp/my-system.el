@@ -1,12 +1,15 @@
 (setq backup-directory-alist '(("." . "~/.emacs-backups")))
 
-(set-register ?e '(file . "~/.emacs.d/init.el"))
-(set-register ?i '(file . "~/Dropbox/org/inbox.org"))
-(set-register ?k '(file . "~/.emacs.d/elisp/my-keybinds.el"))
-(set-register ?p '(file . "~/.emacs.d/elisp/my-packages.el"))
-(set-register ?s '(file . "~/.emacs.d/elisp/my-system.el"))
-(set-register ?t '(file . "~/Dropbox/org/tracker.org"))
-(set-register ?u '(file . "~/.emacs.d/elisp/my-ui.el"))
+(set-register ?A '(file . "~/org/agenda.org"))
+(set-register ?E '(file . "~/.emacs.d/init.el"))
+(set-register ?I '(file . "~/org/inbox.org"))
+(set-register ?K '(file . "~/.emacs.d/elisp/my-keybinds.el"))
+(set-register ?P '(file . "~/.emacs.d/elisp/my-packages.el"))
+(set-register ?S '(file . "~/.emacs.d/elisp/my-system.el"))
+(set-register ?T '(file . "~/org/tracker.org"))
+(set-register ?U '(file . "~/.emacs.d/elisp/my-ui.el"))
+
+
 
 
 ;; Coding stuff ===============================================================

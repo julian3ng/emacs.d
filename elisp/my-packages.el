@@ -1,6 +1,14 @@
 (use-package elpy
   :config (elpy-enable))
 
+(use-package molokai-theme :ensure t
+  :config
+  (load-theme 'molokai)
+  ;; Comments are hard to read
+  (let ((comment-color "#799")) 
+    (set-face-foreground 'font-lock-comment-face comment-color)
+    (set-face-foreground 'font-lock-comment-delimiter-face comment-color)))
+
 (use-package ace-window
   :config
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
@@ -9,11 +17,6 @@
   :bind
   ("M-o" . ace-window)
   ("C-x o" . other-window))
-
-;; (load-file (let ((coding-system-for-read 'utf-8))
-;;              (shell-command-to-string "agda-mode locate")))
-
-;; (require 'agda-input)
 
 (use-package all-the-icons)
 (use-package all-the-icons-ivy
@@ -24,10 +27,8 @@
   (all-the-icons-ivy-setup))
 
 (use-package avy
-  :bind (("C-'" . avy-goto-char)
-         ("C-M-'" . avy-goto-char-2)
-         ("M-g f" . avy-goto-line)
-         ("M-g w" . avy-goto-word-1)))
+  :bind (("C-'" . avy-goto-char-timer)
+         (:map isearch-mode-map ("C-'" . avy-isearch))))
 
 (use-package beacon :init (beacon-mode) :diminish "")
 
@@ -50,6 +51,8 @@
 (use-package smex)
 (use-package diminish)
 (use-package delight)
+
+(use-package dictionary)
 
 (use-package elfeed
   :bind (("C-c e" . elfeed))
@@ -103,24 +106,55 @@
 
 (use-package magit :bind (("C-x g" . magit-status)))
 
+
 ;; ORG MODE CONFIG ============================================================
 (use-package org
-  :bind (:map org-mode-map
-              ("C-'" . nil)
-              )
+  :hook ((org-mode . auto-fill-mode)
+         (org-mode . display-fill-column-indicator-mode))  
+  :bind (:map org-mode-map ("C-'" . avy-goto-char-timer))
   :bind (("C-c a" . org-agenda)
          ("C-c c" . org-capture))  
   :config (progn (setq org-catch-invisible-edits 'show-and-error
-                        org-hide-emphasis-markers t
+                        org-hide-emphasis-markers nil
                         org-hide-leading-stars t
                         org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d!)"))
-                        org-directory "~/Dropbox/org/"
+                        org-directory "~/org/"
                         org-capture-templates `(("i" "Inbox" entry (file "inbox.org")
                                                  ,(concat "* TODO %?\n"
-                                                          "/Entered on/ %U"))))
-                 (setq org-agenda-files (list "~/Dropbox/org/inbox.org" "~/Dropbox/org/agenda.org")
-                       org-agenda-hide-tags-regexp "."))
+                                                          "/Entered on/ %U")))
+                        org-agenda-files (list "~/org/agenda.org" "~/org/inbox.org" "~/org-roam/")
+                        org-agenda-hide-tags-regexp "."
+                        org-format-latex-options (plist-put org-format-latex-options :scale 3.0)
+                        ))
   (add-to-list 'org-modules 'org-habit))
+
+(set-face-foreground 'org-block "#888")
+(set-face-foreground 'org-verbatim "#888")
+
+
+(unbind-key "C-c n d")
+(use-package org-roam
+  :init
+  (setq org-roam-v2-ack t)
+  :custom
+  (org-roam-directory "~/org-roam")
+  :bind (("s-o l" . org-roam-buffer-toggle)
+         ("s-o f" . org-roam-node-find)
+         ("s-o i" . org-roam-node-insert)
+         ("s-o I" . org-id-get-create)
+         ("s-o t" . org-roam-tag-add)
+         ("s-o d" . org-roam-dailies-capture-today))  
+  :config
+  (org-roam-db-autosync-mode t)
+  (setq org-roam-dailies-directory "daily/")
+  (setq org-roam-dailies-capture-templates  '(("d" "default" entry
+                                               "* %?"
+                                               :target (file+head "%<%Y-%m-%d>.org"
+                                                                  "#+title: %<%Y-%m-%d>\n")))))
+
+(use-package org-bullets
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 (require 'ob-C)
 (org-babel-do-load-languages
@@ -134,6 +168,9 @@
 
 (use-package paredit
   :diminish paredit-mode
+  :hook ((lisp-mode . paredit-mode)
+         (emacs-lisp-mode . paredit-mode))
+  :bind (("M-d" . paredit-forward-kill-word))
   :config (progn (add-hook 'lisp-mode-hook #'paredit-mode)
                  (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
                  (add-hook 'common-lisp-mode-hook #'paredit-mode)
@@ -147,6 +184,7 @@
              (list ?\" ;; REMOVED ?w ?_
                    (let ((matching (matching-paren delimiter)))
                      (and matching (char-syntax matching)))))))
+
 
 (use-package projectile
   :diminish projectile-mode
@@ -162,6 +200,8 @@
 (use-package rainbow-delimiters :diminish ""
   :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode-enable))
 
+(use-package restclient)
+
 (use-package rspec-mode)
 (use-package rvm
   :config (rvm-use-default))
@@ -171,27 +211,39 @@
   :config (setq seeing-is-believing-prefix "C-.")
   :hook ((ruby-mode . seeing-is-believing)))
 
-(use-package rust-mode)
-(use-package cargo
-  :hook (rust-mode . cargo-minor-mode))
-(use-package racer
-  :hook ((rust-mode . racer-mode)
-         (rust-mode . eldoc-mode)))
-(use-package flycheck-rust
-  :hook (flycheck-mode-hook . flycheck-rust-setup))
+;; Rust setup from https://robert.kra.hn/posts/2021-02-07_rust-with-emacs/
+(use-package rustic
+  :bind (("C-c C-c j" . lsp-ui-imenu)
+         ("C-c C-c f" . lsp-find-references)
+         ("C-c C-c r" . lsp-rename)
+         ("C-c C-c q" . lsp-workspace-restart)
+         ("C-c C-c Q" . lsp-workspace-shutdown)
+         ("C-c C-c s" . lsp-rust-analyzer-status))
+  :config
+  (setq rustic-format-on-save t))
 
-(use-package restclient)
+
 
 (use-package lsp-mode
-  :hook (rust-mode . lsp)
   :commands lsp
+  :custom
+  (lsp-rust-analyzer-cargo-watch-command "clippy")
+  (lsp-eldoc-render-all t)
+  (lsp-idle-delay 0.5)
+  (lsp-rust-analyzer-server-display-inlay-hints t)
   :config
+  (setq lsp-rust-server 'rust-analyzer)
+  (setq lsp-rust-analyzer-server-display-inlay-hints t)
   (setq lsp-rust-clippy-preference "on"))
 
 (use-package lsp-ui
   :hook (lsp-mode . lsp-ui-mode)
-  :config (setq lsp-ui-doc-enable t
+  :config (setq lsp-ui-doc-enable nil
+                lsp-ui-peek-enable nil
+                lsp-ui-peek-always-show nil
+                lsp-ui-sideline-show-hover t
                 lsp-prefer-flymake nil))
+
 
 (use-package lua-mode)
 (use-package love-minor-mode)
@@ -201,7 +253,8 @@
   (setq inferior-lisp-program "sbcl"
         slime-lisp-implementations '((sbcl ("/usr/bin/sbcl")))
         slime-contribs '(slime-fancy))
-  (add-to-list 'auto-mode-alist '("\\.lisp\\'" . common-lisp-mode)))
+  (add-to-list 'auto-mode-alist '("\\.lisp\\'" . common-lisp-mode))
+  (load "/home/julian/quicklisp/clhs-use-local.el" t))
 
 (use-package symbol-overlay
   :bind (("C-c h h" . symbol-overlay-put)
@@ -231,9 +284,19 @@
   (setq web-mode-engines-alist
         '("django" . "\\.html\\'")))
 
+(use-package writegood-mode)
+(use-package writeroom-mode
+  :config
+  (setq writeroom-width 80
+        writeroom-fullscreen-effect 'maximized))
+
+
+(use-package wc-mode)
+
 (use-package yasnippet
   :commands yas-global-mode
   :config
+  (yas-reload-all)
   (yas-global-mode 1))
 
 (use-package common-lisp-snippets)

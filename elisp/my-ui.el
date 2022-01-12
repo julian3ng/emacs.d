@@ -30,14 +30,11 @@
 
 (global-font-lock-mode t) ; always syntax highlight
 (global-hl-line-mode t)   ; always highlight current line
-(set-face-background 'hl-line "#333") 
+(set-face-background 'hl-line nil) 
 
 (setq visible-bell t) ; use a visible bell
 (setq ring-bell-function 'ignore) ; call 'ignore when bell would ring
 
-;; Comments
-(set-face-foreground 'font-lock-comment-face "#888")
-(set-face-foreground 'font-lock-comment-delimiter-face "#888")
 
 ;; Pretty symbols
 (global-prettify-symbols-mode t)
@@ -50,7 +47,6 @@
 (prefer-coding-system 'utf-8)
 
 ;; Fonts
-
 ;; (when (member "JuliaMono" (font-family-list))
 ;;   (set-frame-font (font-spec :family "JuliaMono" :weight 'light :size 28)))
 ;; (when (member "Roboto Mono" (font-family-list))
@@ -61,12 +57,14 @@
 (setq widget-image-enable nil)
 
 ;; Cursor
-(setq-default cursor-type '(hbar . 4))
-(blink-cursor-mode 0)
+(setq-default cursor-type 'box)
+(blink-cursor-mode 1)
+
+(global-subword-mode 1)
 
 ;; Margins and stuff
 (fringe-mode '(0 . 0))
 (set-window-margins nil 1 1)
-(setq fill-column 79) ; wraparound column
+(setq-default fill-column 80) ; wraparound column
 
 (provide 'my-ui)
