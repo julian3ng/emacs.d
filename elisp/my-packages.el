@@ -3,11 +3,17 @@
 
 (use-package molokai-theme :ensure t
   :config
-  (load-theme 'molokai)
+;  (load-theme 'molokai t)
   ;; Comments are hard to read
   (let ((comment-color "#799")) 
-    (set-face-foreground 'font-lock-comment-face comment-color)
-    (set-face-foreground 'font-lock-comment-delimiter-face comment-color)))
+ ;   (set-face-foreground 'font-lock-comment-face comment-color)
+  ;  (set-face-foreground 'font-lock-comment-delimiter-face comment-color)
+    ))
+
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+;(load-theme 'selenized-theme)
+
+
 
 (use-package ace-window
   :config
@@ -94,6 +100,12 @@
 (add-hook 'prog-mode-hook #'hs-minor-mode)
 (diminish 'hs-minor-mode "")
 
+(use-package helpful
+  :bind (("C-h f" . helpful-callable)
+         ("C-h v" . helpful-variable)
+         ("C-h k" . helpful-key)
+         ("C-h C" . helpful-command)))
+
 (use-package ivy :diminish ivy-mode
   :config
   (progn
@@ -106,7 +118,6 @@
 
 (use-package magit :bind (("C-x g" . magit-status)))
 
-
 ;; ORG MODE CONFIG ============================================================
 (use-package org
   :hook ((org-mode . auto-fill-mode)
@@ -115,21 +126,27 @@
   :bind (("C-c a" . org-agenda)
          ("C-c c" . org-capture))  
   :config (progn (setq org-catch-invisible-edits 'show-and-error
-                        org-hide-emphasis-markers nil
-                        org-hide-leading-stars t
-                        org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d!)"))
-                        org-directory "~/org/"
-                        org-capture-templates `(("i" "Inbox" entry (file "inbox.org")
-                                                 ,(concat "* TODO %?\n"
-                                                          "/Entered on/ %U")))
-                        org-agenda-files (list "~/org/agenda.org" "~/org/inbox.org" "~/org-roam/")
-                        org-agenda-hide-tags-regexp "."
-                        org-format-latex-options (plist-put org-format-latex-options :scale 3.0)
-                        ))
+                       org-hide-emphasis-markers nil
+                       org-hide-leading-stars t
+                       org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d!)"))
+                       org-directory "~/org/"
+                       org-capture-templates `(("i" "Inbox" entry (file "inbox.org")
+                                                ,(concat "* TODO %?\n"
+                                                         "/Entered on/ %U")))
+                       org-agenda-files (list "~/org/agenda.org"
+                                              "~/org/inbox.org"
+                                              "~/org/gtd.org"
+                                              "~/org-roam/")
+                       org-agenda-hide-tags-regexp "."
+                       org-format-latex-options (plist-put org-format-latex-options :scale 3.0)
+                       org-adapt-indentation t)
+                 (set-face-foreground 'org-block "#888")
+                 (set-face-foreground 'org-code "aquamarine")
+                 (set-face-foreground 'org-verbatim "#888")
+                 )
   (add-to-list 'org-modules 'org-habit))
 
-(set-face-foreground 'org-block "#888")
-(set-face-foreground 'org-verbatim "#888")
+
 
 
 (unbind-key "C-c n d")
@@ -143,7 +160,8 @@
          ("s-o i" . org-roam-node-insert)
          ("s-o I" . org-id-get-create)
          ("s-o t" . org-roam-tag-add)
-         ("s-o d" . org-roam-dailies-capture-today))  
+         ("s-o d" . org-roam-dailies-capture-today)
+         ("s-o g" . org-roam-db-sync))  
   :config
   (org-roam-db-autosync-mode t)
   (setq org-roam-dailies-directory "daily/")
@@ -188,7 +206,9 @@
 
 (use-package projectile
   :diminish projectile-mode
-  :config (projectile-mode t)
+  :config (progn
+            (add-to-list 'projectile-globally-ignored-directories "node_modules")
+            (projectile-mode t))
   :bind (:map projectile-mode-map
               ("s-p" . 'projectile-command-map)))
 
@@ -203,13 +223,40 @@
 (use-package restclient)
 
 (use-package rspec-mode)
+
 (use-package rvm
   :config (rvm-use-default))
+
 (use-package inf-ruby
   :hook ((ruby-mode . inf-ruby-minor-mode)))
+
 (use-package seeing-is-believing
   :config (setq seeing-is-believing-prefix "C-.")
   :hook ((ruby-mode . seeing-is-believing)))
+
+(use-package lsp-mode
+  :commands lsp
+  :hook ((c-mode js-mode js-jsx-mode typescript-mode web-mode) . lsp-deferred)
+  :custom
+  (lsp-rust-analyzer-cargo-watch-command "clippy")
+  (lsp-eldoc-render-all t)
+  (lsp-idle-delay 0.5)
+  (lsp-rust-analyzer-server-display-inlay-hints t)
+  :init
+  (setq lsp-keymap-prefix "C-s-l")
+  :config
+  (setq lsp-rust-server 'rust-analyzer)
+  (setq lsp-rust-analyzer-server-display-inlay-hints t)
+  (setq lsp-rust-clippy-preference "on")
+  (setq lsp-enable-indentation nil))
+
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :config (setq lsp-ui-doc-enable nil
+                lsp-ui-peek-enable nil
+                lsp-ui-peek-always-show nil
+                lsp-ui-sideline-show-hover t
+                lsp-prefer-flymake nil))
 
 ;; Rust setup from https://robert.kra.hn/posts/2021-02-07_rust-with-emacs/
 (use-package rustic
@@ -222,27 +269,6 @@
   :config
   (setq rustic-format-on-save t))
 
-
-
-(use-package lsp-mode
-  :commands lsp
-  :custom
-  (lsp-rust-analyzer-cargo-watch-command "clippy")
-  (lsp-eldoc-render-all t)
-  (lsp-idle-delay 0.5)
-  (lsp-rust-analyzer-server-display-inlay-hints t)
-  :config
-  (setq lsp-rust-server 'rust-analyzer)
-  (setq lsp-rust-analyzer-server-display-inlay-hints t)
-  (setq lsp-rust-clippy-preference "on"))
-
-(use-package lsp-ui
-  :hook (lsp-mode . lsp-ui-mode)
-  :config (setq lsp-ui-doc-enable nil
-                lsp-ui-peek-enable nil
-                lsp-ui-peek-always-show nil
-                lsp-ui-sideline-show-hover t
-                lsp-prefer-flymake nil))
 
 
 (use-package lua-mode)
@@ -269,7 +295,8 @@
 (use-package undo-tree
   :diminish ""
   :init (progn (global-undo-tree-mode) (setq undo-tree-visualizer-timestamps t))
-  :bind (("s-u" . undo-tree-visualize)))
+  :bind (("s-u" . undo-tree-visualize))
+  :config (setq undo-tree-history-directory-alist '(("." . "/home/julian/.emacs.d/undo/"))))
 
 (use-package which-key
   :diminish which-key-mode
@@ -281,8 +308,9 @@
   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
-  (setq web-mode-engines-alist
-        '("django" . "\\.html\\'")))
+  (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))  
+  (setq web-mode-engines-alist '(("php" . "\\.php\\'")))
+  (setq web-mode-enable-auto-indentation nil))
 
 (use-package writegood-mode)
 (use-package writeroom-mode
@@ -302,6 +330,28 @@
 (use-package common-lisp-snippets)
 (use-package geiser)
 
+(use-package gnu-apl-mode) ;; this is for C-\ APL input method
+
+(use-package bqn-mode
+  :ensure nil
+  :bind (:map bqn--mode-map
+              ("C-c C-l" . bqn-process-execute-line)
+              ("C-c C-b" . bqn-process-execute-buffer))
+  )
+
+(use-package ligature
+  :config
+  (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+                                     ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+                                     "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+                                     "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+                                     "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+                                     "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+                                     "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+                                     "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+                                     "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+                                     "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+  (global-ligature-mode t))
 
 (provide 'my-packages)
 

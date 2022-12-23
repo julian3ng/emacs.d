@@ -17,10 +17,10 @@
               tab-width 4)
 
 ;; c ==================================
-(setq-default c-basic-offset 4)
-(setq c-default-style "k&r")
+(setq c-default-style "linux")
 (setq gdb-many-windows t
       gdb-show-main t)
+(setq c-basic-offset 4)
 
 
 ;; python =============================
