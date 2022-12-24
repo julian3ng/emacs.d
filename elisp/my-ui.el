@@ -9,10 +9,8 @@
 (setq inhibit-startup-message t)     ; no startup message
 (line-number-mode t)                 ; line number in modeline
 (column-number-mode t)               ; column number in modeline
-(global-display-line-numbers-mode 0) ; Turn this on for line numbers
+(global-display-line-numbers-mode 1) ; Turn this on for line numbers
 (transient-mark-mode t)              ; highlight the active region
-
-(set-face-background 'region "#355")
 
 (setq scroll-margin 0                    ; how far from top to start scrolling
       scroll-preserve-screen-position 1  ; keep point at screen position when scrolling
@@ -22,19 +20,14 @@
 (show-paren-mode 1)
 (setq show-paren-delay 0             ; always show parens immediately
       show-paren-style 'expression)  ; highlight expression enclosed by parens
-(set-face-background 'show-paren-match-expression "#355")
-
 
 (require 'uniquify)                        ; files with same base name will be disambiguated
 (setq uniquify-buffer-name-style 'forward) ; use forward slashes for names
 
 (global-font-lock-mode t) ; always syntax highlight
 (global-hl-line-mode t)   ; always highlight current line
-(set-face-background 'hl-line nil) 
-
 (setq visible-bell t) ; use a visible bell
 (setq ring-bell-function 'ignore) ; call 'ignore when bell would ring
-
 
 ;; Pretty symbols
 (global-prettify-symbols-mode t)
@@ -46,13 +39,8 @@
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 
-;; Fonts
-;; (when (member "JuliaMono" (font-family-list))
-;;   (set-frame-font (font-spec :family "JuliaMono" :weight 'light :size 28)))
-;; (when (member "Roboto Mono" (font-family-list))
-;;   (set-frame-font  (font-spec :family "Roboto Mono" :weight 'light :size 28)))
-(when (member "DejaVu Sans Mono" (font-family-list))
-  (set-frame-font  (font-spec :family "DejaVu Sans Mono" :weight 'light :size 28)))
+(when (member "Fira Code" (font-family-list))
+  (set-face-font 'default (font-spec :family "Fira Code" :size 28)))
 
 (setq widget-image-enable nil)
 
@@ -64,7 +52,9 @@
 
 ;; Margins and stuff
 (fringe-mode '(0 . 0))
-(set-window-margins nil 1 1)
+
+
+(set-window-margins nil 0 0) ; what are margins for?
 (setq-default fill-column 80) ; wraparound column
 
 (provide 'my-ui)

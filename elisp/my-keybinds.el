@@ -12,14 +12,11 @@
 (global-set-key (kbd "s-`") 'other-frame)
 (global-set-key (kbd "s-=") 'text-scale-increase)
 (global-set-key (kbd "s--") 'text-scale-decrease)
-(put 'overwrite-mode 'disabled t)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x C-M-t") 'transpose-regions)
-
 (global-set-key (kbd "M-u") 'upcase-dwim)
 (global-set-key (kbd "M-l") 'downcase-dwim)
 (global-set-key (kbd "M-c") 'capitalize-dwim)
-
 
 (defun toggle-window-split ()
   (interactive)

@@ -1,19 +1,24 @@
-(use-package elpy
-  :config (elpy-enable))
+(use-package erc
+     :config
+     (setq erc-server "irc.libera.chat"
+           erc-port 6697
+           erc-nick "themonkeybob11"))
 
-(use-package molokai-theme :ensure t
-  :config
-;  (load-theme 'molokai t)
-  ;; Comments are hard to read
-  (let ((comment-color "#799")) 
- ;   (set-face-foreground 'font-lock-comment-face comment-color)
-  ;  (set-face-foreground 'font-lock-comment-delimiter-face comment-color)
-    ))
+(use-package auctex
+  :defer t
+  :ensure t)
+
+(use-package elpy
+  :init (elpy-enable))
+
+(use-package jedi
+  :config (setq jedi:complete-on-dot t)
+  :hook ((python-mode . jedi:setup)))
+
+(use-package py-autopep8)
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-;(load-theme 'selenized-theme)
-
-
+(load-theme 'selenized t)
 
 (use-package ace-window
   :config
@@ -25,39 +30,20 @@
   ("C-x o" . other-window))
 
 (use-package all-the-icons)
-(use-package all-the-icons-ivy
-  :after (all-the-icons ivy)
-  :custom (all-the-icons-ivy-buffer-commands '(ivy-switch-buffer-other-window))
-  :config
-  (add-to-list 'all-the-icons-ivy-file-commands 'counsel-find-file)
-  (all-the-icons-ivy-setup))
+(use-package all-the-icons-completion
+  :after (marginalia all-the-icons)
+  :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
+  :init
+  (all-the-icons-completion-mode))
 
-(use-package avy
-  :bind (("C-'" . avy-goto-char-timer)
-         (:map isearch-mode-map ("C-'" . avy-isearch))))
+;; (use-package avy
+;;   :bind (("C-'" . avy-goto-char-timer)
+;;          (:map isearch-mode-map ("C-'" . avy-isearch))))
 
-(use-package beacon :init (beacon-mode) :diminish "")
-
-(use-package company :diminish company-mode global-company-mode
-  :init (add-hook 'after-init-hook 'global-company-mode))
-
-(use-package slime-company)
-(global-set-key (kbd "C-M-i") 'company-complete)
-
-(use-package counsel :bind (("M-x" . counsel-M-x)
-                      ("C-x C-f" . counsel-find-file)
-                      ("C-x 8 C-<return>" . counsel-unicode-char)))
-
-(use-package counsel-projectile
-  :diminish counsel-projectile-mode
-  :config (counsel-projectile-mode t)
-  (setq counsel-projectile-switch-project-action 'counsel-projectile-switch-project-action-dired))
 
 ;; M-x stuff
-(use-package smex)
 (use-package diminish)
 (use-package delight)
-
 (use-package dictionary)
 
 (use-package elfeed
@@ -84,12 +70,12 @@
   :commands expand-region
   :bind (("C-=" . er/expand-region)))
 
-(use-package flycheck :init (global-flycheck-mode)
-  :config
-  (setq-default flycheck-disabled-checkers '(emacs-lisp
-                                             emacs-lisp-checkdoc)
-                flycheck-emacs-lisp-load-path 'inherit)
-  :diminish global-flycheck-mode flycheck-mode)
+;; (use-package flycheck :init (global-flycheck-mode)
+;;   :config
+;;   (setq-default flycheck-disabled-checkers '(emacs-lisp
+;;                                              emacs-lisp-checkdoc)
+;;                 flycheck-emacs-lisp-load-path 'inherit)
+;;   :diminish global-flycheck-mode flycheck-mode)
 
 
 ;; (use-package gnu-apl-mode
@@ -106,17 +92,21 @@
          ("C-h k" . helpful-key)
          ("C-h C" . helpful-command)))
 
-(use-package ivy :diminish ivy-mode
-  :config
-  (progn
-    (ivy-mode 1)
-    (setq ivy-use-virtual-buffers t)
-    (setq ivy-initial-inputs-alist nil)
-    (setq ivy-re-builders-alist
-          '((t . ivy--regex-ignore-order)))
-    (setq ivy-count-format "%d/%d ")))
+;; (use-package ivy :diminish ivy-mode
+;;   :config
+;;   (progn
+;;     (ivy-mode 1)
+;;     (setq ivy-use-virtual-buffers t)
+;;     (setq ivy-initial-inputs-alist nil)
+;;     (setq ivy-re-builders-alist
+;;           '((t . ivy--regex-ignore-order)))
+;;     (setq ivy-count-format "%d/%d ")))
 
-(use-package magit :bind (("C-x g" . magit-status)))
+(use-package magit
+  :bind (
+         ("C-x g" . magit-status)
+         ("C-c M-g" . magit-dispatch)
+         ("C-c g" . magit-file-dispatch)))
 
 ;; ORG MODE CONFIG ============================================================
 (use-package org
@@ -146,10 +136,7 @@
                  )
   (add-to-list 'org-modules 'org-habit))
 
-
-
-
-(unbind-key "C-c n d")
+;(unbind-key "C-c n d") ; what was this for??
 (use-package org-roam
   :init
   (setq org-roam-v2-ack t)
@@ -174,16 +161,17 @@
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
-(require 'ob-C)
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((C . t)
-   (python . t)))
+(use-package ob-C
+  :ensure nil
+  :config 
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((C . t)
+     (python . t))))
 
 (use-package org-journal)
 
 ;; END ORG MODE CONFIG ========================================================
-
 (use-package paredit
   :diminish paredit-mode
   :hook ((lisp-mode . paredit-mode)
@@ -208,6 +196,7 @@
   :diminish projectile-mode
   :config (progn
             (add-to-list 'projectile-globally-ignored-directories "node_modules")
+            (setq projectile-switch-project-action #'magit)
             (projectile-mode t))
   :bind (:map projectile-mode-map
               ("s-p" . 'projectile-command-map)))
@@ -220,56 +209,31 @@
 (use-package rainbow-delimiters :diminish ""
   :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode-enable))
 
+
 (use-package restclient)
 
-(use-package rspec-mode)
 
+;;(use-package enh-ruby-mode)
+(use-package rspec-mode)
 (use-package rvm
   :config (rvm-use-default))
-
 (use-package inf-ruby
   :hook ((ruby-mode . inf-ruby-minor-mode)))
 
 (use-package seeing-is-believing
-  :config (setq seeing-is-believing-prefix "C-.")
+  :config (setq seeing-is-believing-prefix "C-c ?")
   :hook ((ruby-mode . seeing-is-believing)))
 
-(use-package lsp-mode
-  :commands lsp
-  :hook ((c-mode js-mode js-jsx-mode typescript-mode web-mode) . lsp-deferred)
-  :custom
-  (lsp-rust-analyzer-cargo-watch-command "clippy")
-  (lsp-eldoc-render-all t)
-  (lsp-idle-delay 0.5)
-  (lsp-rust-analyzer-server-display-inlay-hints t)
-  :init
-  (setq lsp-keymap-prefix "C-s-l")
-  :config
-  (setq lsp-rust-server 'rust-analyzer)
-  (setq lsp-rust-analyzer-server-display-inlay-hints t)
-  (setq lsp-rust-clippy-preference "on")
-  (setq lsp-enable-indentation nil))
-
-(use-package lsp-ui
-  :hook (lsp-mode . lsp-ui-mode)
-  :config (setq lsp-ui-doc-enable nil
-                lsp-ui-peek-enable nil
-                lsp-ui-peek-always-show nil
-                lsp-ui-sideline-show-hover t
-                lsp-prefer-flymake nil))
-
 ;; Rust setup from https://robert.kra.hn/posts/2021-02-07_rust-with-emacs/
-(use-package rustic
-  :bind (("C-c C-c j" . lsp-ui-imenu)
-         ("C-c C-c f" . lsp-find-references)
-         ("C-c C-c r" . lsp-rename)
-         ("C-c C-c q" . lsp-workspace-restart)
-         ("C-c C-c Q" . lsp-workspace-shutdown)
-         ("C-c C-c s" . lsp-rust-analyzer-status))
-  :config
-  (setq rustic-format-on-save t))
-
-
+;; (use-package rustic
+;;   :bind (("C-c C-c j" . lsp-ui-imenu)
+;;          ("C-c C-c f" . lsp-find-references)
+;;          ("C-c C-c r" . lsp-rename)
+;;          ("C-c C-c q" . lsp-workspace-restart)
+;;          ("C-c C-c Q" . lsp-workspace-shutdown)
+;;          ("C-c C-c s" . lsp-rust-analyzer-status))
+;;   :config
+;;   (setq rustic-format-on-save t))
 
 (use-package lua-mode)
 (use-package love-minor-mode)
@@ -282,6 +246,7 @@
   (add-to-list 'auto-mode-alist '("\\.lisp\\'" . common-lisp-mode))
   (load "/home/julian/quicklisp/clhs-use-local.el" t))
 
+;; Better highlights
 (use-package symbol-overlay
   :bind (("C-c h h" . symbol-overlay-put)
          ("C-c h n" . symbol-overlay-jump-next)
@@ -336,8 +301,7 @@
   :ensure nil
   :bind (:map bqn--mode-map
               ("C-c C-l" . bqn-process-execute-line)
-              ("C-c C-b" . bqn-process-execute-buffer))
-  )
+              ("C-c C-b" . bqn-process-execute-buffer)))
 
 (use-package ligature
   :config
@@ -352,6 +316,59 @@
                                      "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
                                      "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
   (global-ligature-mode t))
+
+
+
+;; Vertico/Marginalia/
+
+(use-package vertico
+  :init (vertico-mode))
+(use-package savehist
+  :init (savehist-mode))
+(use-package orderless
+  :init
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
+  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
+
+;; Enable rich annotations using the Marginalia package
+(use-package marginalia
+  :bind (:map minibuffer-local-map
+              ("M-A" . marginalia-cycle))
+  :init (marginalia-mode))
+
+(use-package consult)
+
+(use-package embark
+  :bind (("C-." . embark-act)
+         ("C-;" . embark-dwim)
+         ("C-h B" . embark-bindings))
+  :config
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+(use-package embark-consult
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
+(use-package corfu
+  :init (global-corfu-mode))
+
+
+(use-package eglot
+  :bind (("C-c ! n" . flymake-goto-next-error)
+         ("C-c ! p" . flymake-goto-prev-error)
+         ("C-c ! l" . flymake-show-buffer-diagnostics)
+         ("C-c ! L" . flymake-show-project-diagnostics)))
+
+(use-package flymake)
+
 
 (provide 'my-packages)
 

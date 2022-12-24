@@ -9,9 +9,6 @@
 (set-register ?T '(file . "~/org/tracker.org"))
 (set-register ?U '(file . "~/.emacs.d/elisp/my-ui.el"))
 
-
-
-
 ;; Coding stuff ===============================================================
 (setq-default indent-tabs-mode nil
               tab-width 4)
@@ -52,5 +49,8 @@
 
 ;; info
 (add-to-list 'Info-directory-list "~/info")
+
+;; Get rid of overwrite mode
+(put 'overwrite-mode 'disabled t)
 
 (provide 'my-system)

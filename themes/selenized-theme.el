@@ -27,7 +27,8 @@
    'selenized
    `(default ((t (:background ,bg0 :foreground ,fg0))))
    `(cursor ((t (:background ,fg1))))
-   `(hl-line ((t (:background ,bg2))))
+   `(hl-line ((t (:background ,bg1))))
+   `(show-paren-match-expression ((t (:background ,bg2))))
    `(bold ((t (:weight bold))))
    `(bold-italic ((t (:weight bold :slant italic))))
    `(italic ((t (:slant italic))))
@@ -78,6 +79,7 @@
    ;; '(secondary-selection ((t (:background "#272822"))))
    ;; '(shadow ((t (:foreground "#465457"))))
    ))
+
 ;;;###autoload
 (when load-file-name
   (add-to-list 'custom-theme-load-path

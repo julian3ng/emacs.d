@@ -39,16 +39,15 @@
 
 (put 'upcase-region 'disabled nil)
 
-
 (add-to-list 'load-path "~/.emacs.d/elisp/")
 (add-to-list 'load-path "~/.emacs.d/elisp/bqn-mode/")
 (load "gforth.el")
 (require 'forth-mode)
 (require 'bqn-mode)
 (require 'my-system)
-(require 'my-packages)
 (require 'my-ui)
 (require 'my-keybinds)
+(require 'my-packages)
 ;(add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp/bqn-mode/"))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -61,7 +60,7 @@
  '(org-agenda-files
    '("~/org/agenda.org" "~/org/inbox.org" "/home/julian/org-roam/20211211151950-emacs_lisp.org" "/home/julian/org-roam/20211211161917-how_to_use_info_mode.org" "/home/julian/org-roam/20211215164012-dijkstra_s_algorithm.org" "/home/julian/org-roam/20211222001743-cl_compile_time.org" "/home/julian/org-roam/20211222004554-eval_when_is_kind_of_confusing.org" "/home/julian/org-roam/20220105124706-how_to_take_notes.org" "/home/julian/org-roam/20220111202406-model.org" "/home/julian/org-roam/20220111232223-databases.org" "/home/julian/org-roam/20220112144121-cryptography.org" "/home/julian/org-roam/20220113005954-enhanced_entity_relationshp_model.org" "/home/julian/org-roam/20220113012649-relational_model.org" "/home/julian/org-roam/20220113221007-tradeoffs_between_databases_and_ad_hoc_storage.org" "/home/julian/org-roam/20220114224007-ansi_sparc_3_level_db.org" "/home/julian/org-roam/20220114225637-database_schema.org" "/home/julian/org-roam/20220114235138-db_definition_languages.org" "/home/julian/org-roam/20220115020332-data_model.org" "/home/julian/org-roam/20220115020829-client_server_architecture.org" "/home/julian/org-roam/20220118130738-entity_relationship_model.org" "/home/julian/org-roam/20220118155300-knowledge_representation.org" "/home/julian/org-roam/20220121234201-one_time_pad.org" "/home/julian/org-roam/20220121234307-block_ciphers.org" "/home/julian/org-roam/20220125173437-block_cipher_modes_of_operation.org"))
  '(package-selected-packages
-   '(ligature visible-mark meow treemacs treemacs-all-the-icons treemacs-magit treemacs-projectile yasnippet-snippets elixir-mode php-mode typescript-mode helpful gnu-apl-mode py-autopep8 autopep8 jedi j-mode dyalog-mode dictionary org-roam rustic molokai-theme protobuf-mode edit-indirect vagrant vagrant-tramp writeroom-mode wc-mode writegood-mode org-bullets rubocopfmt rvm exec-path-from-shell seeing-is-believing geiser selectrum julia-mode julia-repl nyan-mode ruby-electric-mode inf-ruby-mode inf-ruby rspec-mode company-lua love-minor-mode lua-mode web-mode which-key restclient color-theme-modern :gnu-apl-mode cider clojure-mode sonic-pi elfeed org-journal rainbow-mode common-lisp-snippets expand-region symbol-overlay delight erc-image erc-hl-nicks flycheck-ledger ledger-mode erlang yaml-mode glsl-mode company-lsp lsp-ui wpuzzle fzf rg ack map spinner lsp-mode evil hideshowvis all-the-icons-ivy counsel-projectile latex-preview-pane elpy ace-window escreen auctex emmet-mode racket-mode slime-company use-package undo-tree smex slime rainbow-delimiters paredit magit flycheck diminish counsel color-theme-molokai beacon))
+   '(all-the-icons-completion corfu eglot embark-consult embark consult marginalia orderless vertico ligature visible-mark meow treemacs treemacs-all-the-icons treemacs-magit treemacs-projectile yasnippet-snippets elixir-mode php-mode typescript-mode helpful gnu-apl-mode py-autopep8 autopep8 jedi j-mode dyalog-mode dictionary org-roam rustic molokai-theme protobuf-mode edit-indirect vagrant vagrant-tramp writeroom-mode wc-mode writegood-mode org-bullets rubocopfmt rvm exec-path-from-shell seeing-is-believing geiser selectrum julia-mode julia-repl nyan-mode ruby-electric-mode inf-ruby-mode inf-ruby rspec-mode company-lua love-minor-mode lua-mode web-mode which-key restclient color-theme-modern :gnu-apl-mode cider clojure-mode sonic-pi elfeed org-journal rainbow-mode common-lisp-snippets expand-region symbol-overlay delight erc-image erc-hl-nicks flycheck-ledger ledger-mode erlang yaml-mode glsl-mode company-lsp lsp-ui wpuzzle fzf rg ack map spinner lsp-mode evil hideshowvis all-the-icons-ivy counsel-projectile latex-preview-pane elpy ace-window escreen auctex emmet-mode racket-mode slime-company use-package undo-tree smex slime rainbow-delimiters paredit magit flycheck diminish counsel color-theme-molokai beacon))
  '(safe-local-variable-values
    '((eval setq-local org-babel-default-header-args:Python
            '((:session . "*ctci*"))))))
