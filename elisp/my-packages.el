@@ -365,10 +365,24 @@
   :bind (("C-c ! n" . flymake-goto-next-error)
          ("C-c ! p" . flymake-goto-prev-error)
          ("C-c ! l" . flymake-show-buffer-diagnostics)
-         ("C-c ! L" . flymake-show-project-diagnostics)))
+         ("C-c ! L" . flymake-show-project-diagnostics))
+  :config
+  (setq eglot-ignored-server-capabilities nil ))
+
+(use-package eldoc
+  :config
+  (setq
+   eldoc-echo-area-use-multiline-p nil
+   eldoc-echo-area-prefer-doc-buffer t))
 
 (use-package flymake)
 
-
+(use-package dabbrev
+  ;; Swap M-/ and C-M-/
+  :bind (("M-/" . dabbrev-completion)
+         ("C-M-/" . dabbrev-expand))
+  ;; Other useful Dabbrev configurations.
+  :custom
+  (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
 (provide 'my-packages)
 
