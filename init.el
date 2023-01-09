@@ -45,13 +45,11 @@
 (require 'my-ui)
 (require 'my-keybinds)
 (require 'my-packages)
-;(add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp/bqn-mode/"))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(bqn-mode-map-prefix "H-")
  '(custom-safe-themes
    '("1ca4166b51f0ce0e709bf166c2cfdd7629093b6a4eb8eb72258b341bd25d4e42" "f66e490ecb62031f055e7e32146693f48b20014906866d2ecdcd05b5225e4666" "7476a68e1c74ad293883bb202ab0e6a6a787591d347cdd86e3bc5be2a4bf9def" "64edbf199b53bd43911962330f125064e9f440586a0a3ac04b8defa7372cf5ec" "212e47f659f337463876e4586607d0378411cda421bb763ac020e50926eda3c7" "a157481364cd3e6c5c6bc4d58cb085b45035463eb3fd665aba1d340e9ddc202c" "7eeedf1448b2f4a50fe58fc3bb9abf68e248456fd4ae9d3a9a71568480cbb214" "10551f0a24d0ac97a109f02178e9e34b448ee12a52357911cf3362a6b249cae6" "ff8be9ed2696bf7bc999423d909a603cb23a9525bb43135c0d256b0b9377c958" "294c4b6a955149c93945f901a284140df29963a57939e9ed2fc4ad79b3605080" "f4af94508e325e24ddf85639b2ef04062bed15436cdc5f7937fe6a962033b597" "be72a4b22806340cf28f046d361a6a7ac76d6fa53d032f65cb98788ea9d0e08d" "b494aae329f000b68aa16737ca1de482e239d44da9486e8d45800fd6fd636780" "8f567db503a0d27202804f2ee51b4cd409eab5c4374f57640317b8fcbbd3e466" default))
  '(org-agenda-files

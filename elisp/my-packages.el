@@ -64,7 +64,8 @@
 ;; HTML/CSS expansion
 (use-package emmet-mode :diminish emmet-mode)
 
-(use-package exec-path-from-shell)
+(use-package exec-path-from-shell
+  :init (exec-path-from-shell-initialize))
 
 (use-package expand-region
   :commands expand-region
@@ -85,6 +86,10 @@
 
 (add-hook 'prog-mode-hook #'hs-minor-mode)
 (diminish 'hs-minor-mode "")
+(global-set-key (kbd "s-h c") 'hs-toggle-hiding)
+(global-set-key (kbd "s-h a") 'hs-show-all)
+(global-set-key (kbd "s-h t") 'hs-hide-all)
+(global-set-key (kbd "s-h l") 'hs-hide-level)
 
 (use-package helpful
   :bind (("C-h f" . helpful-callable)
@@ -118,7 +123,22 @@
   :config (progn (setq org-catch-invisible-edits 'show-and-error
                        org-hide-emphasis-markers nil
                        org-hide-leading-stars t
-                       org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d!)"))
+                       org-todo-keywords '(
+                                           (sequence "TODO(t)" "|" "DONE(D!)")
+                                           (sequence "TD(t)" "IP(i)" "CR(c)" "PR(p)" "RT(r)" "DP(d)" "|" "DN(D!)"))
+                       org-use-fast-todo-selection 'expert                       
+
+                       
+                       org-todo-keyword-faces '(("TODO" . "red")
+                                                ("DONE" . "lightGreen")
+                                                ("TD" . "red")
+                                                ("IP" . "yellow")
+                                                ("CR" . "SeaGreen1")
+                                                ("PR" . "SeaGreen2")
+                                                ("RT" . "SeaGreen3")
+                                                ("DP" . "SeaGreen4")
+                                                ("DN" . "DodgerBlue")
+                                                )
                        org-directory "~/org/"
                        org-capture-templates `(("i" "Inbox" entry (file "inbox.org")
                                                 ,(concat "* TODO %?\n"
@@ -129,11 +149,13 @@
                                               "~/org-roam/")
                        org-agenda-hide-tags-regexp "."
                        org-format-latex-options (plist-put org-format-latex-options :scale 3.0)
-                       org-adapt-indentation t)
+                       org-adapt-indentation t
+                       org-refile-targets
+                       '((nil :maxlevel . 3)
+                         (org-agenda-files :maxlevel . 3)))
                  (set-face-foreground 'org-block "#888")
                  (set-face-foreground 'org-code "aquamarine")
-                 (set-face-foreground 'org-verbatim "#888")
-                 )
+                 (set-face-foreground 'org-verbatim "#888"))
   (add-to-list 'org-modules 'org-habit))
 
 ;(unbind-key "C-c n d") ; what was this for??
@@ -141,7 +163,7 @@
   :init
   (setq org-roam-v2-ack t)
   :custom
-  (org-roam-directory "~/org-roam")
+  (org-roam-directory "~/org/roam")
   :bind (("s-o l" . org-roam-buffer-toggle)
          ("s-o f" . org-roam-node-find)
          ("s-o i" . org-roam-node-insert)
@@ -236,7 +258,6 @@
 ;;   (setq rustic-format-on-save t))
 
 (use-package lua-mode)
-(use-package love-minor-mode)
 
 (use-package slime
   :config
@@ -296,12 +317,6 @@
 (use-package geiser)
 
 (use-package gnu-apl-mode) ;; this is for C-\ APL input method
-
-(use-package bqn-mode
-  :ensure nil
-  :bind (:map bqn--mode-map
-              ("C-c C-l" . bqn-process-execute-line)
-              ("C-c C-b" . bqn-process-execute-buffer)))
 
 (use-package ligature
   :config
@@ -384,5 +399,20 @@
   ;; Other useful Dabbrev configurations.
   :custom
   (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
+
+(use-package tree-sitter
+  :config
+  (global-tree-sitter-mode))
+(use-package tree-sitter-langs)
+
+(use-package typescript-mode
+  :config
+  (setq 
+   js-indent-level 2
+   js-jsx-indent-level 2
+   typescript-indent-level 2)
+  :hook
+  ((typescript-mode . (lambda () (indent-tabs-mode -1)))))
+
 (provide 'my-packages)
 
