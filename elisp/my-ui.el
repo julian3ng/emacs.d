@@ -40,7 +40,7 @@
 (prefer-coding-system 'utf-8)
 
 (when (member "Fira Code" (font-family-list))
-  (set-face-font 'default (font-spec :family "Fira Code" :size 28)))
+  (set-face-font 'default (font-spec :family "Fira Code" :size 12)))
 
 (setq widget-image-enable nil)
 

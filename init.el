@@ -40,10 +40,7 @@
 (put 'upcase-region 'disabled nil)
 
 (add-to-list 'load-path "~/.emacs.d/elisp/")
-(add-to-list 'load-path "~/.emacs.d/elisp/bqn-mode/")
-(load "gforth.el")
-(require 'forth-mode)
-(require 'bqn-mode)
+
 (require 'my-system)
 (require 'my-ui)
 (require 'my-keybinds)
