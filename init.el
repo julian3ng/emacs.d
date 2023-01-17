@@ -1,5 +1,13 @@
 (setq byte-compile-warnings '(cl-functions)) ;; TEMPORARY: turn off cl package deprecation warning
 
+(if init-file-debug
+      (setq use-package-verbose t
+            use-package-expand-minimally nil
+            use-package-compute-statistics t
+            debug-on-error t)
+    (setq use-package-verbose nil
+          use-package-expand-minimally t))
+
 ;; Increase garbage collection threshold to speed up initialization
 (setq gc-cons-threshold (* 100 1000 1000))
 (add-hook 'emacs-startup-hook
