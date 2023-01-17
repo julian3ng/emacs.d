@@ -56,7 +56,7 @@
                                ("https://css-tricks.com/feed/" tech)
                                ("https://feeds.feedburner.com/codinghorror" blog tech)
                                ("https://jvns.ca/atom.xml" blog tech)
-                               ("https://feeds.feedburner.com/codinghorror" blog tech)                               
+                               ("https://feeds.feedburner.com/codinghorror" blog tech)
                                ("https://slatestarcodex.com/feed/" blog)
                                ("https://mathbabe.org/feed/" blog math)
 )))
@@ -111,10 +111,10 @@
 ;; ORG MODE CONFIG ============================================================
 (use-package org
   :hook ((org-mode . auto-fill-mode)
-         (org-mode . display-fill-column-indicator-mode))  
+         (org-mode . display-fill-column-indicator-mode))
   :bind (:map org-mode-map ("C-'" . avy-goto-char-timer))
   :bind (("C-c a" . org-agenda)
-         ("C-c c" . org-capture))  
+         ("C-c c" . org-capture))
   :config (progn (setq org-catch-invisible-edits 'show-and-error
                        org-hide-emphasis-markers nil
                        org-hide-leading-stars t
@@ -146,9 +146,10 @@
          ("s-o f" . org-roam-node-find)
          ("s-o i" . org-roam-node-insert)
          ("s-o I" . org-id-get-create)
+         ("s-o c" . org-roam-capture)
          ("s-o t" . org-roam-tag-add)
          ("s-o d" . org-roam-dailies-capture-today)
-         ("s-o g" . org-roam-db-sync))  
+         ("s-o g" . org-roam-db-sync))
   :config
   (org-roam-db-autosync-mode t)
   (setq org-roam-dailies-directory "daily/")
@@ -163,7 +164,7 @@
 
 (use-package ob-C
   :ensure nil
-  :config 
+  :config
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((C . t)
@@ -215,8 +216,7 @@
 
 ;;(use-package enh-ruby-mode)
 (use-package rspec-mode)
-(use-package rvm
-  :config (rvm-use-default))
+
 (use-package inf-ruby
   :hook ((ruby-mode . inf-ruby-minor-mode)))
 
@@ -273,7 +273,7 @@
   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))  
+  (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
   (setq web-mode-engines-alist '(("php" . "\\.php\\'")))
   (setq web-mode-enable-auto-indentation nil))
 
@@ -357,9 +357,56 @@
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
+;; Completion frontend
 (use-package corfu
   :init (global-corfu-mode))
 
+
+(use-package company-emoji)
+(use-package company-web)
+(use-package company-lua)
+;; Completion backend
+(use-package cape
+  :bind (("C-c C-p p" . completion-at-point) ;; capf
+         ("C-c C-p t" . complete-tag)        ;; etags
+         ("C-c C-p d" . cape-dabbrev)        ;; or dabbrev-completion
+         ("C-c C-p h" . cape-history)
+         ("C-c C-p f" . cape-file)
+         ("C-c C-p k" . cape-keyword)
+         ("C-c C-p s" . cape-symbol)
+         ("C-c C-p a" . cape-abbrev)
+         ("C-c C-p i" . cape-ispell)
+         ("C-c C-p l" . cape-line)
+         ("C-c C-p w" . cape-dict)
+         ("C-c C-p \\" . cape-tex)
+         ("C-c C-p _" . cape-tex)
+         ("C-c C-p ^" . cape-tex)
+         ("C-c C-p &" . cape-sgml)
+         ("C-c C-p r" . cape-rfc1345))
+  :init
+  (defun julian/cape-capf-setup ()
+    (let ((result))
+      (add-to-list 'completion-at-point-functions (cape-company-to-capf #'company-emoji))
+      (dolist (capf '(cape-dabbrev cape-file) result)
+        (add-to-list 'completion-at-point-functions capf))))
+  (defun julian/cape-capf-setup-lua ()
+    (julian/cape-capf-setup)
+    (add-to-list 'completion-at-point-functions (cape-company-to-capf #'company-lua)))
+  :hook (prog-mode . julian/cape-capf-setup)
+  :hook (lua-mode . julian/cape-capf-setup-lua)
+  :config
+  ;;(add-to-list 'completion-at-point-functions (cape-company-to-capf #'company-web-html))
+  ;;(add-to-list 'completion-at-point-functions #'cape-history)
+  ;;(add-to-list 'completion-at-point-functions #'cape-keyword)
+  ;;(add-to-list 'completion-at-point-functions #'cape-tex)
+  ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
+  ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
+  ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
+  ;;(add-to-list 'completion-at-point-functions #'cape-ispell)
+  ;;(add-to-list 'completion-at-point-functions #'cape-dict)
+  ;;(add-to-list 'completion-at-point-functions #'cape-symbol)
+  ;;(add-to-list 'completion-at-point-functions #'cape-line)
+  )
 
 (use-package eglot
   :bind (("C-c ! n" . flymake-goto-next-error)
@@ -384,5 +431,12 @@
   ;; Other useful Dabbrev configurations.
   :custom
   (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
-(provide 'my-packages)
 
+;; asdf package manager to find ruby and such
+(add-to-list 'load-path "~/.emacs.d/elisp/asdf.el")
+(require 'asdf)
+(asdf-enable)
+
+(use-package eyebrowse)
+
+(provide 'my-packages)

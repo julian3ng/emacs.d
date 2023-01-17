@@ -30,7 +30,7 @@
 (setq ring-bell-function 'ignore) ; call 'ignore when bell would ring
 
 ;; Pretty symbols
-(global-prettify-symbols-mode t)
+;(global-prettify-symbols-mode t)
 
 ;; UTF 8
 (setq local-coding-system 'utf-8)
