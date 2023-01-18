@@ -362,40 +362,6 @@
 (use-package corfu
   :init (global-corfu-mode))
 
-(use-package cape
-  ;; Bind dedicated completion commands
-  ;; Alternative prefix keys: C-c p, M-p, M-+, ...
-  :bind (("C-c C-p p" . completion-at-point) ;; capf
-         ("C-c C-p t" . complete-tag)        ;; etags
-         ("C-c C-p d" . cape-dabbrev)        ;; or dabbrev-completion
-         ("C-c C-p h" . cape-history)
-         ("C-c C-p f" . cape-file)
-         ("C-c C-p k" . cape-keyword)
-         ("C-c C-p s" . cape-symbol)
-         ("C-c C-p a" . cape-abbrev)
-         ("C-c C-p i" . cape-ispell)
-         ("C-c C-p l" . cape-line)
-         ("C-c C-p w" . cape-dict)
-         ("C-c C-p \\" . cape-tex)
-         ("C-c C-p _" . cape-tex)
-         ("C-c C-p ^" . cape-tex)
-         ("C-c C-p &" . cape-sgml)
-         ("C-c C-p r" . cape-rfc1345))
-  :init
-  ;; Add `completion-at-point-functions', used by `completion-at-point'.
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  ;;(add-to-list 'completion-at-point-functions #'cape-history)
-  ;;(add-to-list 'completion-at-point-functions #'cape-keyword)
-  ;;(add-to-list 'completion-at-point-functions #'cape-tex)
-  ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
-  ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
-  ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
-  ;;(add-to-list 'completion-at-point-functions #'cape-ispell)
-  ;;(add-to-list 'completion-at-point-functions #'cape-dict)
-  ;;(add-to-list 'completion-at-point-functions #'cape-symbol)
-  ;;(add-to-list 'completion-at-point-functions #'cape-line)
-  )
 
 (use-package company-emoji)
 (use-package company-web)
@@ -474,6 +440,9 @@
 (require 'asdf)
 (asdf-enable)
 
-(use-package eyebrowse)
+(use-package eyebrowse
+  :config
+  (eyebrowse-mode 1)
+  (setq eyebrowse-new-workspace t))
 
 (provide 'my-packages)
