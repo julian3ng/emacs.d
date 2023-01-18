@@ -36,9 +36,9 @@
   :init
   (all-the-icons-completion-mode))
 
-;; (use-package avy
-;;   :bind (("C-'" . avy-goto-char-timer)
-;;          (:map isearch-mode-map ("C-'" . avy-isearch))))
+(use-package avy
+  :bind (("C-'" . avy-goto-char-timer)
+         ((:map isearch-mode-map ("C-'" . avy-isearch)))))
 
 
 ;; M-x stuff
@@ -129,11 +129,11 @@
                                               "~/org-roam/")
                        org-agenda-hide-tags-regexp "."
                        org-format-latex-options (plist-put org-format-latex-options :scale 3.0)
-                       org-adapt-indentation t)
+                       org-adapt-indentation t
+                       org-use-speed-commands t)
                  (set-face-foreground 'org-block "#888")
                  (set-face-foreground 'org-code "aquamarine")
-                 (set-face-foreground 'org-verbatim "#888")
-                 )
+                 (set-face-foreground 'org-verbatim "#888"))
   (add-to-list 'org-modules 'org-habit))
 
 ;(unbind-key "C-c n d") ; what was this for??
@@ -261,7 +261,8 @@
   :diminish ""
   :init (progn (global-undo-tree-mode) (setq undo-tree-visualizer-timestamps t))
   :bind (("s-u" . undo-tree-visualize))
-  :config (setq undo-tree-history-directory-alist '(("." . "/home/julian/.emacs.d/undo/"))))
+  :config (setq undo-tree-history-directory-alist '(("." . "/.emacs.d/undo/"))
+                undo-tree-auto-save-history nil))
 
 (use-package which-key
   :diminish which-key-mode
@@ -361,6 +362,40 @@
 (use-package corfu
   :init (global-corfu-mode))
 
+(use-package cape
+  ;; Bind dedicated completion commands
+  ;; Alternative prefix keys: C-c p, M-p, M-+, ...
+  :bind (("C-c C-p p" . completion-at-point) ;; capf
+         ("C-c C-p t" . complete-tag)        ;; etags
+         ("C-c C-p d" . cape-dabbrev)        ;; or dabbrev-completion
+         ("C-c C-p h" . cape-history)
+         ("C-c C-p f" . cape-file)
+         ("C-c C-p k" . cape-keyword)
+         ("C-c C-p s" . cape-symbol)
+         ("C-c C-p a" . cape-abbrev)
+         ("C-c C-p i" . cape-ispell)
+         ("C-c C-p l" . cape-line)
+         ("C-c C-p w" . cape-dict)
+         ("C-c C-p \\" . cape-tex)
+         ("C-c C-p _" . cape-tex)
+         ("C-c C-p ^" . cape-tex)
+         ("C-c C-p &" . cape-sgml)
+         ("C-c C-p r" . cape-rfc1345))
+  :init
+  ;; Add `completion-at-point-functions', used by `completion-at-point'.
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  ;;(add-to-list 'completion-at-point-functions #'cape-history)
+  ;;(add-to-list 'completion-at-point-functions #'cape-keyword)
+  ;;(add-to-list 'completion-at-point-functions #'cape-tex)
+  ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
+  ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
+  ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
+  ;;(add-to-list 'completion-at-point-functions #'cape-ispell)
+  ;;(add-to-list 'completion-at-point-functions #'cape-dict)
+  ;;(add-to-list 'completion-at-point-functions #'cape-symbol)
+  ;;(add-to-list 'completion-at-point-functions #'cape-line)
+  )
 
 (use-package company-emoji)
 (use-package company-web)
@@ -412,9 +447,11 @@
   :bind (("C-c ! n" . flymake-goto-next-error)
          ("C-c ! p" . flymake-goto-prev-error)
          ("C-c ! l" . flymake-show-buffer-diagnostics)
-         ("C-c ! L" . flymake-show-project-diagnostics))
+         ("C-c ! L" . flymake-show-project-diagnostics)
+         ("s-l c a" . eglot-code-actions)
+         ("s-l r r" . eglot-rename))
   :config
-  (setq eglot-ignored-server-capabilities nil ))
+  (setq eglot-ignored-server-capabilities nil))
 
 (use-package eldoc
   :config
@@ -427,7 +464,7 @@
 (use-package dabbrev
   ;; Swap M-/ and C-M-/
   :bind (("M-/" . dabbrev-completion)
-         ("C-M-/" . dabbrev-expand))
+         ("C-M-/" . hippie-expand))
   ;; Other useful Dabbrev configurations.
   :custom
   (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
