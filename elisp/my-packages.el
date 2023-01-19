@@ -64,7 +64,9 @@
 ;; HTML/CSS expansion
 (use-package emmet-mode :diminish emmet-mode)
 
-(use-package exec-path-from-shell)
+(use-package exec-path-from-shell
+  :config
+  (exec-path-from-shell-initialize))
 
 (use-package expand-region
   :commands expand-region
@@ -441,6 +443,12 @@
 (asdf-enable)
 
 (use-package eyebrowse
+  :bind (
+         :map eyebrowse-mode-map
+              ("C-c C-w n" . eyebrowse-next-window-config)
+              ("C-c C-w C-n" . eyebrowse-next-window-config)
+              ("C-c C-w p" . eyebrowse-prev-window-config)
+              ("C-c C-w C-p" . eyebrowse-prev-window-config))
   :config
   (eyebrowse-mode 1)
   (setq eyebrowse-new-workspace t))
