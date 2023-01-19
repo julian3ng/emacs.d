@@ -1,6 +1,9 @@
 (setq mac-option-modifier 'meta)
 (setq mac-command-modifier 'super)
 (setq mac-function-modifier 'hyper)
+(setq mac-pass-command-to-system nil)
+
+
 (global-set-key (kbd "C-c w") 'whitespace-cleanup)
 (define-key global-map (kbd "RET") 'newline-and-indent)
 (global-set-key (kbd "M-SPC") 'cycle-spacing)
@@ -16,6 +19,7 @@
 (global-set-key (kbd "M-u") 'upcase-dwim)
 (global-set-key (kbd "M-l") 'downcase-dwim)
 (global-set-key (kbd "M-c") 'capitalize-dwim)
+(global-set-key (kbd "C-c C-r") 'rgrep )
 
 (defun toggle-window-split ()
   (interactive)

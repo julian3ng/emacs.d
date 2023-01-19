@@ -85,8 +85,15 @@
 ;;   (setq gnu-apl-mode-map-prefix "H-")
 ;;   (setq gnu-apl-mode-map (gnu-apl--make-apl-mode-map)))
 
-(add-hook 'prog-mode-hook #'hs-minor-mode)
-(diminish 'hs-minor-mode "")
+(use-package hideshow
+  :ensure nil
+  :hook ((prog-mode-hook . hs-minor-mode))
+  :diminish hs-minor-mode
+  :bind (("s-h a" . hs-show-all)
+         ("s-h t" . hs-hide-all)
+         ("s-h c" . hs-toggle-hiding)
+         ("s-h d" . hs-hide-block)
+         ("s-h l" . hs-hide-level)))
 
 (use-package helpful
   :bind (("C-h f" . helpful-callable)
@@ -118,6 +125,8 @@
   :bind (("C-c a" . org-agenda)
          ("C-c c" . org-capture))
   :config (progn (setq org-catch-invisible-edits 'show-and-error
+                       org-startup-folded t
+                       org-hide-block-startup t
                        org-hide-emphasis-markers nil
                        org-hide-leading-stars t
                        org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d!)"))
@@ -421,11 +430,17 @@
   :config
   (setq eglot-ignored-server-capabilities nil))
 
+(use-package markdown-mode) ;; we need markdown mode for eglot's eldoc to render
+
 (use-package eldoc
   :config
   (setq
-   eldoc-echo-area-use-multiline-p nil
-   eldoc-echo-area-prefer-doc-buffer t))
+   eldoc-echo-area-use-multiline-p t
+   eldoc-echo-area-prefer-doc-buffer nil))
+
+(use-package eldoc-box
+  :after eldoc
+  :hook (eglot--managed-mode-hook . eldoc-box-hover-mode))
 
 (use-package flymake)
 
@@ -443,14 +458,35 @@
 (asdf-enable)
 
 (use-package eyebrowse
+  :init
+  (setq eyebrowse-new-workspace t)
   :bind (
          :map eyebrowse-mode-map
-              ("C-c C-w n" . eyebrowse-next-window-config)
-              ("C-c C-w C-n" . eyebrowse-next-window-config)
-              ("C-c C-w p" . eyebrowse-prev-window-config)
-              ("C-c C-w C-p" . eyebrowse-prev-window-config))
+         ("C-c C-w n" . eyebrowse-next-window-config)
+         ("C-c C-w C-n" . eyebrowse-next-window-config)
+         ("C-c C-w p" . eyebrowse-prev-window-config)
+         ("C-c C-w C-p" . eyebrowse-prev-window-config)
+         ("C-c C-w f" . eyebrowse-next-window-config)
+         ("C-c C-w C-f" . eyebrowse-next-window-config)
+         ("C-c C-w b" . eyebrowse-prev-window-config)
+         ("C-c C-w C-b" . eyebrowse-prev-window-config))
   :config
-  (eyebrowse-mode 1)
-  (setq eyebrowse-new-workspace t))
+  (eyebrowse-mode t))
+
+(require 'eyebrowse)
+
+(use-package smerge-mode
+  :ensure nil
+  :config
+  (setq smerge-command-prefix "C-c C-s"))
+
+(use-package iedit
+  :bind ("C-c i" . iedit-mode))
+
+(use-package typescript-mode
+  :config
+  (define-derived-mode typescriptreact-mode typescript-mode
+    "TypeScript TSX")
+  (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescriptreact-mode)))
 
 (provide 'my-packages)
