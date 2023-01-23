@@ -146,7 +146,7 @@
                        org-directory "~/org/"
                        org-capture-templates `(("i" "Inbox" entry (file "inbox.org")
                                                 ,(concat "* TODO %?\n"
-                                                         "/Entered on/ %U")))
+                                                         "  /Entered on/ %U")))
                        org-agenda-files (list "~/org/gtd.org"
                                               "~/org/inbox.org")
                        org-refile-use-outline-path 'file
