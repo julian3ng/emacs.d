@@ -115,7 +115,8 @@
   :bind (
          ("C-x g" . magit-status)
          ("C-c M-g" . magit-dispatch)
-         ("C-c g" . magit-file-dispatch)))
+         ("C-c g" . magit-file-dispatch))
+  :config (setq magit-process-finish-apply-ansi-colors t))
 
 ;; ORG MODE CONFIG ============================================================
 (use-package org
@@ -129,19 +130,34 @@
                        org-hide-block-startup t
                        org-hide-emphasis-markers nil
                        org-hide-leading-stars t
-                       org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d!)"))
+                       org-todo-keywords '((sequence "TODO(t)" "|" "DONE(D!)")
+                                           (sequence "TD(t)" "IP(i)" "CR(c)" "PR(p)" "RT(r)" "DP(d)" "|" "DN(D!)"))
+                       org-use-fast-todo-selection 'expert
+                       org-todo-keyword-faces '(("TODO" . "red")
+                                                ("DONE" . "lightGreen")
+                                                ("TD" . "red")
+                                                ("IP" . "yellow")
+                                                ("CR" . "SeaGreen1")
+                                                ("PR" . "SeaGreen2")
+                                                ("RT" . "SeaGreen3")
+                                                ("DP" . "SeaGreen4")
+                                                ("DN" . "DodgerBlue")
+                                                )
                        org-directory "~/org/"
                        org-capture-templates `(("i" "Inbox" entry (file "inbox.org")
                                                 ,(concat "* TODO %?\n"
                                                          "/Entered on/ %U")))
-                       org-agenda-files (list "~/org/agenda.org"
-                                              "~/org/inbox.org"
-                                              "~/org/gtd.org"
-                                              "~/org-roam/")
+                       org-agenda-files (list "~/org/gtd.org"
+                                              "~/org/inbox.org")
+                       org-refile-use-outline-path 'file
+                       org-outline-path-complete-in-steps nil
+                       org-refile-targets '((nil :maxlevel . 3)
+                                            (org-agenda-files :maxlevel . 3))
                        org-agenda-hide-tags-regexp "."
                        org-format-latex-options (plist-put org-format-latex-options :scale 3.0)
                        org-adapt-indentation t
-                       org-use-speed-commands t)
+                       org-use-speed-commands t
+                       org-agenda-custom-commands '(("g" "Fortnight Agenda" ((agenda "" ((org-agenda-span 14)))))))
                  (set-face-foreground 'org-block "#888")
                  (set-face-foreground 'org-code "aquamarine")
                  (set-face-foreground 'org-verbatim "#888"))
@@ -487,6 +503,7 @@
   :config
   (define-derived-mode typescriptreact-mode typescript-mode
     "TypeScript TSX")
-  (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescriptreact-mode)))
+  (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescriptreact-mode))
+  (setq typescript-indent-level 2))
 
 (provide 'my-packages)

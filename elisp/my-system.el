@@ -1,8 +1,9 @@
 (setq backup-directory-alist '(("." . "~/.emacs-backups")))
 
-(set-register ?A '(file . "~/org/agenda.org"))
 (set-register ?E '(file . "~/.emacs.d/init.el"))
+(set-register ?G '(file . "~/org/gtd.org"))
 (set-register ?I '(file . "~/org/inbox.org"))
+
 (set-register ?K '(file . "~/.emacs.d/elisp/my-keybinds.el"))
 (set-register ?P '(file . "~/.emacs.d/elisp/my-packages.el"))
 (set-register ?S '(file . "~/.emacs.d/elisp/my-system.el"))
