@@ -131,9 +131,10 @@
                        org-hide-emphasis-markers nil
                        org-hide-leading-stars t
                        org-todo-keywords '((sequence "TODO(t)" "|" "DONE(D!)")
-                                           (sequence "TD(t)" "IP(i)" "CR(c)" "PR(p)" "RT(r)" "DP(d)" "|" "DN(D!)"))
+                                           (sequence "TD(t)" "WAITING(w)" "IP(i)" "CR(c)" "PR(p)" "RT(r)" "DP(d)" "|" "DN(D!)"))
                        org-use-fast-todo-selection 'expert
                        org-todo-keyword-faces '(("TODO" . "red")
+                                                ("WAITING" . "BlueViolet")
                                                 ("DONE" . "lightGreen")
                                                 ("TD" . "red")
                                                 ("IP" . "yellow")
@@ -442,7 +443,8 @@
          ("C-c ! l" . flymake-show-buffer-diagnostics)
          ("C-c ! L" . flymake-show-project-diagnostics)
          ("s-l c a" . eglot-code-actions)
-         ("s-l r r" . eglot-rename))
+         ("s-l r r" . eglot-rename)
+         ("s-l g t" . eglot-find-typeDefinition))
   :config
   (setq eglot-ignored-server-capabilities nil))
 
