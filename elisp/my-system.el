@@ -54,4 +54,10 @@
 ;; Get rid of overwrite mode
 (put 'overwrite-mode 'disabled t)
 
+;; M-x inside M-x, do shell stuff inside C-x C-f, etc.
+(setq enable-recursive-minibuffers t)
+(minibuffer-depth-indicate-mode t)
+
+
+
 (provide 'my-system)

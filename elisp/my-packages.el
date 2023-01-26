@@ -508,4 +508,20 @@
   (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescriptreact-mode))
   (setq typescript-indent-level 2))
 
+(use-package nyan-mode
+  :config (nyan-mode 1))
+
+(defun julian/push-mark-no-activate ()
+  (interactive)
+  (push-mark (point) t nil)
+  (message "Pushed mark to ring"))
+
+;; not sure about this stuff
+(use-package visible-mark
+  :bind (("C-c C-SPC" . transient-mark-mode)
+         ("C-M-SPC" . julian/push-mark-no-activate))
+  :config
+  (global-visible-mark-mode t)
+  (setq visible-mark-max 3))
+
 (provide 'my-packages)
