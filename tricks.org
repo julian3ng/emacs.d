@@ -1,0 +1,10 @@
+* Org
+  - C-c C-k to toggle header folding only
+* Mysterious Modes
+  - glasses-mode: make camelCase look like camel_Case
+  - re-builder: build regexes and match against buffer
+* Weird Functions
+  - ~M-`~ gives you menu bar!?
+* Searching
+  - ~M-e~ lets you edit an isearch query
+
