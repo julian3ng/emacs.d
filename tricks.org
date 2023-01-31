@@ -1,10 +1,16 @@
 * Org
   - C-c C-k to toggle header folding only
+  - C-c C-x - to start a timer list
+* Magit
+  - ~L ...~ to change the info in the status buffer?
+    https://mbork.pl/2019-05-05_A_few_Magit_tips
 * Mysterious Modes
   - glasses-mode: make camelCase look like camel_Case
   - re-builder: build regexes and match against buffer
+  - Rectangle-mark-mode: ~C-x SPC~ lets you do rectangle things easily
 * Weird Functions
   - ~M-`~ gives you menu bar!?
 * Searching
   - ~M-e~ lets you edit an isearch query
+
 

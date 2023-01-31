@@ -495,8 +495,13 @@
 
 (use-package smerge-mode
   :ensure nil
-  :config
-  (setq smerge-command-prefix "C-c C-s"))
+  :bind (:prefix-map smerge-mode-map :prefix "C-c C-s"
+                     ("n" . smerge-next)
+                     ("p" . smerge-prev)
+                     ("r" . smerge-refine)
+                     ("a" . smerge-keep-all)
+                     ("l" . smerge-keep-lower)
+                     ("u" . smerge-keep-upper)))
 
 (use-package iedit
   :bind ("C-c i" . iedit-mode))

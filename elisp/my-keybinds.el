@@ -21,6 +21,8 @@
 (global-set-key (kbd "M-c") 'capitalize-dwim)
 (global-set-key (kbd "C-c C-r") 'rgrep )
 (global-set-key (kbd "M-z") 'zap-up-to-char)
+(global-unset-key (kbd "C-z"))
+
 
 (defun toggle-window-split ()
   (interactive)
