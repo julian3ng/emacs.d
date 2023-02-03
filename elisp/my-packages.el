@@ -514,7 +514,10 @@
   (setq typescript-indent-level 2))
 
 (use-package nyan-mode
-  :config (nyan-mode 1))
+  :config
+  (nyan-mode 1)
+  (nyan-start-animation)
+  (nyan-toggle-wavy-trail))
 
 (defun julian/push-mark-no-activate ()
   (interactive)

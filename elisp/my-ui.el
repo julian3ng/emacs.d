@@ -57,4 +57,28 @@
 (set-window-margins nil 0 0) ; what are margins for?
 (setq-default fill-column 80) ; wraparound column
 
+(setq frame-title-format
+      '(buffer-file-name "%b - %f" ; File buffer
+        (dired-directory dired-directory ; Dired buffer
+         (revert-buffer-function "%b" ; Buffer Menu
+          ("%b - Dir: " default-directory)))))
+
+(setq  mode-line-format
+       '("%e"
+         mode-line-front-space
+         mode-line-mule-info
+         mode-line-client
+         mode-line-modified
+         mode-line-remote
+         mode-line-frame-identification
+         mode-line-buffer-identification
+         "   "
+         mode-line-position
+         (vc-mode vc-mode)
+         "  "
+         mode-line-modes
+         mode-line-misc-info
+         mode-line-end-spaces))
+
+
 (provide 'my-ui)
