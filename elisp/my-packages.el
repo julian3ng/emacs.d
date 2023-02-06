@@ -230,7 +230,12 @@
   :bind (:map projectile-mode-map
               ("s-p" . 'projectile-command-map)))
 
-(use-package racket-mode)
+(defun julian/projectile-relative-filename ()
+  (interactive)
+  (when (buffer-file-name)
+    (let ((relative-filename (string-remove-prefix (projectile-project-root) (buffer-file-name))))
+      (kill-new relative-filename)
+      (message relative-filename))))
 
 (use-package rainbow-mode :diminish rainbow-mode
   :config (rainbow-mode 1))
