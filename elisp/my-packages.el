@@ -11,10 +11,6 @@
 (use-package elpy
   :init (elpy-enable))
 
-(use-package jedi
-  :config (setq jedi:complete-on-dot t)
-  :hook ((python-mode . jedi:setup)))
-
 (use-package py-autopep8)
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
@@ -37,7 +33,10 @@
   (all-the-icons-completion-mode))
 
 (use-package avy
-  :bind (("C-'" . avy-goto-char-timer)
+  :bind (("C-'" . avy-goto-char)
+         ("M-g l" . avy-goto-line)
+         ("M-g c" . avy-goto-char-2)
+         ("M-g w" . avy-goto-word)
          ((:map isearch-mode-map ("C-'" . avy-isearch)))))
 
 
@@ -89,7 +88,8 @@
   :ensure nil
   :hook ((prog-mode-hook . hs-minor-mode))
   :diminish hs-minor-mode
-  :bind (("s-h a" . hs-show-all)
+  :bind (:map hs-minor-mode-map
+         ("s-h a" . hs-show-all)
          ("s-h t" . hs-hide-all)
          ("s-h c" . hs-toggle-hiding)
          ("s-h d" . hs-hide-block)
@@ -116,7 +116,11 @@
          ("C-x g" . magit-status)
          ("C-c M-g" . magit-dispatch)
          ("C-c g" . magit-file-dispatch))
-  :config (setq magit-process-finish-apply-ansi-colors t))
+  :config
+  (setq magit-process-finish-apply-ansi-colors t
+        magit-status-margin '(nil age magit-log-margin-width nil 18)))
+
+
 
 ;; ORG MODE CONFIG ============================================================
 (use-package org
@@ -131,10 +135,11 @@
                        org-hide-emphasis-markers nil
                        org-hide-leading-stars t
                        org-todo-keywords '((sequence "TODO(t)" "|" "DONE(D!)")
-                                           (sequence "TD(t)" "WAITING(w)" "IP(i)" "CR(c)" "PR(p)" "RT(r)" "DP(d)" "|" "DN(D!)"))
+                                           (sequence
+                                            "TD(t)" "WA(w)" "IP(i)" "CR(c)" "PR(p)" "RT(r)" "DP(d)" "|" "DN(D!)" "CA(C!)"))
                        org-use-fast-todo-selection 'expert
                        org-todo-keyword-faces '(("TODO" . "red")
-                                                ("WAITING" . "BlueViolet")
+                                                ("WA" . "BlueViolet")
                                                 ("DONE" . "lightGreen")
                                                 ("TD" . "red")
                                                 ("IP" . "yellow")
@@ -143,11 +148,15 @@
                                                 ("RT" . "SeaGreen3")
                                                 ("DP" . "SeaGreen4")
                                                 ("DN" . "DodgerBlue")
-                                                )
+                                                ("CA" . "DimGray"))
                        org-directory "~/org/"
-                       org-capture-templates `(("i" "Inbox" entry (file "inbox.org")
+                       org-capture-templates `(
+                                               ("i" "Inbox" entry (file "inbox.org")
                                                 ,(concat "* TODO %?\n"
-                                                         "  /Entered on/ %U")))
+                                                         "  /Entered on/ %U"))
+                                               ("c" "Code" entry (file "inbox.org")
+                                                ,(concat "* TODO %?\n"
+                                                         "  %A\n")))
                        org-agenda-files (list "~/org/gtd.org"
                                               "~/org/inbox.org")
                        org-refile-use-outline-path 'file
@@ -169,7 +178,7 @@
   :init
   (setq org-roam-v2-ack t)
   :custom
-  (org-roam-directory "~/org-roam")
+  (org-roam-directory "~/org/roam")
   :bind (("s-o l" . org-roam-buffer-toggle)
          ("s-o f" . org-roam-node-find)
          ("s-o i" . org-roam-node-insert)
@@ -269,7 +278,6 @@
 ;;   (setq rustic-format-on-save t))
 
 (use-package lua-mode)
-(use-package love-minor-mode)
 
 (use-package slime
   :config
@@ -313,6 +321,7 @@
 
 (use-package writegood-mode)
 (use-package writeroom-mode
+  :bind (("C-z z" . writeroom-mode))
   :config
   (setq writeroom-width 80
         writeroom-fullscreen-effect 'maximized))
@@ -330,12 +339,6 @@
 (use-package geiser)
 
 (use-package gnu-apl-mode) ;; this is for C-\ APL input method
-
-(use-package bqn-mode
-  :ensure nil
-  :bind (:map bqn--mode-map
-              ("C-c C-l" . bqn-process-execute-line)
-              ("C-c C-b" . bqn-process-execute-buffer)))
 
 (use-package ligature
   :config
@@ -442,16 +445,31 @@
   ;;(add-to-list 'completion-at-point-functions #'cape-line)
   )
 
+
+(defun flymake-eldoc-function (report-doc &rest _)
+  "Document diagnostics at point.
+   Intended for `eldoc-documentation-functions' (which see)."
+  (let ((diags (flymake-diagnostics (point))))
+    (when diags
+      (funcall report-doc
+               (mapconcat (lambda (d)
+                            (let ((level (flymake-diagnostic-type d)))
+                              (pcase level
+                                ('warning (propertize (flymake-diagnostic-text d) 'face 'flymake-warning))
+                                ('error (propertize (flymake-diagnostic-text d) 'face 'flymake-error))
+                                ('note (propertize (flymake-diagnostic-text d) 'face 'flymake-note))
+                                ('eglot-warning (propertize (flymake-diagnostic-text d) 'face 'flymake-warning))
+                                ('eglot-error (propertize (flymake-diagnostic-text d) 'face 'flymake-error))
+                                ('eglot-note (propertize (flymake-diagnostic-text d) 'face 'flymake-note))
+                                (_ (flymake-diagnostic-text d)))
+                              )) diags "\n")))))
+
 (use-package eglot
-  :bind (("C-c ! n" . flymake-goto-next-error)
-         ("C-c ! p" . flymake-goto-prev-error)
-         ("C-c ! l" . flymake-show-buffer-diagnostics)
-         ("C-c ! L" . flymake-show-project-diagnostics)
-         ("s-l c a" . eglot-code-actions)
+  :bind (("s-l c a" . eglot-code-actions)
          ("s-l r r" . eglot-rename)
-         ("s-l g t" . eglot-find-typeDefinition))
-  :config
-  (setq eglot-ignored-server-capabilities nil))
+         ("s-l g t" . eglot-find-typeDefinition)))
+
+
 
 (use-package markdown-mode) ;; we need markdown mode for eglot's eldoc to render
 
@@ -465,7 +483,13 @@
   :after eldoc
   :hook (eglot--managed-mode-hook . eldoc-box-hover-mode))
 
-(use-package flymake)
+(use-package flymake
+  :bind (("C-c ! n" . flymake-goto-next-error)
+         ("C-c ! p" . flymake-goto-prev-error)
+         ("C-c ! l" . flymake-show-buffer-diagnostics)
+         ("C-c ! L" . flymake-show-project-diagnostics)))
+
+
 
 (use-package dabbrev
   ;; Swap M-/ and C-M-/
@@ -476,9 +500,9 @@
   (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
 
 ;; asdf package manager to find ruby and such
-(add-to-list 'load-path "~/.emacs.d/elisp/asdf.el")
-(require 'asdf)
-(asdf-enable)
+;; (add-to-list 'load-path "~/.emacs.d/elisp/asdf.el")
+;; (require 'asdf)
+;; (asdf-enable)
 
 (use-package eyebrowse
   :init
@@ -511,15 +535,17 @@
 (use-package iedit
   :bind ("C-c i" . iedit-mode))
 
-(use-package typescript-mode
-  :config
-  (define-derived-mode typescriptreact-mode typescript-mode
-    "TypeScript TSX")
-  (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescriptreact-mode))
-  (setq typescript-indent-level 2))
+;; (use-package typescript-mode
+;;   :after tree-sitter
+;;   :config
+;;   (define-derived-mode typescript-tsx-mode typescript-mode "tsx")
+;;   (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))
+;;   (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescript-tsx-mode))
+;;   (setq typescript-indent-level 2))
 
 (use-package nyan-mode
   :config
+  (setq nyan-bar-length 8)
   (nyan-mode 1)
   (nyan-start-animation)
   (nyan-toggle-wavy-trail))
@@ -536,5 +562,12 @@
   :config
   (global-visible-mark-mode t)
   (setq visible-mark-max 3))
+
+(use-package minions
+  :bind (("M-~" . minions-minor-modes-menu))
+  :config (minions-mode 1))
+
+(use-package apheleia
+  :config (apheleia-global-mode +1))
 
 (provide 'my-packages)

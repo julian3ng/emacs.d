@@ -22,6 +22,13 @@
 (global-set-key (kbd "C-c C-r") 'rgrep )
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 (global-unset-key (kbd "C-z"))
+(global-set-key (kbd "C-z b") 'bury-buffer)
+(global-set-key (kbd "C-z u") 'unbury-buffer)
+(unbind-key (kbd "s-a"))
+(unbind-key (kbd "s-h"))
+(unbind-key (kbd "s-l"))
+(unbind-key (kbd "s-o"))
+
 
 
 (defun toggle-window-split ()

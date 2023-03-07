@@ -12,9 +12,11 @@
 (global-display-line-numbers-mode 1) ; Turn this on for line numbers
 (transient-mark-mode t)              ; highlight the active region
 
-(setq scroll-margin 0                    ; how far from top to start scrolling
-      scroll-preserve-screen-position 1  ; keep point at screen position when scrolling
-      scroll-step 1                      ; number of lines to scroll
+(setq set-mark-command-repeat-pop t)
+
+(setq scroll-margin 0                   ; how far from top to start scrolling
+      scroll-preserve-screen-position 1 ; keep point at screen position when scrolling
+      scroll-step 1                     ; number of lines to scroll
       scroll-conservatively 10000)       ; scrolls up to 10000 lines to bring point barely on screen
 
 (show-paren-mode 1)

@@ -57,7 +57,6 @@
 ;; M-x inside M-x, do shell stuff inside C-x C-f, etc.
 (setq enable-recursive-minibuffers t)
 (minibuffer-depth-indicate-mode t)
-
-
+(setq-default dabbrev-case-fold-search nil )
 
 (provide 'my-system)
