@@ -128,7 +128,7 @@
          (org-mode . display-fill-column-indicator-mode))
   :bind (:map org-mode-map ("C-'" . avy-goto-char-timer))
   :bind (("C-c a" . org-agenda)
-         ("C-c c" . org-capture))
+         ("C-c C" . org-capture))
   :config (progn (setq org-catch-invisible-edits 'show-and-error
                        org-startup-folded t
                        org-hide-block-startup t
@@ -136,19 +136,21 @@
                        org-hide-leading-stars t
                        org-todo-keywords '((sequence "TODO(t)" "|" "DONE(D!)")
                                            (sequence
-                                            "TD(t)" "WA(w)" "IP(i)" "CR(c)" "PR(p)" "RT(r)" "DP(d)" "|" "DN(D!)" "CA(C!)"))
+                                            "TD(t)" "BL(b)" "IP(i)" "CR(c)" "PR(p)" "RT(r)" "DP(d)" "|" "DN(D!)" "CA(C!)" "MOVED(M!)"))
                        org-use-fast-todo-selection 'expert
                        org-todo-keyword-faces '(("TODO" . "red")
-                                                ("WA" . "BlueViolet")
                                                 ("DONE" . "lightGreen")
                                                 ("TD" . "red")
+                                                ("BL" . "BlueViolet")
                                                 ("IP" . "yellow")
                                                 ("CR" . "SeaGreen1")
                                                 ("PR" . "SeaGreen2")
                                                 ("RT" . "SeaGreen3")
                                                 ("DP" . "SeaGreen4")
                                                 ("DN" . "DodgerBlue")
-                                                ("CA" . "DimGray"))
+                                                ("CA" . "DimGray")
+                                                ("MOVED" . "Gray")
+                                                )
                        org-directory "~/org/"
                        org-capture-templates `(
                                                ("i" "Inbox" entry (file "inbox.org")
@@ -167,13 +169,16 @@
                        org-format-latex-options (plist-put org-format-latex-options :scale 3.0)
                        org-adapt-indentation t
                        org-use-speed-commands t
-                       org-agenda-custom-commands '(("g" "Fortnight Agenda" ((agenda "" ((org-agenda-span 14)))))))
+                       org-agenda-custom-commands '(("g" "Fortnight Agenda" ((agenda "" ((org-agenda-span 14))))))
+                       org-priority-highest 0
+                       org-priority-lowest 9
+                       org-priority-default 5)
                  (set-face-foreground 'org-block "#888")
                  (set-face-foreground 'org-code "aquamarine")
                  (set-face-foreground 'org-verbatim "#888"))
   (add-to-list 'org-modules 'org-habit))
 
-;(unbind-key "C-c n d") ; what was this for??
+                                        ;(unbind-key "C-c n d") ; what was this for??
 (use-package org-roam
   :init
   (setq org-roam-v2-ack t)
@@ -194,10 +199,6 @@
                                                "* %?"
                                                :target (file+head "%<%Y-%m-%d>.org"
                                                                   "#+title: %<%Y-%m-%d>\n")))))
-
-(use-package org-bullets
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 (use-package ob-C
   :ensure nil
@@ -230,14 +231,31 @@
                      (and matching (char-syntax matching)))))))
 
 
+(defun julian/projectile-insert-relative-filename ()
+  (interactive)
+  (let* ((project-root (projectile-acquire-root))
+         (file (projectile-completing-read "Pick file: " (projectile-project-files project-root)))
+         (filename (expand-file-name file project-root)))
+
+    (insert (file-relative-name filename project-root))))
+
 (use-package projectile
   :diminish projectile-mode
   :config (progn
             (add-to-list 'projectile-globally-ignored-directories "node_modules")
+            (add-to-list 'projectile-globally-ignored-directories "dist")
             (setq projectile-switch-project-action #'magit)
             (projectile-mode t))
   :bind (:map projectile-mode-map
-              ("s-p" . 'projectile-command-map)))
+              ("s-p" . 'projectile-command-map)
+              ("C-c I" . julian/projectile-insert-relative-filename)))
+
+;; ; EXAMPLE DIR LOCALS FOR PROJECTILE PROJECT
+;; ; these get "s-p t" to work
+;; ((nil . ((projectile-project-name . "API")
+;;          (projectile-project-test-suffix . ".ispec")
+;;          (projectile-project-test-dir . "test-integration/"))))
+
 
 (defun julian/projectile-relative-filename ()
   (interactive)
@@ -303,7 +321,8 @@
   :init (progn (global-undo-tree-mode) (setq undo-tree-visualizer-timestamps t))
   :bind (("s-u" . undo-tree-visualize))
   :config (setq undo-tree-history-directory-alist '(("." . "/.emacs.d/undo/"))
-                undo-tree-auto-save-history nil))
+                undo-tree-auto-save-history nil
+                undo-tree-enable-undo-in-region t))
 
 (use-package which-key
   :diminish which-key-mode
@@ -377,7 +396,20 @@
               ("M-A" . marginalia-cycle))
   :init (marginalia-mode))
 
-(use-package consult)
+;; default to default directory instead of project dir
+(defun julian/consult-grep-here (&optional dir)
+  (interactive "P")
+  (consult-grep (if dir dir default-directory)))
+
+(use-package consult
+  :bind (("C-c c g" . julian/consult-grep-here)
+         ("C-c c l" . consult-line)
+         ("C-c c f" . consult-find)
+         ("C-c c m" . consult-mark)
+         ("C-c c b" . consult-buffer)
+         ("C-c c F" . consult-focus-lines)))
+
+(bind-keys )
 
 (use-package embark
   :bind (("C-." . embark-act)
@@ -518,7 +550,12 @@
          ("C-c C-w b" . eyebrowse-prev-window-config)
          ("C-c C-w C-b" . eyebrowse-prev-window-config))
   :config
-  (eyebrowse-mode t))
+  (eyebrowse-mode t)
+
+  (unless (assoc 'eyebrowse-mode frame-title-format)
+    (push '(eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))
+          (cdr (last mode-line-misc-info))))
+  (delq (assoc 'eyebrowse-mode mode-line-misc-info) mode-line-misc-info))
 
 (require 'eyebrowse)
 

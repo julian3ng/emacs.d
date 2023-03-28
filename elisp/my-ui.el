@@ -82,5 +82,7 @@
          mode-line-misc-info
          mode-line-end-spaces))
 
+(add-hook 'prog-mode-hook 'hs-minor-mode)
+
 
 (provide 'my-ui)
