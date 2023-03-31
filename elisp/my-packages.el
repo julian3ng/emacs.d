@@ -14,7 +14,7 @@
 (use-package py-autopep8)
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(load-theme 'selenized t)
+(load-theme 'kanagawa t)
 
 (use-package ace-window
   :config
@@ -47,18 +47,30 @@
 
 (use-package elfeed
   :bind (("C-c e" . elfeed))
-  :config (setq elfeed-feeds '(("http://feeds.bbci.co.uk/news/video_and_audio/world/rss.xml" news world)
-                               ("https://www.techmeme.com/feed.xml" news tech)
-                               ("https://www.engadget.com/rss.xml" news tech)
-                               ("http://rss.slashdot.org/Slashdot/slashdotMain" news tech)
-                               ("https://www.wired.com/feed/rss" news tech)
+  :config (setq elfeed-feeds '(("https://www.wired.com/feed/rss" news tech)
                                ("https://css-tricks.com/feed/" tech)
                                ("https://feeds.feedburner.com/codinghorror" blog tech)
                                ("https://jvns.ca/atom.xml" blog tech)
-                               ("https://feeds.feedburner.com/codinghorror" blog tech)
                                ("https://slatestarcodex.com/feed/" blog)
+                               ("https://feeds.ign.com/ign/games-all" games)
+                               ("https://polygon.com/rss/index.xml" games)
                                ("https://mathbabe.org/feed/" blog math)
-)))
+                               ("https://ciechanow.ski/atom.xml" blog css)))
+  (setq-default elfeed-search-filter "@1-month-ago +unread")
+
+  ;; filters
+  ;; press "s" to start edit the filter
+  ;; +/- requires/diables a tag
+  ;; ex. +games -blog
+  ;; @ starts a date / date range
+  ;; ex. @10-days-ago--5-days-ago
+  ;; ! inverts regex
+  ;; = matches regex on entry's title or url (entry matches if hits at least one =)
+  ;; ~ inverts regex on entry's title or url
+  ;; # restricts number of entries
+  ;; 
+  )
+
 
 ;; HTML/CSS expansion
 (use-package emmet-mode :diminish emmet-mode)
@@ -128,7 +140,8 @@
          (org-mode . display-fill-column-indicator-mode))
   :bind (:map org-mode-map ("C-'" . avy-goto-char-timer))
   :bind (("C-c a" . org-agenda)
-         ("C-c C" . org-capture))
+         ("C-c C" . org-capture)
+         ("C-c l" . org-store-link))
   :config (progn (setq org-catch-invisible-edits 'show-and-error
                        org-startup-folded t
                        org-hide-block-startup t

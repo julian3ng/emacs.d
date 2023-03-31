@@ -57,6 +57,8 @@
 (require 'my-keybinds)
 (require 'my-packages)
 ;(add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp/bqn-mode/"))
+(require 'my-meow)
+                                        ;(add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp/bqn-mode/"))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

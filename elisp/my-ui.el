@@ -59,11 +59,20 @@
 (set-window-margins nil 0 0) ; what are margins for?
 (setq-default fill-column 80) ; wraparound column
 
-(setq frame-title-format
-      '(buffer-file-name "%b - %f" ; File buffer
-        (dired-directory dired-directory ; Dired buffer
-         (revert-buffer-function "%b" ; Buffer Menu
-          ("%b - Dir: " default-directory)))))
+(setq frame-title-format '(
+                           "<"
+                           (eyebrowse-mode (:eval
+                                            (number-to-string (eyebrowse--get 'current-slot))))
+                           ">"
+                           " "
+                           (eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))))
+
+(setq header-line-format '((buffer-file-name
+                            "%b - %f"                        ; File buffer
+                            (dired-directory dired-directory ; Dired buffer
+                                             (revert-buffer-function "%b" ; Buffer Menu
+                                                                     ("%b - Dir: " default-directory)))
+                            "test")))
 
 (setq  mode-line-format
        '("%e"
@@ -84,5 +93,7 @@
 
 (add-hook 'prog-mode-hook 'hs-minor-mode)
 
+(when (>= emacs-major-version 29)
+  (pixel-scroll-precision-mode 1))
 
 (provide 'my-ui)
