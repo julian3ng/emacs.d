@@ -254,13 +254,14 @@
 
 (use-package projectile
   :diminish projectile-mode
+  :init (projectile-mode +1)
   :config (progn
             (add-to-list 'projectile-globally-ignored-directories "node_modules")
             (add-to-list 'projectile-globally-ignored-directories "dist")
             (setq projectile-switch-project-action #'magit)
             (projectile-mode t))
   :bind (:map projectile-mode-map
-              ("s-p" . 'projectile-command-map)
+              ("s-p" . projectile-command-map)
               ("C-c I" . julian/projectile-insert-relative-filename)))
 
 ;; ; EXAMPLE DIR LOCALS FOR PROJECTILE PROJECT

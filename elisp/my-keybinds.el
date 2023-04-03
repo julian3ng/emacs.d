@@ -28,6 +28,7 @@
 (unbind-key (kbd "s-h"))
 (unbind-key (kbd "s-l"))
 (unbind-key (kbd "s-o"))
+(unbind-key (kbd "s-p"))
 
 
 
