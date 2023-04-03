@@ -96,4 +96,9 @@
 (when (>= emacs-major-version 29)
   (pixel-scroll-precision-mode 1))
 
+(when (>= emacs-major-version 29)
+  (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+)
+
 (provide 'my-ui)

@@ -1,5 +1,23 @@
+
+
 (defun meow-setup ()
+  (setq meow-char-thing-table
+        '((?\) . round)
+          (?\( . round)
+          (?\[ . square)
+          (?\] . square)
+          (?\{ . curly)
+          (?\ . curly)          
+          (?\" . string)
+          (?\' . symbol)
+          (?w . window)
+          (?b . buffer)
+          (?p . paragraph)
+          (?l . line)
+          (?f . defun)
+          (?. . sentence)))
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
+  (add-to-list 'meow-mode-state-list '(elfeed-search-mode . motion))
   (meow-motion-overwrite-define-key
    '("j" . meow-next)
    '("k" . meow-prev)
@@ -83,6 +101,7 @@
    '("z" . meow-pop-selection)
    '("'" . repeat)
    '("<escape>" . ignore)))
+
 
 (use-package meow
   :config
