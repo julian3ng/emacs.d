@@ -1,5 +1,3 @@
-
-
 (defun meow-setup ()
   (setq meow-char-thing-table
         '((?\) . round)
@@ -18,6 +16,8 @@
           (?. . sentence)))
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
   (add-to-list 'meow-mode-state-list '(elfeed-search-mode . motion))
+  (add-to-list 'meow-mode-state-list '(helpful-mode . motion))
+  (add-to-list 'meow-mode-state-list '(help-mode . motion))
   (meow-motion-overwrite-define-key
    '("j" . meow-next)
    '("k" . meow-prev)
@@ -51,6 +51,7 @@
    '("2" . meow-expand-2)
    '("1" . meow-expand-1)
    '("-" . negative-argument)
+   '("=" . er/expand-region)
    '(";" . meow-reverse)
    '("," . meow-inner-of-thing)
    '("." . meow-bounds-of-thing)
