@@ -1,3 +1,4 @@
+(use-package autothemer)
 (use-package erc
      :config
      (setq erc-server "irc.libera.chat"
@@ -193,7 +194,8 @@
                  (set-face-foreground 'org-block "#888")
                  (set-face-foreground 'org-code "aquamarine")
                  (set-face-foreground 'org-verbatim "#888"))
-  (add-to-list 'org-modules 'org-habit))
+  (add-to-list 'org-modules 'org-habit)
+  (add-to-list 'org-emphasis-alist '("/" (:foreground "red"))))
 
                                         ;(unbind-key "C-c n d") ; what was this for??
 (use-package org-roam
@@ -619,9 +621,9 @@
   (global-visible-mark-mode t)
   (setq visible-mark-max 3))
 
-(use-package minions
-  :bind (("M-~" . minions-minor-modes-menu))
-  :config (minions-mode 1))
+;; (use-package minions
+;;   :bind (("M-~" . minions-minor-modes-menu))
+;;   :config (minions-mode 1))
 
 (use-package apheleia
   :config (apheleia-global-mode +1))
