@@ -25,12 +25,12 @@
   ("M-o" . ace-window)
   ("C-x o" . other-window))
 
-(use-package all-the-icons)
-(use-package all-the-icons-completion
-  :after (marginalia all-the-icons)
-  :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
-  :init
-  (all-the-icons-completion-mode))
+;; (use-package all-the-icons)
+;; (use-package all-the-icons-completion
+;;   :after (marginalia all-the-icons)
+;;   :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
+;;   :init
+;;   (all-the-icons-completion-mode))
 
 (use-package avy
   :bind (("C-'" . avy-goto-char)
@@ -55,7 +55,9 @@
                                ("https://feeds.ign.com/ign/games-all" games)
                                ("https://polygon.com/rss/index.xml" games)
                                ("https://mathbabe.org/feed/" blog math)
-                               ("https://ciechanow.ski/atom.xml" blog css)))
+                               ("https://ciechanow.ski/atom.xml" blog css)
+                               ("https://planet.emacslife.com/atom.xml" blog emacs)))
+  (setq shr-inhibit-images t)
   (setq-default elfeed-search-filter "@1-month-ago +unread")
 
   ;; filters
@@ -129,7 +131,9 @@
          ("C-c M-g" . magit-dispatch)
          ("C-c g" . magit-file-dispatch))
   :config
-  (setq magit-process-finish-apply-ansi-colors t
+  (setq
+   git-commit-major-mode 'markdown-mode
+   magit-process-finish-apply-ansi-colors t
         magit-status-margin '(nil age magit-log-margin-width nil 18)))
 
 
@@ -258,7 +262,8 @@
   :config (progn
             (add-to-list 'projectile-globally-ignored-directories "node_modules")
             (add-to-list 'projectile-globally-ignored-directories "dist")
-            (setq projectile-switch-project-action #'magit)
+            (setq projectile-switch-project-action #'magit
+                  projectile-create-missing-test-files t)
             (projectile-mode t))
   :bind (:map projectile-mode-map
               ("s-p" . projectile-command-map)
@@ -356,7 +361,7 @@
 (use-package writeroom-mode
   :bind (("C-z z" . writeroom-mode))
   :config
-  (setq writeroom-width 80
+  (setq writeroom-width 100
         writeroom-fullscreen-effect 'maximized))
 
 

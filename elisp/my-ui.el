@@ -53,43 +53,42 @@
 (global-subword-mode 1)
 
 ;; Margins and stuff
-(fringe-mode '(0 . 0))
+(fringe-mode 8)
+(set-face-foreground 'fringe "cyan")
 
 
 (set-window-margins nil 0 0) ; what are margins for?
 (setq-default fill-column 80) ; wraparound column
 
-(setq frame-title-format '(
-                           "<"
-                           (eyebrowse-mode (:eval
-                                            (number-to-string (eyebrowse--get 'current-slot))))
-                           ">"
-                           " "
-                           (eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))))
+(setq-default frame-title-format '(
+                                   "<"
+                                   (eyebrowse-mode (:eval
+                                                    (number-to-string (eyebrowse--get 'current-slot))))
+                                   ">"
+                                   " "
+                                   (eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))))
 
-(setq header-line-format '((buffer-file-name
-                            "%b - %f"                        ; File buffer
-                            (dired-directory dired-directory ; Dired buffer
-                                             (revert-buffer-function "%b" ; Buffer Menu
-                                                                     ("%b - Dir: " default-directory)))
-                            "test")))
+(setq-default header-line-format '((buffer-file-name (:eval (abbreviate-file-name buffer-file-name)))
+                                   (dired-directory dired-directory)  ; Dired buffer
+                                   ;("%b - Dir: " default-directory)
+                                   ))
 
-(setq  mode-line-format
-       '("%e"
-         mode-line-front-space
-         mode-line-mule-info
-         mode-line-client
-         mode-line-modified
-         mode-line-remote
-         mode-line-frame-identification
-         mode-line-buffer-identification
-         "   "
-         mode-line-position
-         (vc-mode vc-mode)
-         "  "
-         mode-line-modes
-         mode-line-misc-info
-         mode-line-end-spaces))
+(setq-default  mode-line-format
+               '("%e"
+                 mode-line-front-space
+                 mode-line-mule-info
+                 mode-line-client
+                 mode-line-modified
+                 mode-line-remote
+                 mode-line-frame-identification
+                 mode-line-buffer-identification
+                 "   "
+                 mode-line-position
+                 (vc-mode vc-mode)
+                 "  "
+                 mode-line-modes
+                 mode-line-misc-info
+                 mode-line-end-spaces))
 
 (add-hook 'prog-mode-hook 'hs-minor-mode)
 
@@ -100,5 +99,9 @@
   (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
 )
+
+(setq-default show-trailing-whitespace t)
+(setq-default indicate-empty-lines t)
+(setq-default indicate-buffer-boundaries 'left)
 
 (provide 'my-ui)
