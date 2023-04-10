@@ -77,9 +77,20 @@
    `(rainbow-delimiters-depth-8-face ((t (:inherit outline-8))))
    `(rainbow-delimiters-depth-9-face ((t (:foreground "#BCA3A3"))))
    `(yas-field-highlight-face ((t (:background ,bg2))))
-   ;; '(secondary-selection ((t (:background "#272822"))))
-   ;; '(shadow ((t (:foreground "#465457"))))
-   ))
+   `(org-level-1 ((t (:inherit outline-1))))
+   `(org-level-2 ((t (:inherit outline-2))))
+   `(org-level-3 ((t (:inherit outline-3))))
+   `(org-level-4 ((t (:inherit outline-4))))
+   `(org-level-5 ((t (:inherit outline-5))))
+   `(org-level-6 ((t (:inherit outline-6))))
+   `(org-level-7 ((t (:inherit outline-7))))
+   `(org-level-8 ((t (:inherit outline-8))))
+   `(org-hide ((t (:background ,bg0 :foreground ,bg0))))
+   `(trailing-whitespace ((t (:background ,bg2))))
+   `(fringe ((t (:background ,bg0 :foreground ,lightCyan))))
+   `(mode-line-active ((t (:background ,fg0 :foreground ,bg0))))
+   `(mode-line-inactive ((t (:background ,dim0 :foreground ,bg0))))
+   `(header-line ((t (:background ,bg0 :foreground ,fg1 :underline t :overline t ))))))
 
 ;;;###autoload
 (when load-file-name

@@ -15,7 +15,7 @@
 (use-package py-autopep8)
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(load-theme 'kanagawa t)
+(load-theme 'selenized t)
 
 (use-package ace-window
   :config
@@ -627,5 +627,10 @@
 
 (use-package apheleia
   :config (apheleia-global-mode +1))
+
+(use-package eat
+  :hook (eshell-load-hook . eat-eshell-mode)
+  :hook (eshell-load-hook . eat-eshell-visual-command-mode))
+
 
 (provide 'my-packages)

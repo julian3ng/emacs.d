@@ -31,7 +31,8 @@
 ;;         ("org"   . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/org/")
 ;;         ("gnu"   . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/gnu/")))
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-             ("melpa" . "https://melpa.org/packages/")))
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
 
 (package-initialize)
 
