@@ -57,7 +57,7 @@
 (set-face-foreground 'fringe "cyan")
 
 
-(set-window-margins nil 0 0) ; what are margins for?
+;; (set-window-margins nil 0 0) ; what are margins for?
 (setq-default fill-column 80) ; wraparound column
 
 (setq-default frame-title-format '(
@@ -103,5 +103,7 @@
 (setq-default show-trailing-whitespace t)
 (setq-default indicate-empty-lines t)
 (setq-default indicate-buffer-boundaries 'left)
+(setq sentence-end-double-space nil)
+(whitespace-mode t)
 
 (provide 'my-ui)

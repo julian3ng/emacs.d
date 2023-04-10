@@ -363,7 +363,7 @@
 (use-package writeroom-mode
   :bind (("C-z z" . writeroom-mode))
   :config
-  (setq writeroom-width 100
+  (setq writeroom-width 90
         writeroom-fullscreen-effect 'maximized))
 
 
