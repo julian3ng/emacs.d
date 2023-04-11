@@ -60,18 +60,17 @@
 ;; (set-window-margins nil 0 0) ; what are margins for?
 (setq-default fill-column 80) ; wraparound column
 
-(setq-default frame-title-format '(
-                                   "<"
-                                   (eyebrowse-mode (:eval
-                                                    (number-to-string (eyebrowse--get 'current-slot))))
-                                   ">"
-                                   " "
-                                   (eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))))
+(setq-default frame-title-format
+              '(
+                "<"
+                (eyebrowse-mode (:eval (number-to-string (eyebrowse--get 'current-slot))))
+                ">"
+                " "
+                (eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))))
 
-(setq-default header-line-format '((buffer-file-name (:eval (abbreviate-file-name buffer-file-name)))
-                                   (dired-directory dired-directory)  ; Dired buffer
-                                   ;("%b - Dir: " default-directory)
-                                   ))
+(setq-default header-line-format
+              '((buffer-file-name (:eval (abbreviate-file-name buffer-file-name)))
+                (dired-directory dired-directory)))
 
 (setq-default  mode-line-format
                '("%e"
@@ -105,5 +104,6 @@
 (setq-default indicate-buffer-boundaries 'left)
 (setq sentence-end-double-space nil)
 (whitespace-mode t)
+(setq-default truncate-lines t)
 
 (provide 'my-ui)

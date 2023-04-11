@@ -34,7 +34,7 @@
 ;;   (all-the-icons-completion-mode))
 
 (use-package avy
-  :bind (("C-'" . avy-goto-char)
+  :bind (("C-'" . avy-goto-char-timer)
          ("M-g l" . avy-goto-line)
          ("M-g c" . avy-goto-char-2)
          ("M-g w" . avy-goto-word)
@@ -292,7 +292,9 @@
   :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode-enable))
 
 
-(use-package restclient)
+(use-package restclient
+  :config (add-to-list 'auto-mode-alist '("\\.restclient\\'" . restclient-mode))
+  )
 
 
 ;;(use-package enh-ruby-mode)
