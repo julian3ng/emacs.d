@@ -18,10 +18,7 @@
   (add-to-list 'meow-mode-state-list '(elfeed-search-mode . motion))
   (add-to-list 'meow-mode-state-list '(helpful-mode . motion))
   (add-to-list 'meow-mode-state-list '(help-mode . motion))
-  (meow-motion-overwrite-define-key
-   '("j" . meow-next)
-   '("k" . meow-prev)
-   '("<escape>" . ignore))
+  (meow-motion-overwrite-define-key '("<escape>" . ignore))
   (meow-leader-define-key
    ;; SPC j/k will run the original command in MOTION state.
    '("j" . "H-j")

@@ -104,6 +104,6 @@
 (setq-default indicate-buffer-boundaries 'left)
 (setq sentence-end-double-space nil)
 (whitespace-mode t)
-(setq-default truncate-lines t)
+(setq-default truncate-lines nil)
 
 (provide 'my-ui)
