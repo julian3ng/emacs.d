@@ -411,7 +411,7 @@
   ;;       orderless-component-separator #'orderless-escapable-split-on-space)
   (setq completion-styles '(orderless basic)
         completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
+        completion-category-overrides '((file (styles basic partial-completion)))))
 
 ;; Enable rich annotations using the Marginalia package
 (use-package marginalia
@@ -458,6 +458,17 @@
 (use-package company-web)
 (use-package company-lua)
 ;; Completion backend
+
+(defun julian/cape-capf-setup ()
+  (let ((result))
+    (add-to-list 'completion-at-point-functions (cape-company-to-capf #'company-emoji))
+    (dolist (capf '(cape-dabbrev cape-file) result)
+      (add-to-list 'completion-at-point-functions capf))))
+
+(defun julian/cape-capf-setup-lua ()
+  (julian/cape-capf-setup)
+  (add-to-list 'completion-at-point-functions (cape-company-to-capf #'company-lua)))
+
 (use-package cape
   :bind (("C-c C-p p" . completion-at-point) ;; capf
          ("C-c C-p t" . complete-tag)        ;; etags
@@ -475,15 +486,7 @@
          ("C-c C-p ^" . cape-tex)
          ("C-c C-p &" . cape-sgml)
          ("C-c C-p r" . cape-rfc1345))
-  :init
-  (defun julian/cape-capf-setup ()
-    (let ((result))
-      (add-to-list 'completion-at-point-functions (cape-company-to-capf #'company-emoji))
-      (dolist (capf '(cape-dabbrev cape-file) result)
-        (add-to-list 'completion-at-point-functions capf))))
-  (defun julian/cape-capf-setup-lua ()
-    (julian/cape-capf-setup)
-    (add-to-list 'completion-at-point-functions (cape-company-to-capf #'company-lua)))
+
   :hook (prog-mode . julian/cape-capf-setup)
   :hook (lua-mode . julian/cape-capf-setup-lua)
   :config

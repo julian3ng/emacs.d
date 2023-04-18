@@ -58,5 +58,5 @@
 (setq enable-recursive-minibuffers t)
 (minibuffer-depth-indicate-mode t)
 (setq-default dabbrev-case-fold-search nil )
-
+(setq tramp-default-method "ssh")
 (provide 'my-system)
