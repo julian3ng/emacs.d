@@ -16,6 +16,7 @@
           (?. . sentence)))
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
   (add-to-list 'meow-mode-state-list '(elfeed-search-mode . motion))
+  (add-to-list 'meow-mode-state-list '(eat-mode . motion))
   (add-to-list 'meow-mode-state-list '(helpful-mode . motion))
   (add-to-list 'meow-mode-state-list '(help-mode . motion))
   (meow-motion-overwrite-define-key '("<escape>" . ignore))
@@ -104,6 +105,7 @@
 (use-package meow
   :config
   (meow-setup)
-  (meow-global-mode 1))
+  ;(meow-global-mode 1)
+  )
 
 (provide 'my-meow)

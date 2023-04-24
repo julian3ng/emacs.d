@@ -615,12 +615,20 @@
 ;;   (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescript-tsx-mode))
 ;;   (setq typescript-indent-level 2))
 
-(use-package nyan-mode
+;; (use-package nyan-mode
+;;   :config
+;;   (setq nyan-bar-length 8)
+;;   (nyan-mode 1)
+;;   (nyan-start-animation)
+;;   (nyan-toggle-wavy-trail)
+;;   )
+
+
+(use-package poke-line
   :config
-  (setq nyan-bar-length 8)
-  (nyan-mode 1)
-  (nyan-start-animation)
-  (nyan-toggle-wavy-trail))
+  (poke-line-global-mode)
+  (poke-line-set-pokemon "gengar"))
+
 
 (defun julian/push-mark-no-activate ()
   (interactive)

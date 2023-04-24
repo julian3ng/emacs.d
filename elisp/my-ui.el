@@ -106,4 +106,11 @@
 (whitespace-mode t)
 (setq-default truncate-lines nil)
 
+(defun julian/ui-flash-fringe ()
+  "Flash the fringe on error or warning instead of the bell."
+  (invert-face 'fringe)
+  (run-with-timer 0.1 nil #'invert-face 'fringe))
+
+(setq ring-bell-function #'julian/ui-flash-fringe)
+
 (provide 'my-ui)
