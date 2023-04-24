@@ -49,6 +49,8 @@
 ;; Cursor
 (setq-default cursor-type 'box)
 (blink-cursor-mode 1)
+(setq blink-cursor-blinks 0) ; blink forever
+
 
 (global-subword-mode 1)
 
