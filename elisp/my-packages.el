@@ -596,13 +596,13 @@
 
 (use-package smerge-mode
   :ensure nil
-  :bind (:prefix-map smerge-mode-map :prefix "C-c C-s"
-                     ("n" . smerge-next)
-                     ("p" . smerge-prev)
-                     ("r" . smerge-refine)
-                     ("a" . smerge-keep-all)
-                     ("l" . smerge-keep-lower)
-                     ("u" . smerge-keep-upper)))
+  :bind (:map smerge-mode-map
+              ("C-c C-s n" . smerge-next)
+              ("C-c C-s p" . smerge-prev)
+              ("C-c C-s r" . smerge-refine)
+              ("C-c C-s a" . smerge-keep-all)
+              ("C-c C-s l" . smerge-keep-lower)
+              ("C-c C-s u" . smerge-keep-upper)))
 
 (use-package iedit
   :bind ("C-c i" . iedit-mode))
