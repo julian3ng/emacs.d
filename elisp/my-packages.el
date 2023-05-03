@@ -48,7 +48,9 @@
 
 (use-package elfeed
   :bind (("C-c e" . elfeed))
-  :config (setq elfeed-feeds '(("https://www.wired.com/feed/rss" news tech)
+  :config (setq elfeed-feeds '(("https://news.ycombinator.com/rss" news tech)
+                               ("https://lobste.rs/rss" news tech)
+                               ("https://www.wired.com/feed/rss" news tech)
                                ("https://css-tricks.com/feed/" tech)
                                ("https://feeds.feedburner.com/codinghorror" blog tech)
                                ("https://jvns.ca/atom.xml" blog tech)
@@ -139,10 +141,14 @@
 
 
 
+
 ;; ORG MODE CONFIG ============================================================
 (use-package org
-  :hook ((org-mode . auto-fill-mode)
-         (org-mode . display-fill-column-indicator-mode))
+  :hook ((org-mode . (lambda () (display-line-numbers-mode 0)))
+         (org-mode . (lambda () (display-fill-column-indicator-mode 0)))
+         (org-mode . olivetti-mode)
+         (org-mode . visual-line-mode)
+         (org-mode . variable-pitch-mode))
   :bind (:map org-mode-map ("C-'" . avy-goto-char-timer))
   :bind (("C-c a" . org-agenda)
          ("C-c C" . org-capture)
@@ -193,9 +199,26 @@
                        org-priority-default 5)
                  (set-face-foreground 'org-block "#888")
                  (set-face-foreground 'org-code "aquamarine")
-                 (set-face-foreground 'org-verbatim "#888"))
-  (add-to-list 'org-modules 'org-habit)
-  (add-to-list 'org-emphasis-alist '("/" (:foreground "red"))))
+                 (set-face-foreground 'org-verbatim "#888")
+                 ;; (custom-theme-set-faces
+                 ;;  'user
+                 ;;  'hl-line ((t (:underline t)))
+                 ;;  '(variable-pitch ((t (:family "ETBembo" :height 160 :weight normal ))))
+                 ;;  '(fixed-pitch ((t (:family "Fira Code" :height 120))))
+                 ;;  '(org-block ((t (:inherit fixed-pitch))))
+                 ;;  '(org-code ((t (:foreground "#00ffbb" :inherit (shadow fixed-pitch)))))
+                 ;;  '(org-document-info ((t (:foreground "dark orange"))))
+                 ;;  '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
+                 ;;  '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
+                 ;;  '(org-link ((t (:foreground "royal blue" :underline t))))
+                 ;;  '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+                 ;;  '(org-property-value ((t (:inherit fixed-pitch))) t)
+                 ;;  '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+                 ;;  '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
+                 ;;  '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
+                 ;;  '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
+                 (add-to-list 'org-modules 'org-habit)
+                 (add-to-list 'org-emphasis-alist '("/" (:foreground "red")))))
 
                                         ;(unbind-key "C-c n d") ; what was this for??
 (use-package org-roam
@@ -385,6 +408,16 @@
 (use-package ligature
   :config
   (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+                                     ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+                                     "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+                                     "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+                                     "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+                                     "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+                                     "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+                                     "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+                                     "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+                                     "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+  (ligature-set-ligatures 'org-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
                                      ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
                                      "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
                                      "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
