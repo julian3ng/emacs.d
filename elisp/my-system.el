@@ -9,6 +9,7 @@
 (set-register ?S '(file . "~/.emacs.d/elisp/my-system.el"))
 (set-register ?T '(file . "~/org/tracker.org"))
 (set-register ?U '(file . "~/.emacs.d/elisp/my-ui.el"))
+(set-register ?Y '(file . "~/.emacs.d/snippets"))
 
 ;; Coding stuff ===============================================================
 (setq-default indent-tabs-mode nil
@@ -39,6 +40,9 @@
                ("go" (mode . go-mode))))))
 
 (add-hook 'ibuffer-mode-hook (lambda () (ibuffer-switch-to-saved-filter-groups "default")))
+
+;; js ================================
+(setq js-indent-level 2)
 
 
 ;; tramp

@@ -57,6 +57,22 @@
           (select-window first-win)
           (if this-win-2nd (other-window 1))))))
 
+(defun julian/copy-location-and-basename ()
+  (interactive)
+  (let ((locstring
+         (concat
+          (if (buffer-file-name)
+              (file-relative-name (buffer-file-name))
+              (buffer-name))
+          ":"
+          (number-to-string (1+ (current-line))))))
+    (kill-new locstring)
+    (message locstring)))
+
+
+(unbind-key (kbd "s-j"))
+(global-set-key (kbd "s-j g") 'julian/copy-location-and-basename)
+
 (global-set-key (kbd "C-x |") 'toggle-window-split)
 
 (provide 'my-keybinds)

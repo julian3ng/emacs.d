@@ -118,16 +118,6 @@
          ("C-h k" . helpful-key)
          ("C-h C" . helpful-command)))
 
-;; (use-package ivy :diminish ivy-mode
-;;   :config
-;;   (progn
-;;     (ivy-mode 1)
-;;     (setq ivy-use-virtual-buffers t)
-;;     (setq ivy-initial-inputs-alist nil)
-;;     (setq ivy-re-builders-alist
-;;           '((t . ivy--regex-ignore-order)))
-;;     (setq ivy-count-format "%d/%d ")))
-
 (use-package magit
   :bind (
          ("C-x g" . magit-status)
@@ -137,9 +127,7 @@
   (setq
    git-commit-major-mode 'markdown-mode
    magit-process-finish-apply-ansi-colors t
-        magit-status-margin '(nil age magit-log-margin-width nil 18)))
-
-
+   magit-status-margin '(nil age magit-log-margin-width nil 18)))
 
 
 ;; ORG MODE CONFIG ============================================================
@@ -147,8 +135,7 @@
   :hook ((org-mode . (lambda () (display-line-numbers-mode 0)))
          (org-mode . (lambda () (display-fill-column-indicator-mode 0)))
          (org-mode . olivetti-mode)
-         (org-mode . visual-line-mode)
-         (org-mode . variable-pitch-mode))
+         (org-mode . visual-line-mode))
   :bind (:map org-mode-map ("C-'" . avy-goto-char-timer))
   :bind (("C-c a" . org-agenda)
          ("C-c C" . org-capture)
@@ -221,6 +208,7 @@
                  (add-to-list 'org-emphasis-alist '("/" (:foreground "red")))))
 
                                         ;(unbind-key "C-c n d") ; what was this for??
+
 (use-package org-roam
   :init
   (setq org-roam-v2-ack t)
@@ -394,11 +382,17 @@
 
 (use-package wc-mode)
 
+
 (use-package yasnippet
   :commands yas-global-mode
   :config
+  (setq yas-triggers-in-field t)
   (yas-reload-all)
-  (yas-global-mode 1))
+  (yas-global-mode 1)
+  :hook ((git-commit-setup-hook . yas-insert-snippet)))
+
+(add-hook 'git-commit-setup-hook #'yas-insert-snippet)
+
 
 (use-package common-lisp-snippets)
 (use-package geiser)
@@ -687,5 +681,11 @@
   :hook (eshell-load-hook . eat-eshell-mode)
   :hook (eshell-load-hook . eat-eshell-visual-command-mode))
 
+(use-package devil
+  :bind (("C-," . global-devil-mode)))
+
+(use-package dirvish
+  :config
+  (dirvish-override-dired-mode))
 
 (provide 'my-packages)

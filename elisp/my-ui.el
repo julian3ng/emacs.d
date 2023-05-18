@@ -28,6 +28,7 @@
 
 (global-font-lock-mode t) ; always syntax highlight
 (global-hl-line-mode t)   ; always highlight current line
+
 (setq visible-bell t) ; use a visible bell
 (setq ring-bell-function 'ignore) ; call 'ignore when bell would ring
 
@@ -83,10 +84,9 @@
                  mode-line-remote
                  mode-line-frame-identification
                  mode-line-buffer-identification
-                 "   "
+                 " "
                  mode-line-position
-                 (vc-mode vc-mode)
-                 "  "
+                 " "
                  mode-line-modes
                  mode-line-misc-info
                  mode-line-end-spaces))
@@ -97,9 +97,9 @@
   (pixel-scroll-precision-mode 1))
 
 (when (>= emacs-major-version 29)
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . js-ts-mode))
   (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
-)
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode)))
 
 (setq-default show-trailing-whitespace t)
 (setq-default indicate-empty-lines t)
@@ -114,5 +114,7 @@
   (run-with-timer 0.1 nil #'invert-face 'fringe))
 
 (setq ring-bell-function #'julian/ui-flash-fringe)
+
+(setq isearch-lazy-count t)
 
 (provide 'my-ui)
