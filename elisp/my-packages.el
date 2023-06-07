@@ -15,7 +15,7 @@
 (use-package py-autopep8)
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(load-theme 'selenized t)
+;(load-theme 'selenized t)
 
 (use-package ace-window
   :config
@@ -144,7 +144,7 @@
                        org-startup-folded t
                        org-hide-block-startup t
                        org-hide-emphasis-markers nil
-                       org-hide-leading-stars t
+                       org-hide-leading-stars nil
                        org-todo-keywords '((sequence "TODO(t)" "|" "DONE(D!)")
                                            (sequence
                                             "TD(t)" "BL(b)" "IP(i)" "CR(c)" "PR(p)" "RT(r)" "DP(d)" "|" "DN(D!)" "CA(C!)" "MOVED(M!)"))
@@ -261,13 +261,15 @@
                      (and matching (char-syntax matching)))))))
 
 
-(defun julian/projectile-insert-relative-filename ()
-  (interactive)
+(defun julian/projectile-insert-relative-filename (prefix)
+  (interactive "P")
   (let* ((project-root (projectile-acquire-root))
          (file (projectile-completing-read "Pick file: " (projectile-project-files project-root)))
-         (filename (expand-file-name file project-root)))
-
-    (insert (file-relative-name filename project-root))))
+         (filename (expand-file-name file project-root))
+         (relative-filename (file-relative-name filename project-root)))
+    (if prefix
+        (insert (string-trim-right relative-filename "\\..*"))
+      (insert relative-filename))))
 
 (use-package projectile
   :diminish projectile-mode
@@ -295,6 +297,8 @@
     (let ((relative-filename (string-remove-prefix (projectile-project-root) (buffer-file-name))))
       (kill-new relative-filename)
       (message relative-filename))))
+
+(use-package prism)
 
 (use-package rainbow-mode :diminish rainbow-mode
   :config (rainbow-mode 1))
@@ -604,6 +608,8 @@
               ("s-7" . eyebrowse-switch-to-window-config-7)
               ("s-8" . eyebrowse-switch-to-window-config-8)
               ("s-9" . eyebrowse-switch-to-window-config-9)
+              ("s-}" . eyebrowse-next-window-config)
+              ("s-{" . eyebrowse-prev-window-config)              
               ("C-c C-w n" . eyebrowse-next-window-config)
               ("C-c C-w C-n" . eyebrowse-next-window-config)
               ("C-c C-w p" . eyebrowse-prev-window-config)
@@ -687,5 +693,10 @@
 (use-package dirvish
   :config
   (dirvish-override-dired-mode))
+
+(use-package sicp)
+
+(use-package modus-themes)
+(load-theme 'modus-vivendi 1)
 
 (provide 'my-packages)

@@ -63,4 +63,8 @@
 (minibuffer-depth-indicate-mode t)
 (setq-default dabbrev-case-fold-search nil )
 (setq tramp-default-method "ssh")
+
+;; switch to buffer acts like programmatic switch to buffer
+(setq switch-to-buffer-obey-display-actions t)
+
 (provide 'my-system)
