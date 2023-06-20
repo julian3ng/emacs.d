@@ -298,8 +298,6 @@
       (kill-new relative-filename)
       (message relative-filename))))
 
-(use-package prism)
-
 (use-package rainbow-mode :diminish rainbow-mode
   :hook ((prog-mode . rainbow-mode)))
 
