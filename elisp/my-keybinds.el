@@ -29,7 +29,7 @@
 (unbind-key (kbd "s-l"))
 (unbind-key (kbd "s-o"))
 (unbind-key (kbd "s-p"))
-
+(unbind-key (kbd "s-t"))
 
 
 (defun toggle-window-split ()
@@ -74,6 +74,7 @@
 (global-set-key (kbd "s-j g") 'julian/copy-location-and-basename)
 
 (global-set-key (kbd "C-x |") 'toggle-window-split)
+(repeat-mode 1)
 
 (provide 'my-keybinds)
 

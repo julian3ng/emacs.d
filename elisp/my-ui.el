@@ -57,19 +57,21 @@
 
 ;; Margins and stuff
 (fringe-mode 8)
-(set-face-foreground 'fringe "cyan")
+;; (set-face-foreground 'fringe "cyan")
 
 
 ;; (set-window-margins nil 0 0) ; what are margins for?
 (setq-default fill-column 80) ; wraparound column
 
-(setq-default frame-title-format
-              '(
-                "<"
-                (eyebrowse-mode (:eval (number-to-string (eyebrowse--get 'current-slot))))
-                ">"
-                " "
-                (eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))))
+;; (setq-default frame-title-format
+;;               '(
+;;                 "<"
+;;                 (eyebrowse-mode (:eval (number-to-string (eyebrowse--get 'current-slot))))
+;;                 ">"
+;;                 " "
+;;                 (eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))))
+
+(setq-default frame-title-format '((projectile-mode projectile-project-name)))
 
 (setq-default header-line-format
               '((buffer-file-name (:eval (abbreviate-file-name buffer-file-name)))

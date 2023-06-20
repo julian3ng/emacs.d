@@ -301,7 +301,7 @@
 (use-package prism)
 
 (use-package rainbow-mode :diminish rainbow-mode
-  :config (rainbow-mode 1))
+  :hook ((prog-mode . rainbow-mode)))
 
 (use-package rainbow-delimiters :diminish ""
   :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode-enable))
@@ -576,7 +576,15 @@
   :bind (("C-c ! n" . flymake-goto-next-error)
          ("C-c ! p" . flymake-goto-prev-error)
          ("C-c ! l" . flymake-show-buffer-diagnostics)
-         ("C-c ! L" . flymake-show-project-diagnostics)))
+         ("C-c ! L" . flymake-show-project-diagnostics)
+         :repeat-map flymake-repeat-map
+         ("n" . flymake-goto-next-error)
+         ("p" . flymake-goto-prev-error)
+         ("l" . flymake-show-buffer-diagnostics)
+         ("L" . flymake-show-project-diagnostics))
+ )
+
+
 
 
 
@@ -593,39 +601,40 @@
 ;; (require 'asdf)
 ;; (asdf-enable)
 
-(use-package eyebrowse
-  :init
-  (setq eyebrowse-new-workspace t)
-  :bind (
-         :map eyebrowse-mode-map
-              ("s-0" . eyebrowse-switch-to-window-config-0)
-              ("s-1" . eyebrowse-switch-to-window-config-1)
-              ("s-2" . eyebrowse-switch-to-window-config-2)
-              ("s-3" . eyebrowse-switch-to-window-config-3)
-              ("s-4" . eyebrowse-switch-to-window-config-4)
-              ("s-5" . eyebrowse-switch-to-window-config-5)
-              ("s-6" . eyebrowse-switch-to-window-config-6)
-              ("s-7" . eyebrowse-switch-to-window-config-7)
-              ("s-8" . eyebrowse-switch-to-window-config-8)
-              ("s-9" . eyebrowse-switch-to-window-config-9)
-              ("s-}" . eyebrowse-next-window-config)
-              ("s-{" . eyebrowse-prev-window-config)              
-              ("C-c C-w n" . eyebrowse-next-window-config)
-              ("C-c C-w C-n" . eyebrowse-next-window-config)
-              ("C-c C-w p" . eyebrowse-prev-window-config)
-              ("C-c C-w C-p" . eyebrowse-prev-window-config)
-              ("C-c C-w f" . eyebrowse-next-window-config)
-              ("C-c C-w C-f" . eyebrowse-next-window-config)
-              ("C-c C-w b" . eyebrowse-prev-window-config)
-              ("C-c C-w C-b" . eyebrowse-prev-window-config))
-  :config
-  (eyebrowse-mode t)
-  (unless (assoc 'eyebrowse-mode frame-title-format)
-    (push '(eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))
-          (cdr (last mode-line-misc-info))))
-  (delq (assoc 'eyebrowse-mode mode-line-misc-info) mode-line-misc-info))
+;; (use-package eyebrowse
+;;   :init
+;;   (setq eyebrowse-new-workspace t)
+;;   :bind (
+;;          :map eyebrowse-mode-map
+;;               ("s-0" . eyebrowse-switch-to-window-config-0)
+;;               ("s-1" . eyebrowse-switch-to-window-config-1)
+;;               ("s-2" . eyebrowse-switch-to-window-config-2)
+;;               ("s-3" . eyebrowse-switch-to-window-config-3)
+;;               ("s-4" . eyebrowse-switch-to-window-config-4)
+;;               ("s-5" . eyebrowse-switch-to-window-config-5)
+;;               ("s-6" . eyebrowse-switch-to-window-config-6)
+;;               ("s-7" . eyebrowse-switch-to-window-config-7)
+;;               ("s-8" . eyebrowse-switch-to-window-config-8)
+;;               ("s-9" . eyebrowse-switch-to-window-config-9)
+;;               ("s-}" . eyebrowse-next-window-config)
+;;               ("s-{" . eyebrowse-prev-window-config)              
+;;               ("C-c C-w n" . eyebrowse-next-window-config)
+;;               ("C-c C-w C-n" . eyebrowse-next-window-config)
+;;               ("C-c C-w p" . eyebrowse-prev-window-config)
+;;               ("C-c C-w C-p" . eyebrowse-prev-window-config)
+;;               ("C-c C-w f" . eyebrowse-next-window-config)
+;;               ("C-c C-w C-f" . eyebrowse-next-window-config)
+;;               ("C-c C-w b" . eyebrowse-prev-window-config)
+;;               ("C-c C-w C-b" . eyebrowse-prev-window-config))
+;;   :config
+;;   (eyebrowse-mode t)
+;;   (unless (assoc 'eyebrowse-mode frame-title-format)
+;;     (push '(eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))
+;;           (cdr (last mode-line-misc-info))))
+;;   (delq (assoc 'eyebrowse-mode mode-line-misc-info) mode-line-misc-info))
 
-(require 'eyebrowse)
+
+;; (require 'eyebrowse)
 
 (use-package smerge-mode
   :ensure nil
@@ -697,6 +706,11 @@
 (use-package sicp)
 
 (use-package modus-themes)
-(load-theme 'modus-vivendi 1)
+;(load-theme 'modus-vivendi 1)
+
+(use-package kaolin-themes
+  :config (load-theme 'kaolin-dark t))
+
+(use-package racket-mode)
 
 (provide 'my-packages)
