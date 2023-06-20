@@ -713,4 +713,15 @@
 
 (use-package racket-mode)
 
+(use-package emacs
+  :bind  (("s-{" . tab-previous)
+          ("s-}" . tab-next)
+          ("s-t" . tab-new)
+          :repeat-map tab-repeat-map
+          ("o" . tab-next)
+          ("O" . tab-previous)
+          ("2" . tab-new)
+          ("u" . tab-undo)
+          ("0" . tab-close)))
+
 (provide 'my-packages)
