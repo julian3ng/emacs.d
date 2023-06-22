@@ -64,7 +64,17 @@
 (setq-default dabbrev-case-fold-search nil )
 (setq tramp-default-method "ssh")
 
-;; switch to buffer acts like programmatic switch to buffer
-(setq switch-to-buffer-obey-display-actions t)
+
+;; Spaces match themselves, not one or more of themselves
+(setq search-whitespace-regexp nil)
+
+;; Highlight changes between saves
+(defun julian/flicker-highlight-changes-mode ()
+  (interactive)
+  (if highlight-changes-mode
+      (progn  (highlight-changes-mode 0) (highlight-changes-mode 1))
+    (progn  (highlight-changes-mode 1) (highlight-changes-mode 0))))
+
+;; (add-hook 'after-save-hook 'julian/flicker-highlight-changes-mode)
 
 (provide 'my-system)

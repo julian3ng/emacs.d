@@ -73,7 +73,7 @@
   ;; = matches regex on entry's title or url (entry matches if hits at least one =)
   ;; ~ inverts regex on entry's title or url
   ;; # restricts number of entries
-  ;; 
+  ;;
   )
 
 
@@ -615,7 +615,7 @@
 ;;               ("s-8" . eyebrowse-switch-to-window-config-8)
 ;;               ("s-9" . eyebrowse-switch-to-window-config-9)
 ;;               ("s-}" . eyebrowse-next-window-config)
-;;               ("s-{" . eyebrowse-prev-window-config)              
+;;               ("s-{" . eyebrowse-prev-window-config)
 ;;               ("C-c C-w n" . eyebrowse-next-window-config)
 ;;               ("C-c C-w C-n" . eyebrowse-next-window-config)
 ;;               ("C-c C-w p" . eyebrowse-prev-window-config)
@@ -710,6 +710,10 @@
   :config (load-theme 'kaolin-dark t))
 
 (use-package racket-mode)
+
+(use-package visual-regexp)
+(use-package visual-regexp-steroids
+  :after visual-regexp)
 
 (use-package emacs
   :bind  (("s-{" . tab-previous)

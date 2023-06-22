@@ -119,4 +119,34 @@
 
 (setq isearch-lazy-count t)
 
+
+(defun julian/toggle-window-dedication ()
+  "Toggles window dedication in selected window"
+  (interactive)
+  (set-window-dedicated-p (selected-window)
+                          (not (window-dedicated-p (selected-window)))))
+
+(setq window-sides-slots '(1 1 1 1))
+
+;; switch to buffer acts like programmatic switch to buffer
+(setq switch-to-buffer-obey-display-actions t)
+
+(setq switch-to-buffer-in-dedicated-window 'pop)
+
+;; Custom buffer display behavior
+(setq display-buffer-alist '(
+                             ;; Helpful buffers stay in one window
+                             ("\\*helpful.*\\*" (display-buffer-reuse-mode-window))
+                             ;; Magit buffers stay in one window
+                             ("magit.*" (display-buffer-reuse-mode-window) (mode . (magit-mode magit-log-mode)))))
+
+(buffer-match-p "\\*helpful.*\\*" "*helpful variable: display-buffer-alist*")
+
+(setq-default tab-bar-format '(tab-bar-format-history tab-bar-format-tabs-groups tab-bar-separator tab-bar-format-add-tab))
+
+
+;; Fix frame stuff
+;;(set-frame-parameter (selected-frame) 'window-state nil)
+
+
 (provide 'my-ui)
