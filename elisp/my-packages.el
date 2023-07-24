@@ -722,7 +722,13 @@
   :after visual-regexp)
 
 ;(use-package combobulate)
-(use-package plantuml-mode)
+(use-package plantuml-mode
+  :config
+  (setq org-plantuml-jar-path (expand-file-name "~/plantuml.jar"))
+  (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
+  (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
+  (setq plantuml-default-exec-mode 'jar)
+)
 
 (use-package emacs
   :bind  (("s-{" . tab-previous)
