@@ -50,7 +50,7 @@
   :bind (("C-c e" . elfeed))
   :config (setq elfeed-feeds '(("https://news.ycombinator.com/rss" news tech)
                                ("https://lobste.rs/rss" news tech)
-                               ("https://www.wired.com/feed/rss" news tech)
+;                               ("https://www.wired.com/feed/rss" news tech)
                                ("https://css-tricks.com/feed/" tech)
                                ("https://feeds.feedburner.com/codinghorror" blog tech)
                                ("https://jvns.ca/atom.xml" blog tech)
@@ -268,7 +268,7 @@
          (filename (expand-file-name file project-root))
          (relative-filename (file-relative-name filename project-root)))
     (if prefix
-        (insert (string-trim-right relative-filename "\\..*"))
+        (insert (string-trim-right relative-filename "\\.[^.]*"))
       (insert relative-filename))))
 
 (use-package projectile
@@ -686,9 +686,12 @@
 ;; (use-package minions
 ;;   :bind (("M-~" . minions-minor-modes-menu))
 ;;   :config (minions-mode 1))
+(defun julian/is-json-mode ()
+  (string-equal major-mode "json-ts-mode"))
 
 (use-package apheleia
-  :config (apheleia-global-mode +1))
+  :config (apheleia-global-mode +1)
+  (setq apheleia-inhibit-functions '(julian/is-json-mode)))
 
 (use-package eat
   :hook (eshell-load-hook . eat-eshell-mode)
@@ -706,14 +709,20 @@
 (use-package modus-themes)
 ;(load-theme 'modus-vivendi 1)
 
+
+;; dark themes: ("kaolin-aurora" "kaolin-blossom"  "kaolin-bubblegum" "kaolin-dark" "kaolin-eclipse" "kaolin-galaxy" "kaolin-mono-dark" "kaolin-ocean" "kaolin-shiva" "kaolin-temple" "kaolin-valley-dark")
+
 (use-package kaolin-themes
-  :config (load-theme 'kaolin-dark t))
+  :config (load-theme 'kaolin-valley-dark t))
 
 (use-package racket-mode)
 
 (use-package visual-regexp)
 (use-package visual-regexp-steroids
   :after visual-regexp)
+
+;(use-package combobulate)
+(use-package plantuml-mode)
 
 (use-package emacs
   :bind  (("s-{" . tab-previous)
@@ -724,6 +733,7 @@
           ("O" . tab-previous)
           ("2" . tab-new)
           ("u" . tab-undo)
-          ("0" . tab-close)))
+          ("0" . tab-close))
+)
 
 (provide 'my-packages)
