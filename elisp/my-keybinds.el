@@ -3,7 +3,8 @@
 (setq mac-function-modifier 'hyper)
 (setq mac-pass-command-to-system nil)
 
-
+(global-set-key [mouse-3] 'xref-go-back)
+(global-set-key [mouse-4] 'xref-find-definitions)
 (global-set-key (kbd "C-c w") 'whitespace-cleanup)
 (define-key global-map (kbd "RET") 'newline-and-indent)
 (global-set-key (kbd "M-SPC") 'cycle-spacing)

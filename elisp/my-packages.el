@@ -59,7 +59,8 @@
                                ("https://polygon.com/rss/index.xml" games)
                                ("https://mathbabe.org/feed/" blog math)
                                ("https://ciechanow.ski/atom.xml" blog css)
-                               ("https://planet.emacslife.com/atom.xml" blog emacs)))
+                               ("https://planet.emacslife.com/atom.xml" blog emacs)
+                               ("https://kagi.com/api/v1/smallweb/feed/" smallweb)))
   (setq shr-inhibit-images t)
   (setq-default elfeed-search-filter "@1-month-ago +unread")
 
@@ -127,8 +128,10 @@
   (setq
    git-commit-major-mode 'markdown-mode
    magit-process-finish-apply-ansi-colors t
-   magit-status-margin '(nil age magit-log-margin-width nil 18)))
+   magit-status-margin '(nil "%Y-%m-%d %H:%M:%S" magit-log-margin-width nil 18)))
 
+(use-package olivetti
+  :config (setq-default olivetti-body-width 120))
 
 ;; ORG MODE CONFIG ============================================================
 (use-package org
@@ -140,7 +143,9 @@
   :bind (("C-c a" . org-agenda)
          ("C-c C" . org-capture)
          ("C-c l" . org-store-link))
-  :config (progn (setq org-catch-invisible-edits 'show-and-error
+  :config (progn (setq
+                  org-src-window-setup 'split-window-below
+                  org-catch-invisible-edits 'show-and-error
                        org-startup-folded t
                        org-hide-block-startup t
                        org-hide-emphasis-markers nil
@@ -369,10 +374,11 @@
   :config
   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . js-ts-mode))
   (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
   (setq web-mode-engines-alist '(("php" . "\\.php\\'")))
   (setq web-mode-enable-auto-indentation nil))
+
 
 (use-package writegood-mode)
 (use-package writeroom-mode
@@ -730,6 +736,10 @@
   (setq plantuml-default-exec-mode 'jar)
 )
 
+(use-package embrace
+  :bind
+  (("C-," . embrace-commander)))
+
 (use-package emacs
   :bind  (("s-{" . tab-previous)
           ("s-}" . tab-next)
@@ -739,7 +749,6 @@
           ("O" . tab-previous)
           ("2" . tab-new)
           ("u" . tab-undo)
-          ("0" . tab-close))
-)
+          ("0" . tab-close)))
 
 (provide 'my-packages)

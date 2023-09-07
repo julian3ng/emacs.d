@@ -1,3 +1,15 @@
+(defmacro julian/call-negative (form)
+  `(let ((current-prefix-arg -1))
+    (call-interactively ,form)))
+
+(defun julian/meow-find-backwards ()
+  (interactive)
+  (julian/call-negative 'meow-find))
+
+(defun julian/meow-till-backwards ()
+  (interactive)
+  (julian/call-negative 'meow-till))
+
 (defun meow-setup ()
   (setq meow-char-thing-table
         '((?\) . round)
@@ -5,7 +17,7 @@
           (?\[ . square)
           (?\] . square)
           (?\{ . curly)
-          (?\ . curly)          
+          (?\ . curly)
           (?\" . string)
           (?\' . symbol)
           (?w . window)
@@ -19,6 +31,7 @@
   (add-to-list 'meow-mode-state-list '(eat-mode . motion))
   (add-to-list 'meow-mode-state-list '(helpful-mode . motion))
   (add-to-list 'meow-mode-state-list '(help-mode . motion))
+  (add-to-list 'meow-mode-state-list '(magit-mode . motion))
   (meow-motion-overwrite-define-key '("<escape>" . ignore))
   (meow-leader-define-key
    ;; SPC j/k will run the original command in MOTION state.
@@ -65,6 +78,7 @@
    '("e" . meow-next-word)
    '("E" . meow-next-symbol)
    '("f" . meow-find)
+   '("F" . julian/meow-find-backwards)
    '("g" . meow-cancel-selection)
    '("G" . meow-grab)
    '("h" . meow-left)
@@ -88,6 +102,7 @@
    '("R" . meow-swap-grab)
    '("s" . meow-kill)
    '("t" . meow-till)
+   '("T" . julian/meow-till-backwards)
    '("u" . meow-undo)
    '("U" . meow-undo-in-selection)
    '("v" . meow-visit)
