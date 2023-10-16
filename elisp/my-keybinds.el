@@ -25,6 +25,7 @@
 (global-unset-key (kbd "C-z"))
 (global-set-key (kbd "C-z b") 'bury-buffer)
 (global-set-key (kbd "C-z u") 'unbury-buffer)
+(global-set-key (kbd "<f2>") 'follow-mode)
 (unbind-key (kbd "s-a"))
 (unbind-key (kbd "s-h"))
 (unbind-key (kbd "s-l"))

@@ -34,7 +34,9 @@
 ;;   (all-the-icons-completion-mode))
 
 (use-package avy
-  :bind (("C-'" . avy-goto-char-timer)
+  :bind (("C-'" . avy-goto-word-0)
+         ("C-." . avy-goto-word-1)
+         ("C-," . avy-goto-char-timer)
          ("M-g l" . avy-goto-line)
          ("M-g c" . avy-goto-char-2)
          ("M-g w" . avy-goto-word)
@@ -60,7 +62,10 @@
                                ("https://mathbabe.org/feed/" blog math)
                                ("https://ciechanow.ski/atom.xml" blog css)
                                ("https://planet.emacslife.com/atom.xml" blog emacs)
-                               ("https://kagi.com/api/v1/smallweb/feed/" smallweb)))
+                               ("https://www.cnet.com/rss/news/" news cnet)
+                               ("https://www.cnet.com/rss/gaming/" games cnet)
+                               ;("https://kagi.com/api/v1/smallweb/feed/" smallweb)
+                               ))
   (setq shr-inhibit-images t)
   (setq-default elfeed-search-filter "@1-month-ago +unread")
 
@@ -470,8 +475,8 @@
 (bind-keys )
 
 (use-package embark
-  :bind (("C-." . embark-act)
-         ("C-;" . embark-dwim)
+  :bind (("s-." . embark-act)
+         ("s-," . embark-dwim)
          ("C-h B" . embark-bindings))
   :config
   ;; Hide the mode line of the Embark live/completions buffers
@@ -739,6 +744,10 @@
 (use-package embrace
   :bind
   (("C-," . embrace-commander)))
+
+(use-package j-mode
+  :config
+  (setq j-console-cmd "jcon"))
 
 (use-package emacs
   :bind  (("s-{" . tab-previous)

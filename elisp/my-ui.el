@@ -42,8 +42,16 @@
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 
-(when (member "Fira Code" (font-family-list))
-  (set-face-font 'default (font-spec :family "Fira Code" :size 28)))
+
+
+(defun julian/set-font-size (prefix)
+  (interactive "p")
+  (message "%d" prefix)
+  (if (= prefix 1)
+      (set-face-font 'default (font-spec :family "Fira Code" :size 12))
+    (set-face-font 'default (font-spec :family "Fira Code" :size 10))))
+
+;(global-set-key (kbd "s-j f") 'julian/set-font-size)
 
 (setq widget-image-enable nil)
 
