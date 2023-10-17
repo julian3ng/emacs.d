@@ -75,6 +75,17 @@
 (unbind-key (kbd "s-j"))
 (global-set-key (kbd "s-j g") 'julian/copy-location-and-basename)
 
+
+(defun julian/set-font-size (prefix)
+  (interactive "p")
+  (message "%d" prefix)
+  (if (= prefix 1)
+      (set-face-font 'default (font-spec :family "Fira Code" :size 12))
+    (set-face-font 'default (font-spec :family "Fira Code" :size 10))))
+
+(global-set-key (kbd "s-j f") 'julian/set-font-size)
+
+
 (global-set-key (kbd "C-x |") 'toggle-window-split)
 (repeat-mode 1)
 
