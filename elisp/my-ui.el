@@ -137,9 +137,10 @@
                              ;; Helpful buffers stay in one window
                              ("\\*helpful.*\\*" (display-buffer-reuse-mode-window))
                              ;; Magit buffers stay in one window
-                             ("magit.*" (display-buffer-reuse-mode-window) (mode . (magit-mode magit-log-mode)))))
-
-(buffer-match-p "\\*helpful.*\\*" "*helpful variable: display-buffer-alist*")
+                             ("magit.*" (display-buffer-reuse-mode-window) (mode . (magit-mode magit-log-mode)))
+                             ("\\*xref\\*" (display-buffer-below-selected))))
+;; 'q' on a child frame won't do anything 
+(setq iconify-child-frame nil)
 
 (setq-default tab-bar-format '(tab-bar-format-history tab-bar-format-tabs-groups tab-bar-separator tab-bar-format-add-tab))
 

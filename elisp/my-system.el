@@ -53,7 +53,7 @@
 (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 
 ;; info
-(add-to-list 'Info-directory-list "~/info")
+;(add-to-list 'info-directory-list "~/info")
 
 ;; Get rid of overwrite mode
 (put 'overwrite-mode 'disabled t)

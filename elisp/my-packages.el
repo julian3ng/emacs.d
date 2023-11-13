@@ -1,9 +1,9 @@
 (use-package autothemer)
 (use-package erc
-     :config
-     (setq erc-server "irc.libera.chat"
-           erc-port 6697
-           erc-nick "themonkeybob11"))
+  :config
+  (setq erc-server "irc.libera.chat"
+        erc-port 6697
+        erc-nick "themonkeybob11"))
 
 (use-package auctex
   :defer t
@@ -15,7 +15,7 @@
 (use-package py-autopep8)
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-;(load-theme 'selenized t)
+                                        ;(load-theme 'selenized t)
 
 (use-package ace-window
   :config
@@ -52,7 +52,7 @@
   :bind (("C-c e" . elfeed))
   :config (setq elfeed-feeds '(("https://news.ycombinator.com/rss" news tech)
                                ("https://lobste.rs/rss" news tech)
-;                               ("https://www.wired.com/feed/rss" news tech)
+                                        ;                               ("https://www.wired.com/feed/rss" news tech)
                                ("https://css-tricks.com/feed/" tech)
                                ("https://feeds.feedburner.com/codinghorror" blog tech)
                                ("https://jvns.ca/atom.xml" blog tech)
@@ -64,7 +64,7 @@
                                ("https://planet.emacslife.com/atom.xml" blog emacs)
                                ("https://www.cnet.com/rss/news/" news cnet)
                                ("https://www.cnet.com/rss/gaming/" games cnet)
-                               ;("https://kagi.com/api/v1/smallweb/feed/" smallweb)
+                                        ;("https://kagi.com/api/v1/smallweb/feed/" smallweb)
                                ))
   (setq shr-inhibit-images t)
   (setq-default elfeed-search-filter "@1-month-ago +unread")
@@ -112,11 +112,11 @@
   :hook ((prog-mode-hook . hs-minor-mode))
   :diminish hs-minor-mode
   :bind (:map hs-minor-mode-map
-         ("s-h a" . hs-show-all)
-         ("s-h t" . hs-hide-all)
-         ("s-h c" . hs-toggle-hiding)
-         ("s-h d" . hs-hide-block)
-         ("s-h l" . hs-hide-level)))
+              ("s-h a" . hs-show-all)
+              ("s-h t" . hs-hide-all)
+              ("s-h c" . hs-toggle-hiding)
+              ("s-h d" . hs-hide-block)
+              ("s-h l" . hs-hide-level)))
 
 (use-package helpful
   :bind (("C-h f" . helpful-callable)
@@ -151,49 +151,49 @@
   :config (progn (setq
                   org-src-window-setup 'split-window-below
                   org-catch-invisible-edits 'show-and-error
-                       org-startup-folded t
-                       org-hide-block-startup t
-                       org-hide-emphasis-markers nil
-                       org-hide-leading-stars nil
-                       org-todo-keywords '((sequence "TODO(t)" "|" "DONE(D!)")
-                                           (sequence
-                                            "TD(t)" "BL(b)" "IP(i)" "CR(c)" "PR(p)" "RT(r)" "DP(d)" "|" "DN(D!)" "CA(C!)" "MOVED(M!)"))
-                       org-use-fast-todo-selection 'expert
-                       org-todo-keyword-faces '(("TODO" . "red")
-                                                ("DONE" . "lightGreen")
-                                                ("TD" . "red")
-                                                ("BL" . "BlueViolet")
-                                                ("IP" . "yellow")
-                                                ("CR" . "SeaGreen1")
-                                                ("PR" . "SeaGreen2")
-                                                ("RT" . "SeaGreen3")
-                                                ("DP" . "SeaGreen4")
-                                                ("DN" . "DodgerBlue")
-                                                ("CA" . "DimGray")
-                                                ("MOVED" . "Gray")
-                                                )
-                       org-directory "~/org/"
-                       org-capture-templates `(
-                                               ("i" "Inbox" entry (file "inbox.org")
-                                                ,(concat "* TODO %?\n"
-                                                         "  /Entered on/ %U"))
-                                               ("c" "Code" entry (file "inbox.org")
-                                                ,(concat "* TODO %?\n"
-                                                         "  %A\n")))
-                       org-agenda-files (list "~/org/gtd.org"
-                                              "~/org/inbox.org")
-                       org-refile-use-outline-path 'file
-                       org-outline-path-complete-in-steps nil
-                       org-refile-targets '((nil :maxlevel . 3)
-                                            (org-agenda-files :maxlevel . 3))
-                       org-agenda-hide-tags-regexp "."
-                       org-format-latex-options (plist-put org-format-latex-options :scale 3.0)
-                       org-adapt-indentation t
-                       org-use-speed-commands t
-                       org-agenda-custom-commands '(("g" "Fortnight Agenda" ((agenda "" ((org-agenda-span 14))))))
-                       org-priority-highest 0
-                       org-priority-lowest 9
-                       org-priority-default 5)
+                  org-startup-folded t
+                  org-hide-block-startup t
+                  org-hide-emphasis-markers nil
+                  org-hide-leading-stars nil
+                  org-todo-keywords '((sequence "TODO(t)" "|" "DONE(D!)")
+                                      (sequence
+                                       "TD(t)" "BL(b)" "IP(i)" "CR(c)" "PR(p)" "RT(r)" "DP(d)" "|" "DN(D!)" "CA(C!)" "MOVED(M!)"))
+                  org-use-fast-todo-selection 'expert
+                  org-todo-keyword-faces '(("TODO" . "red")
+                                           ("DONE" . "lightGreen")
+                                           ("TD" . "red")
+                                           ("BL" . "BlueViolet")
+                                           ("IP" . "yellow")
+                                           ("CR" . "SeaGreen1")
+                                           ("PR" . "SeaGreen2")
+                                           ("RT" . "SeaGreen3")
+                                           ("DP" . "SeaGreen4")
+                                           ("DN" . "DodgerBlue")
+                                           ("CA" . "DimGray")
+                                           ("MOVED" . "Gray")
+                                           )
+                  org-directory "~/org/"
+                  org-capture-templates `(
+                                          ("i" "Inbox" entry (file "inbox.org")
+                                           ,(concat "* TODO %?\n"
+                                                    "  /Entered on/ %U"))
+                                          ("c" "Code" entry (file "inbox.org")
+                                           ,(concat "* TODO %?\n"
+                                                    "  %A\n")))
+                  org-agenda-files (list "~/org/gtd.org"
+                                         "~/org/inbox.org")
+                  org-refile-use-outline-path 'file
+                  org-outline-path-complete-in-steps nil
+                  org-refile-targets '((nil :maxlevel . 3)
+                                       (org-agenda-files :maxlevel . 3))
+                  org-agenda-hide-tags-regexp "."
+                  org-format-latex-options (plist-put org-format-latex-options :scale 3.0)
+                  org-adapt-indentation t
+                  org-use-speed-commands t
+                  org-agenda-custom-commands '(("g" "Fortnight Agenda" ((agenda "" ((org-agenda-span 14))))))
+                  org-priority-highest 0
+                  org-priority-lowest 9
+                  org-priority-default 5)
                  (set-face-foreground 'org-block "#888")
                  (set-face-foreground 'org-code "aquamarine")
                  (set-face-foreground 'org-verbatim "#888")
@@ -293,6 +293,8 @@
   :bind (:map projectile-mode-map
               ("s-p" . projectile-command-map)
               ("C-c I" . julian/projectile-insert-relative-filename)))
+
+(use-package ripgrep)
 
 ;; ; EXAMPLE DIR LOCALS FOR PROJECTILE PROJECT
 ;; ; these get "s-p t" to work
@@ -415,25 +417,25 @@
 (use-package ligature
   :config
   (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
-                                     ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
-                                     "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
-                                     "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
-                                     "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
-                                     "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
-                                     "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
-                                     "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
-                                     "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
-                                     "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+                                       ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+                                       "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+                                       "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+                                       "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+                                       "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+                                       "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+                                       "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+                                       "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+                                       "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
   (ligature-set-ligatures 'org-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
-                                     ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
-                                     "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
-                                     "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
-                                     "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
-                                     "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
-                                     "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
-                                     "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
-                                     "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
-                                     "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+                                      ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+                                      "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+                                      "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+                                      "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+                                      "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+                                      "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+                                      "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+                                      "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+                                      "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
   (global-ligature-mode t))
 
 
@@ -591,7 +593,7 @@
          ("p" . flymake-goto-prev-error)
          ("l" . flymake-show-buffer-diagnostics)
          ("L" . flymake-show-project-diagnostics))
- )
+  )
 
 
 
@@ -718,7 +720,7 @@
 (use-package sicp)
 
 (use-package modus-themes)
-;(load-theme 'modus-vivendi 1)
+                                        ;(load-theme 'modus-vivendi 1)
 
 
 ;; dark themes: ("kaolin-aurora" "kaolin-blossom"  "kaolin-bubblegum" "kaolin-dark" "kaolin-eclipse" "kaolin-galaxy" "kaolin-mono-dark" "kaolin-ocean" "kaolin-shiva" "kaolin-temple" "kaolin-valley-dark")
@@ -732,14 +734,14 @@
 (use-package visual-regexp-steroids
   :after visual-regexp)
 
-;(use-package combobulate)
+                                        ;(use-package combobulate)
 (use-package plantuml-mode
   :config
   (setq org-plantuml-jar-path (expand-file-name "~/plantuml.jar"))
   (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
   (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
   (setq plantuml-default-exec-mode 'jar)
-)
+  )
 
 (use-package embrace
   :bind
@@ -747,7 +749,10 @@
 
 (use-package j-mode
   :config
-  (setq j-console-cmd "jcon"))
+  (setq j-console-cmd "jcon")
+  )
+
+(use-package bqn-mode)
 
 (use-package emacs
   :bind  (("s-{" . tab-previous)
