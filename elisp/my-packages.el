@@ -464,6 +464,7 @@
 (use-package geiser)
 (use-package geiser-chicken)
 
+
 (use-package gnu-apl-mode) ;; this is for C-\ APL input method
 
 (use-package ligature
@@ -736,7 +737,7 @@
 
 (use-package kaolin-themes)
 (use-package gruvbox-theme :config (load-theme 'gruvbox-dark-medium t))
-
+                                        ;(load-theme 'modus-vivendi 1)
 
                                         ;(use-package racket-mode)
 
