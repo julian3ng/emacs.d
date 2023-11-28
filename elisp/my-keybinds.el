@@ -65,7 +65,7 @@
          (concat
           (if (buffer-file-name)
               (file-relative-name (buffer-file-name))
-              (buffer-name))
+            (buffer-name))
           ":"
           (number-to-string (1+ (current-line))))))
     (kill-new locstring)

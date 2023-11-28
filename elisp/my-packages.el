@@ -34,9 +34,9 @@
 ;;   (all-the-icons-completion-mode))
 
 (use-package avy
-  :bind (("C-'" . avy-goto-word-0)
-         ("C-." . avy-goto-word-1)
-         ("C-," . avy-goto-char-timer)
+  :bind (("C-'" . avy-goto-char)
+         ("C-;" . avy-goto-word-or-subword-1)
+         ("C-." . avy-goto-line)
          ("M-g l" . avy-goto-line)
          ("M-g c" . avy-goto-char-2)
          ("M-g w" . avy-goto-word)
@@ -155,23 +155,10 @@
                   org-hide-block-startup t
                   org-hide-emphasis-markers nil
                   org-hide-leading-stars nil
-                  org-todo-keywords '((sequence "TODO(t)" "|" "DONE(D!)")
-                                      (sequence
-                                       "TD(t)" "BL(b)" "IP(i)" "CR(c)" "PR(p)" "RT(r)" "DP(d)" "|" "DN(D!)" "CA(C!)" "MOVED(M!)"))
+                  org-todo-keywords '((sequence "TODO(t)" "|" "DONE(D!)"))
                   org-use-fast-todo-selection 'expert
                   org-todo-keyword-faces '(("TODO" . "red")
-                                           ("DONE" . "lightGreen")
-                                           ("TD" . "red")
-                                           ("BL" . "BlueViolet")
-                                           ("IP" . "yellow")
-                                           ("CR" . "SeaGreen1")
-                                           ("PR" . "SeaGreen2")
-                                           ("RT" . "SeaGreen3")
-                                           ("DP" . "SeaGreen4")
-                                           ("DN" . "DodgerBlue")
-                                           ("CA" . "DimGray")
-                                           ("MOVED" . "Gray")
-                                           )
+                                           ("DONE" . "lightGreen"))
                   org-directory "~/org/"
                   org-capture-templates `(
                                           ("i" "Inbox" entry (file "inbox.org")
@@ -411,6 +398,7 @@
 
 (use-package common-lisp-snippets)
 (use-package geiser)
+(use-package geiser-chicken)
 
 (use-package gnu-apl-mode) ;; this is for C-\ APL input method
 
@@ -426,7 +414,7 @@
                                        "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
                                        "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
                                        "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
-  (ligature-set-ligatures 'org-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+  (ligature-set-ligatures 'org-mode '("www" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
                                       ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
                                       "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
                                       "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"

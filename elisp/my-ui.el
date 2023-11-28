@@ -33,7 +33,7 @@
 (setq ring-bell-function 'ignore) ; call 'ignore when bell would ring
 
 ;; Pretty symbols
-;(global-prettify-symbols-mode t)
+                                        ;(global-prettify-symbols-mode t)
 
 ;; UTF 8
 (setq local-coding-system 'utf-8)
@@ -83,6 +83,7 @@
                  mode-line-remote
                  mode-line-frame-identification
                  mode-line-buffer-identification
+                 (:eval (when (window-dedicated-p (selected-window)) (propertize "!" 'font-lock-face '(:foreground "red"))))
                  " "
                  mode-line-position
                  " "
@@ -105,7 +106,7 @@
 (setq-default indicate-empty-lines t)
 (setq-default indicate-buffer-boundaries 'left)
 (setq sentence-end-double-space nil)
-(whitespace-mode t)
+;;(whitespace-mode t)
 (setq-default truncate-lines nil)
 
 (defun julian/ui-flash-fringe ()
@@ -135,11 +136,19 @@
 ;; Custom buffer display behavior
 (setq display-buffer-alist '(
                              ;; Helpful buffers stay in one window
-                             ("\\*helpful.*\\*" (display-buffer-reuse-mode-window))
-                             ;; Magit buffers stay in one window
-                             ("magit.*" (display-buffer-reuse-mode-window) (mode . (magit-mode magit-log-mode)))
-                             ("\\*xref\\*" (display-buffer-below-selected))))
-;; 'q' on a child frame won't do anything 
+                             ("\\*helpful.*\\*" (display-buffer-in-direction)  (direction . right))
+                             ("\\*xref\\*" (display-buffer-in-direction) (direction . right))
+                             ("\\*terminal\\*" (display-buffer-in-side-window) (side . bottom))
+                             ("\\*ansi-term\\*" (display-buffer-in-side-window) (side . bottom))
+                             ("\\*eshell\\*" (display-buffer-in-side-window) (side . bottom))
+                             ("magit:.*" (display-buffer-in-direction) (direction . left))))
+
+
+
+
+
+
+;; 'q' on a child frame won't do anything
 (setq iconify-child-frame nil)
 
 (setq-default tab-bar-format '(tab-bar-format-history tab-bar-format-tabs-groups tab-bar-separator tab-bar-format-add-tab))
