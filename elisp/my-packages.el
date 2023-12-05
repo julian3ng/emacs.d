@@ -226,7 +226,6 @@
                                                "* %?"
                                                :target (file+head "%<%Y-%m-%d>.org"
                                                                   "#+title: %<%Y-%m-%d>\n")))))
-
 (use-package ob-C
   :ensure nil
   :config
@@ -431,9 +430,12 @@
 ;; Vertico/Marginalia/
 
 (use-package vertico
+  :after orderless
   :init (vertico-mode))
+
 (use-package savehist
   :init (savehist-mode))
+
 (use-package orderless
   :init
   ;; Configure a custom style dispatcher (see the Consult wiki)
@@ -462,7 +464,6 @@
          ("C-c c b" . consult-buffer)
          ("C-c c F" . consult-focus-lines)))
 
-(bind-keys )
 
 (use-package embark
   :bind (("s-." . embark-act)
@@ -484,20 +485,20 @@
   :init (global-corfu-mode))
 
 
-(use-package company-emoji)
-(use-package company-web)
-(use-package company-lua)
+;; (use-package company-emoji)
+;; (use-package company-web)
+;; (use-package company-lua)
 ;; Completion backend
 
-(defun julian/cape-capf-setup ()
-  (let ((result))
-    (add-to-list 'completion-at-point-functions (cape-company-to-capf #'company-emoji))
-    (dolist (capf '(cape-dabbrev cape-file) result)
-      (add-to-list 'completion-at-point-functions capf))))
+;; (defun julian/cape-capf-setup ()
+;;   (let ((result))
+;;     (add-to-list 'completion-at-point-functions (cape-company-to-capf #'company-emoji))
+;;     (dolist (capf '(cape-dabbrev cape-file) result)
+;;       (add-to-list 'completion-at-point-functions capf))))
 
-(defun julian/cape-capf-setup-lua ()
-  (julian/cape-capf-setup)
-  (add-to-list 'completion-at-point-functions (cape-company-to-capf #'company-lua)))
+;; (defun julian/cape-capf-setup-lua ()
+;;   (julian/cape-capf-setup)
+;;   (add-to-list 'completion-at-point-functions (cape-company-to-capf #'company-lua)))
 
 (use-package cape
   :bind (("C-c C-p p" . completion-at-point) ;; capf
@@ -517,20 +518,6 @@
          ("C-c C-p &" . cape-sgml)
          ("C-c C-p r" . cape-rfc1345))
 
-  :hook (prog-mode . julian/cape-capf-setup)
-  :hook (lua-mode . julian/cape-capf-setup-lua)
-  :config
-  ;;(add-to-list 'completion-at-point-functions (cape-company-to-capf #'company-web-html))
-  ;;(add-to-list 'completion-at-point-functions #'cape-history)
-  ;;(add-to-list 'completion-at-point-functions #'cape-keyword)
-  ;;(add-to-list 'completion-at-point-functions #'cape-tex)
-  ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
-  ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
-  ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
-  ;;(add-to-list 'completion-at-point-functions #'cape-ispell)
-  ;;(add-to-list 'completion-at-point-functions #'cape-dict)
-  ;;(add-to-list 'completion-at-point-functions #'cape-symbol)
-  ;;(add-to-list 'completion-at-point-functions #'cape-line)
   )
 
 
@@ -742,6 +729,29 @@
 
 (use-package bqn-mode)
 
+(use-package yaml-ts-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-ts-mode)))
+
+(use-package dockerfile-ts-mode
+  :config
+  (add-to-list 'auto-mode-alist '("^DDockerfile$" . dockerfile-ts-mode)))
+
+(use-package fringe-current-line
+  :config (global-fringe-current-line-mode))
+
+(use-package chatgpt
+  :config
+  (setq openai-key #'openai-key-auth-source))
+
+(use-package sideline-flymake :after sideline)
+(use-package sideline-blame :after sideline)
+(use-package sideline
+  :config
+  (setq sideline-backends-left '(sideline-flymake))
+  (setq sideline-backends-right '(sideline-blame))
+  (global-sideline-mode 1))
+
 (use-package emacs
   :bind  (("s-{" . tab-previous)
           ("s-}" . tab-next)
@@ -752,5 +762,6 @@
           ("2" . tab-new)
           ("u" . tab-undo)
           ("0" . tab-close)))
+
 
 (provide 'my-packages)

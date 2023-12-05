@@ -86,6 +86,15 @@
 (global-set-key (kbd "s-j f") 'julian/set-font-size)
 
 
+(defun julian/toggle-window-dedication ()
+  "Toggles window dedication in selected window"
+  (interactive)
+  (set-window-dedicated-p (selected-window)
+                          (not (window-dedicated-p (selected-window)))))
+
+(global-set-key (kbd "s-j s") 'julian/toggle-window-dedication)
+
+
 (global-set-key (kbd "C-x |") 'toggle-window-split)
 (repeat-mode 1)
 

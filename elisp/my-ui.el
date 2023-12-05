@@ -27,6 +27,9 @@
 (setq uniquify-buffer-name-style 'forward) ; use forward slashes for names
 
 (global-font-lock-mode t) ; always syntax highlight
+(custom-theme-set-faces
+ 'user
+ '(hl-line ((t :underline (:color "lime" ) ))))
 (global-hl-line-mode t)   ; always highlight current line
 
 (setq visible-bell t) ; use a visible bell
@@ -135,17 +138,17 @@
 
 ;; Custom buffer display behavior
 (setq display-buffer-alist '(
-                             ;; Helpful buffers stay in one window
-                             ("\\*helpful.*\\*" (display-buffer-in-direction)  (direction . right))
-                             ("\\*xref\\*" (display-buffer-in-direction) (direction . right))
+                             ("\\*helpful.*\\*" (display-buffer-reuse-mode-window) (inhibit-same-window nil) (mode helpful-mode))
+                             ("\\*xref\\*" (display-buffer-reuse-mode-window) (inhibit-same-window nil) (mode xref--xref-buffer-mode))
                              ("\\*terminal\\*" (display-buffer-in-side-window) (side . bottom))
                              ("\\*ansi-term\\*" (display-buffer-in-side-window) (side . bottom))
-                             ("\\*eshell\\*" (display-buffer-in-side-window) (side . bottom))
-                             ("magit:.*" (display-buffer-in-direction) (direction . left))))
+                             ("\\*e?shell\\*" (display-buffer-in-side-window) (side . bottom))))
 
+;; (setq display-buffer-alist
+;;       '((".*" (display-buffer-reuse-window display-buffer-same-window))))
 
-
-
+(setq display-buffer-reuse-frames t)         ; reuse windows in other frames
+(setq even-window-sizes nil)                 ; display-buffer: avoid resizing
 
 
 ;; 'q' on a child frame won't do anything
