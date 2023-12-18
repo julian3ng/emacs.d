@@ -752,6 +752,8 @@
   (setq sideline-backends-right '(sideline-blame))
   (global-sideline-mode 1))
 
+(use-package nov)
+
 (use-package emacs
   :bind  (("s-{" . tab-previous)
           ("s-}" . tab-next)
