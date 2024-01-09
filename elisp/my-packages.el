@@ -133,7 +133,9 @@
   (setq
    git-commit-major-mode 'markdown-mode
    magit-process-finish-apply-ansi-colors t
-   magit-status-margin '(nil "%Y-%m-%d %H:%M:%S" magit-log-margin-width nil 18)))
+   magit-status-margin '(nil "%Y-%m-%d %H:%M:%S" magit-log-margin-width nil 18))
+  (defalias 'julian/magit-refresh-origin-develop
+    (kmacro "f r <return> d e v e l o p : d e v e l o p <return>")))
 
 (use-package olivetti
   :config (setq-default olivetti-body-width 120))
@@ -155,7 +157,7 @@
                   org-hide-block-startup t
                   org-hide-emphasis-markers nil
                   org-hide-leading-stars nil
-                  org-todo-keywords '((sequence "TODO(t)" "|" "DONE(D!)"))
+                  org-todo-keywords '((sequence "TODO(t)" "|" "DONE(D)"))
                   org-use-fast-todo-selection 'expert
                   org-todo-keyword-faces '(("TODO" . "red")
                                            ("DONE" . "lightGreen"))
@@ -428,14 +430,6 @@
 
 
 ;; Vertico/Marginalia/
-
-(use-package vertico
-  :after orderless
-  :init (vertico-mode))
-
-(use-package savehist
-  :init (savehist-mode))
-
 (use-package orderless
   :init
   ;; Configure a custom style dispatcher (see the Consult wiki)
@@ -444,6 +438,14 @@
   (setq completion-styles '(orderless basic)
         completion-category-defaults nil
         completion-category-overrides '((file (styles basic partial-completion)))))
+
+(use-package vertico
+  :after orderless
+  :init (vertico-mode))
+
+(use-package savehist
+  :init (savehist-mode))
+
 
 ;; Enable rich annotations using the Marginalia package
 (use-package marginalia
@@ -483,22 +485,6 @@
 ;; Completion frontend
 (use-package corfu
   :init (global-corfu-mode))
-
-
-;; (use-package company-emoji)
-;; (use-package company-web)
-;; (use-package company-lua)
-;; Completion backend
-
-;; (defun julian/cape-capf-setup ()
-;;   (let ((result))
-;;     (add-to-list 'completion-at-point-functions (cape-company-to-capf #'company-emoji))
-;;     (dolist (capf '(cape-dabbrev cape-file) result)
-;;       (add-to-list 'completion-at-point-functions capf))))
-
-;; (defun julian/cape-capf-setup-lua ()
-;;   (julian/cape-capf-setup)
-;;   (add-to-list 'completion-at-point-functions (cape-company-to-capf #'company-lua)))
 
 (use-package cape
   :bind (("C-c C-p p" . completion-at-point) ;; capf
@@ -681,13 +667,6 @@
   :config (apheleia-global-mode +1)
   (setq apheleia-inhibit-functions '(julian/is-json-mode)))
 
-(use-package eat
-  :hook (eshell-load-hook . eat-eshell-mode)
-  :hook (eshell-load-hook . eat-eshell-visual-command-mode))
-
-(use-package devil
-  :bind (("C-," . global-devil-mode)))
-
 (use-package dirvish
   :config
   (dirvish-override-dired-mode))
@@ -695,15 +674,13 @@
 (use-package sicp)
 
 (use-package modus-themes)
-                                        ;(load-theme 'modus-vivendi 1)
-
 
 ;; dark themes: ("kaolin-aurora" "kaolin-blossom"  "kaolin-bubblegum" "kaolin-dark" "kaolin-eclipse" "kaolin-galaxy" "kaolin-mono-dark" "kaolin-ocean" "kaolin-shiva" "kaolin-temple" "kaolin-valley-dark")
 
 (use-package kaolin-themes
   :config (load-theme 'kaolin-valley-dark t))
 
-(use-package racket-mode)
+                                        ;(use-package racket-mode)
 
 (use-package visual-regexp)
 (use-package visual-regexp-steroids
@@ -739,10 +716,6 @@
 
 (use-package fringe-current-line
   :config (global-fringe-current-line-mode))
-
-(use-package chatgpt
-  :config
-  (setq openai-key #'openai-key-auth-source))
 
 (use-package sideline-flymake :after sideline)
 (use-package sideline-blame :after sideline)

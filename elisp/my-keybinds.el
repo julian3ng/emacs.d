@@ -98,6 +98,10 @@
 (global-set-key (kbd "C-x |") 'toggle-window-split)
 (repeat-mode 1)
 
+
+(defalias 'julian/setup-environment
+  (kmacro "C-x t 2 s-p p a p i <return> C-x t 2 s-p p m o b i l e <return>"))
+
 (provide 'my-keybinds)
 
 

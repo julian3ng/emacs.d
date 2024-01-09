@@ -53,7 +53,7 @@
 (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 
 ;; info
-;(add-to-list 'info-directory-list "~/info")
+                                        ;(add-to-list 'info-directory-list "~/info")
 
 ;; Get rid of overwrite mode
 (put 'overwrite-mode 'disabled t)
@@ -76,5 +76,16 @@
     (progn  (highlight-changes-mode 1) (highlight-changes-mode 0))))
 
 ;; (add-hook 'after-save-hook 'julian/flicker-highlight-changes-mode)
+
+(setq isearch-repeat-on-direction-change t
+      isearch-wrap-pause 'no)
+;;default search commands
+;; in C-s
+;; C-M-y: add char
+;; C-M-d  delete char
+;; C-M-z  add to zap
+
+(setq reb-re-syntax 'string)
+
 
 (provide 'my-system)
