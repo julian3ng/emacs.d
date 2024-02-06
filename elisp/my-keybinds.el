@@ -26,6 +26,7 @@
 (global-set-key (kbd "C-z b") 'bury-buffer)
 (global-set-key (kbd "C-z u") 'unbury-buffer)
 (global-set-key (kbd "<f2>") 'follow-mode)
+(global-set-key (kbd "M-O") 'other-frame)
 (unbind-key (kbd "s-a"))
 (unbind-key (kbd "s-h"))
 (unbind-key (kbd "s-l"))
@@ -102,8 +103,66 @@
 (defalias 'julian/setup-environment
   (kmacro "C-x t 2 s-p p a p i <return> C-x t 2 s-p p m o b i l e <return>"))
 
+(defun julian/snake-to-camelcase (str)
+  "Convert snakecase string to camelcase. i.e. foo_bar_123 to fooBar123"
+  (replace-regexp-in-string
+   "_."
+   (lambda (match)
+     (capitalize (substring match 1)))
+   str))
+
+(defun julian/snake-to-camelcase-region (start end)
+  (interactive "r")
+  (replace-region-contents start end (lambda () (julian/snake-to-camelcase (buffer-string)))))
+
+(defun julian/snake-to-camelcase-word ()
+  (interactive)
+  (let ((start (1- (search-forward-regexp "[[:word:]]")))
+        (end (1- (search-forward-regexp "[^[:word:]_]"))))
+    (julian/snake-to-camelcase-region start end)))
+
+
+(global-set-key (kbd "M-C") 'julian/snake-to-camelcase-word)
+
+(defun julian/camel-to-snakecase (str)
+  "Convert camelcase string to snakecase. i.e. fooBar123 to foo_bar123"
+  (let ((case-fold-search nil))
+    (replace-regexp-in-string
+     "[a-z][A-Z]"
+     (lambda (match)
+       (concat (substring match 0 1)
+               ""
+               (downcase (substring match 1))))
+     str)))
+
+(defun julian/camel-to-snakecase-region (start end)
+  (interactive "r")
+  (replace-region-contents start end (lambda () (julian/camel-to-snakecase (buffer-string)))))
+
+(defun julian/camel-to-snakecase-word ()
+  (interactive)
+  (let ((start (1- (search-forward-regexp "[[:word:]]")))
+        (end (1- (search-forward-regexp "[^[:word:]]"))))
+    (julian/camel-to-snakecase-region start end)))
+
+(global-set-key (kbd "M-L") 'julian/camel-to-snakecase-word)
+
+
+;;;; Example: writing your own keymap
+(defvar-keymap test-prefix-buffer-map
+  :doc "test buffer keymap"
+  "s" #'save-buffer
+  "w" #'write-buffer
+  "p" #'previous-buffer
+  "n" #'next-buffer)
+
+(defvar-keymap test-prefix-map
+  :doc "test prefix map"
+  "b" test-prefix-buffer-map)
+
+(which-key-add-keymap-based-replacements test-prefix-map
+  "b" `("Buffer" . ,test-prefix-buffer-map))
+
+(keymap-set global-map "s-t" test-prefix-map)
+
 (provide 'my-keybinds)
-
-
-
-

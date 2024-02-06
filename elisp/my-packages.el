@@ -137,14 +137,10 @@
   (defalias 'julian/magit-refresh-origin-develop
     (kmacro "f r <return> d e v e l o p : d e v e l o p <return>")))
 
-(use-package olivetti
-  :config (setq-default olivetti-body-width 120))
-
 ;; ORG MODE CONFIG ============================================================
 (use-package org
   :hook ((org-mode . (lambda () (display-line-numbers-mode 0)))
          (org-mode . (lambda () (display-fill-column-indicator-mode 0)))
-         (org-mode . olivetti-mode)
          (org-mode . visual-line-mode))
   :bind (:map org-mode-map ("C-'" . avy-goto-char-timer))
   :bind (("C-c a" . org-agenda)
@@ -157,20 +153,27 @@
                   org-hide-block-startup t
                   org-hide-emphasis-markers nil
                   org-hide-leading-stars nil
-                  org-todo-keywords '((sequence "TODO(t)" "|" "DONE(D)"))
+                  org-todo-keywords '((sequence "TODO(t)" "∈PRG(i)" "CR(c)" "PR(p)" "RT(r)" "|" "DONE(D)" "CA(C)" "BL(B)"))
                   org-use-fast-todo-selection 'expert
-                  org-todo-keyword-faces '(("TODO" . "red")
-                                           ("DONE" . "lightGreen"))
+                  org-todo-keyword-faces '(("TODO" . "lightGrey")
+                                           ("∈PRG" . "yellow")
+                                           ("CR" . "green")
+                                           ("PR" . "green")
+                                           ("RT" . "green")
+                                           ("DONE" . "royalBlue")
+                                           ("CA" . "grey")
+                                           ("BL" . "red"))
                   org-directory "~/org/"
                   org-capture-templates `(
+                                          ("t" "ticket" entry (file+olp "gtd.org" "Tickets")
+                                           ,(concat "** %?\n" "*** Ticket Body\n" "*** Paperwork\n" "*** Notifications"))
                                           ("i" "Inbox" entry (file "inbox.org")
                                            ,(concat "* TODO %?\n"
                                                     "  /Entered on/ %U"))
                                           ("c" "Code" entry (file "inbox.org")
                                            ,(concat "* TODO %?\n"
                                                     "  %A\n")))
-                  org-agenda-files (list "~/org/gtd.org"
-                                         "~/org/inbox.org")
+                  org-agenda-files (list "~/org/gtd.org")
                   org-refile-use-outline-path 'file
                   org-outline-path-complete-in-steps nil
                   org-refile-targets '((nil :maxlevel . 3)
@@ -186,25 +189,8 @@
                  (set-face-foreground 'org-block "#888")
                  (set-face-foreground 'org-code "aquamarine")
                  (set-face-foreground 'org-verbatim "#888")
-                 ;; (custom-theme-set-faces
-                 ;;  'user
-                 ;;  'hl-line ((t (:underline t)))
-                 ;;  '(variable-pitch ((t (:family "ETBembo" :height 160 :weight normal ))))
-                 ;;  '(fixed-pitch ((t (:family "Fira Code" :height 120))))
-                 ;;  '(org-block ((t (:inherit fixed-pitch))))
-                 ;;  '(org-code ((t (:foreground "#00ffbb" :inherit (shadow fixed-pitch)))))
-                 ;;  '(org-document-info ((t (:foreground "dark orange"))))
-                 ;;  '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
-                 ;;  '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
-                 ;;  '(org-link ((t (:foreground "royal blue" :underline t))))
-                 ;;  '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-                 ;;  '(org-property-value ((t (:inherit fixed-pitch))) t)
-                 ;;  '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-                 ;;  '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
-                 ;;  '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
-                 ;;  '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
                  (add-to-list 'org-modules 'org-habit)
-                 (add-to-list 'org-emphasis-alist '("/" (:foreground "red")))))
+                 (add-to-list 'org-emphasis-alist '("/" (:inherit italic :foreground "red")))))
 
                                         ;(unbind-key "C-c n d") ; what was this for??
 
@@ -234,7 +220,8 @@
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((C . t)
-     (python . t))))
+     (python . t)
+     (ruby . t))))
 
 (use-package org-journal)
 
@@ -458,13 +445,25 @@
   (interactive "P")
   (consult-grep (if dir dir default-directory)))
 
+(unbind-key "s-k")
 (use-package consult
   :bind (("C-c c g" . julian/consult-grep-here)
          ("C-c c l" . consult-line)
          ("C-c c f" . consult-find)
          ("C-c c m" . consult-mark)
          ("C-c c b" . consult-buffer)
-         ("C-c c F" . consult-focus-lines)))
+         ("C-c c F" . consult-focus-lines)
+
+         ("s-k g" . julian/consult-grep-here)
+         ("s-k l" . consult-line)
+         ("s-k f" . consult-find)
+         ("s-k m" . consult-mark)
+         ("s-k b" . consult-buffer)
+         ("s-k F" . consult-focus-lines)
+         ("s-k y" . consult-yank-from-kill-ring)
+         ("s-k r" . consult-register)
+         ("s-k T" . consult-theme))
+  )
 
 
 (use-package embark
@@ -677,8 +676,9 @@
 
 ;; dark themes: ("kaolin-aurora" "kaolin-blossom"  "kaolin-bubblegum" "kaolin-dark" "kaolin-eclipse" "kaolin-galaxy" "kaolin-mono-dark" "kaolin-ocean" "kaolin-shiva" "kaolin-temple" "kaolin-valley-dark")
 
-(use-package kaolin-themes
-  :config (load-theme 'kaolin-valley-dark t))
+(use-package kaolin-themes)
+(use-package gruvbox-theme :config (load-theme 'gruvbox-dark-medium t))
+
 
                                         ;(use-package racket-mode)
 
@@ -730,7 +730,6 @@
 (use-package emacs
   :bind  (("s-{" . tab-previous)
           ("s-}" . tab-next)
-          ("s-t" . tab-new)
           :repeat-map tab-repeat-map
           ("o" . tab-next)
           ("O" . tab-previous)

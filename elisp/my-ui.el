@@ -105,7 +105,7 @@
   (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode)))
 
-(setq-default show-trailing-whitespace t)
+(setq-default show-trailing-whitespace nil)
 (setq-default indicate-empty-lines t)
 (setq-default indicate-buffer-boundaries 'left)
 (setq sentence-end-double-space nil)
@@ -156,6 +156,7 @@
 
 (setq-default tab-bar-format '(tab-bar-format-history tab-bar-format-tabs-groups tab-bar-separator tab-bar-format-add-tab))
 
+(set-face-attribute 'default nil :font "Fira Code")
 
 ;; Fix frame stuff
 ;;(set-frame-parameter (selected-frame) 'window-state nil)
