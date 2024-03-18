@@ -62,7 +62,6 @@
                                ("https://mathbabe.org/feed/" blog math)
                                ("https://ciechanow.ski/atom.xml" blog css)
                                ("https://planet.emacslife.com/atom.xml" blog emacs)
-                               ("https://www.cnet.com/rss/news/" news cnet)
                                ("https://www.cnet.com/rss/gaming/" games cnet)
                                         ;("https://kagi.com/api/v1/smallweb/feed/" smallweb)
                                ))
@@ -129,11 +128,17 @@
          ("C-x g" . magit-status)
          ("C-c M-g" . magit-dispatch)
          ("C-c g" . magit-file-dispatch))
+  :init
+  ;; (format-time-string "%Y-%m-%d %H:%M:%S" (current-time))
+  (setq magit-log-margin '(t "%Y-%m-%d %H:%M:%S" magit-log-margin-width t 18)) 
+
   :config
   (setq
    git-commit-major-mode 'markdown-mode
    magit-process-finish-apply-ansi-colors t
-   magit-status-margin '(nil "%Y-%m-%d %H:%M:%S" magit-log-margin-width nil 18))
+   magit-status-margin '(nil "%Y-%m-%d %H:%M:%S" magit-log-margin-width nil 18)
+   magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
+   magit-bury-buffer-function #'magit-restore-window-configuration)
   (defalias 'julian/magit-refresh-origin-develop
     (kmacro "f r <return> d e v e l o p : d e v e l o p <return>")))
 
@@ -141,7 +146,9 @@
 (use-package org
   :hook ((org-mode . (lambda () (display-line-numbers-mode 0)))
          (org-mode . (lambda () (display-fill-column-indicator-mode 0)))
-         (org-mode . visual-line-mode))
+         (org-mode . visual-line-mode)
+         (org-mode . abbrev-mode))
+  
   :bind (:map org-mode-map ("C-'" . avy-goto-char-timer))
   :bind (("C-c a" . org-agenda)
          ("C-c C" . org-capture)
@@ -191,6 +198,13 @@
                  (set-face-foreground 'org-verbatim "#888")
                  (add-to-list 'org-modules 'org-habit)
                  (add-to-list 'org-emphasis-alist '("/" (:inherit italic :foreground "red")))))
+
+(use-package org-preview-html)
+
+(defun julian/insert-org-date-string ()
+  (insert  "[" (format-time-string "%Y-%m-%d %a") "]"))
+
+(define-abbrev org-mode-abbrev-table "orgtoday" "" 'julian/insert-org-date-string)
 
                                         ;(unbind-key "C-c n d") ; what was this for??
 
@@ -256,6 +270,16 @@
         (insert (string-trim-right relative-filename "\\.[^.]*"))
       (insert relative-filename))))
 
+(defun julian/copy-projectile-relative-filename (prefix)
+  (interactive "P")
+  (let* ((project-root (projectile-acquire-root))
+         (file (buffer-file-name))
+         (filename (expand-file-name file project-root))
+         (relative-filename (file-relative-name filename project-root)))
+    (kill-new relative-filename)
+    (message relative-filename)))
+
+
 (use-package projectile
   :diminish projectile-mode
   :init (projectile-mode +1)
@@ -267,7 +291,8 @@
             (projectile-mode t))
   :bind (:map projectile-mode-map
               ("s-p" . projectile-command-map)
-              ("C-c I" . julian/projectile-insert-relative-filename)))
+              ("C-c I" . julian/projectile-insert-relative-filename)
+              ("s-s" . projectile-ripgrep)))
 
 (use-package ripgrep)
 
@@ -454,6 +479,7 @@
          ("C-c c b" . consult-buffer)
          ("C-c c F" . consult-focus-lines)
 
+         ("s-k e" . consult-flymake)
          ("s-k g" . julian/consult-grep-here)
          ("s-k l" . consult-line)
          ("s-k f" . consult-find)
@@ -462,8 +488,11 @@
          ("s-k F" . consult-focus-lines)
          ("s-k y" . consult-yank-from-kill-ring)
          ("s-k r" . consult-register)
-         ("s-k T" . consult-theme))
-  )
+         ("s-k T" . consult-theme)
+         ("s-k x" . consult-complex-command))
+  :config
+  (setq xref-show-xrefs-function 'consult-xref
+        xref-show-definitions-function 'consult-xref))
 
 
 (use-package embark
@@ -524,11 +553,19 @@
                                 (_ (flymake-diagnostic-text d)))
                               )) diags "\n")))))
 
+
 (use-package eglot
   :bind (("s-l c a" . eglot-code-actions)
          ("s-l r r" . eglot-rename)
-         ("s-l g t" . eglot-find-typeDefinition)))
+         ("s-l g t" . eglot-find-typeDefinition))
+  :config (add-to-list 'project-vc-extra-root-markers "tsconfig.json"))
 
+;; (use-package eglot-booster
+;;   :after eglot
+;;   :config
+;;   (fset #'jsonrpc--log-event #'ignore)
+;;   (setq eglot-events-buffer-size 0)
+;; )
 
 
 (use-package markdown-mode) ;; we need markdown mode for eglot's eldoc to render
@@ -548,16 +585,15 @@
          ("C-c ! p" . flymake-goto-prev-error)
          ("C-c ! l" . flymake-show-buffer-diagnostics)
          ("C-c ! L" . flymake-show-project-diagnostics)
+         ("s-e n" . flymake-goto-next-error)
+         ("s-e p" . flymake-goto-prev-error)
+         ("s-e l" . flymake-show-buffer-diagnostics)
+         ("s-e L" . flymake-show-project-diagnostics)
          :repeat-map flymake-repeat-map
          ("n" . flymake-goto-next-error)
          ("p" . flymake-goto-prev-error)
          ("l" . flymake-show-buffer-diagnostics)
-         ("L" . flymake-show-project-diagnostics))
-  )
-
-
-
-
+         ("L" . flymake-show-project-diagnostics)))
 
 (use-package dabbrev
   ;; Swap M-/ and C-M-/
@@ -639,8 +675,9 @@
 
 (use-package poke-line
   :config
-  (poke-line-global-mode)
-  (poke-line-set-pokemon "gengar"))
+  (setq poke-line-bar-length 16)
+  (poke-line-set-random-pokemon)
+  (poke-line-global-mode))
 
 
 (defun julian/push-mark-no-activate ()
@@ -727,6 +764,8 @@
 
 (use-package nov)
 
+
+
 (use-package emacs
   :bind  (("s-{" . tab-previous)
           ("s-}" . tab-next)
@@ -737,5 +776,7 @@
           ("u" . tab-undo)
           ("0" . tab-close)))
 
+(diminish 'auto-revert-mode)
+(diminish 'sideline-mode)
 
 (provide 'my-packages)

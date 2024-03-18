@@ -142,7 +142,8 @@
                              ("\\*xref\\*" (display-buffer-reuse-mode-window) (inhibit-same-window nil) (mode xref--xref-buffer-mode))
                              ("\\*terminal\\*" (display-buffer-in-side-window) (side . bottom))
                              ("\\*ansi-term\\*" (display-buffer-in-side-window) (side . bottom))
-                             ("\\*e?shell\\*" (display-buffer-in-side-window) (side . bottom))))
+                             ("\\*e?shell\\*" (display-buffer-in-side-window) (side . bottom))
+                             ("magit.*" (display-buffer-use-some-window) )))
 
 ;; (setq display-buffer-alist
 ;;       '((".*" (display-buffer-reuse-window display-buffer-same-window))))
@@ -160,6 +161,6 @@
 
 ;; Fix frame stuff
 ;;(set-frame-parameter (selected-frame) 'window-state nil)
-
+(which-function-mode t)
 
 (provide 'my-ui)

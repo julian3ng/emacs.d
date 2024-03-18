@@ -33,7 +33,7 @@
 (unbind-key (kbd "s-o"))
 (unbind-key (kbd "s-p"))
 (unbind-key (kbd "s-t"))
-
+(unbind-key (kbd "s-e"))
 
 (defun toggle-window-split ()
   (interactive)
@@ -164,5 +164,7 @@
   "b" `("Buffer" . ,test-prefix-buffer-map))
 
 (keymap-set global-map "s-t" test-prefix-map)
+
+
 
 (provide 'my-keybinds)
