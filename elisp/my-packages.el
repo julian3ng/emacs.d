@@ -52,6 +52,7 @@
   :bind (("C-c e" . elfeed))
   :config (setq elfeed-feeds '(("https://news.ycombinator.com/rss" news tech)
                                ("https://lobste.rs/rss" news tech)
+                               ("https://arraycast.com/episodes?format=rss" podcast pl)
                                         ;                               ("https://www.wired.com/feed/rss" news tech)
                                ("https://css-tricks.com/feed/" tech)
                                ("https://feeds.feedburner.com/codinghorror" blog tech)
@@ -63,10 +64,11 @@
                                ("https://ciechanow.ski/atom.xml" blog css)
                                ("https://planet.emacslife.com/atom.xml" blog emacs)
                                ("https://www.cnet.com/rss/gaming/" games cnet)
-                                        ;("https://kagi.com/api/v1/smallweb/feed/" smallweb)
                                ))
   (setq shr-inhibit-images t)
   (setq-default elfeed-search-filter "@1-month-ago +unread")
+
+
 
   ;; filters
   ;; press "s" to start edit the filter
@@ -80,6 +82,13 @@
   ;; # restricts number of entries
   ;;
   )
+
+
+
+(use-package elfeed-summary
+  :bind (("C-c E" . elfeed-summary))
+  :bind (:map elfeed-summary-mode-map
+              ("p" . magit-section-backward)))
 
 
 ;; HTML/CSS expansion
@@ -490,7 +499,7 @@
          ("s-k r" . consult-register)
          ("s-k T" . consult-theme)
          ("s-k x" . consult-complex-command))
-  :config
+  :init
   (setq xref-show-xrefs-function 'consult-xref
         xref-show-definitions-function 'consult-xref))
 
@@ -764,6 +773,7 @@
 
 (use-package nov)
 
+(use-package forth-mode)
 
 
 (use-package emacs

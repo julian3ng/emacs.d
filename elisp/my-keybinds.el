@@ -148,22 +148,22 @@
 (global-set-key (kbd "M-L") 'julian/camel-to-snakecase-word)
 
 
-;;;; Example: writing your own keymap
-(defvar-keymap test-prefix-buffer-map
-  :doc "test buffer keymap"
-  "s" #'save-buffer
-  "w" #'write-buffer
-  "p" #'previous-buffer
-  "n" #'next-buffer)
+;; ;;;; Example: writing your own keymap
+;; (defvar-keymap test-prefix-buffer-map
+;;   :doc "test buffer keymap"
+;;   "s" #'save-buffer
+;;   "w" #'write-buffer
+;;   "p" #'previous-buffer
+;;   "n" #'next-buffer)
 
-(defvar-keymap test-prefix-map
-  :doc "test prefix map"
-  "b" test-prefix-buffer-map)
+;; (defvar-keymap test-prefix-map
+;;   :doc "test prefix map"
+;;   "b" test-prefix-buffer-map)
 
-(which-key-add-keymap-based-replacements test-prefix-map
-  "b" `("Buffer" . ,test-prefix-buffer-map))
+;; (which-key-add-keymap-based-replacements test-prefix-map
+;;   "b" `("Buffer" . ,test-prefix-buffer-map))
 
-(keymap-set global-map "s-t" test-prefix-map)
+;; (keymap-set global-map "s-t" test-prefix-map)
 
 
 
