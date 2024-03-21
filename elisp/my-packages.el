@@ -5,9 +5,9 @@
         erc-port 6697
         erc-nick "themonkeybob11"))
 
-(use-package auctex
-  :defer t
-  :ensure t)
+;; (use-package auctex
+;;   :defer t
+;;   :ensure t)
 
 (use-package elpy
   :init (elpy-enable))
@@ -26,22 +26,17 @@
   ("M-o" . ace-window)
   ("C-x o" . other-window))
 
-;; (use-package all-the-icons)
-;; (use-package all-the-icons-completion
-;;   :after (marginalia all-the-icons)
-;;   :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
-;;   :init
-;;   (all-the-icons-completion-mode))
-
 (use-package avy
-  :bind (("C-'" . avy-goto-char)
-         ("C-;" . avy-goto-word-or-subword-1)
-         ("C-." . avy-goto-line)
-         ("M-g l" . avy-goto-line)
-         ("M-g c" . avy-goto-char-2)
-         ("M-g w" . avy-goto-word)
-         ((:map isearch-mode-map ("C-'" . avy-isearch)))))
-
+  :config (defvar julian/avy-keymap
+            (define-keymap
+              "c"  #'avy-goto-char
+              "'"  #'avy-goto-char
+              "\""  #'avy-goto-char-2
+              "t" #'avy-goto-char-timer
+              "w" #'avy-goto-word-0
+              "l"  #'avy-goto-line))
+  :bind-keymap ("C-'" . julian/avy-keymap)
+  :bind ((:map isearch-mode-map ("C-'" . avy-isearch))))
 
 ;; M-x stuff
 (use-package diminish)
@@ -539,10 +534,11 @@
          ("C-c C-p _" . cape-tex)
          ("C-c C-p ^" . cape-tex)
          ("C-c C-p &" . cape-sgml)
-         ("C-c C-p r" . cape-rfc1345))
+         ("C-c C-p r" . cape-rfc1345)))
 
-  )
-
+(use-package goggles
+  :hook (prog-mode . goggles-mode)
+  :config (setq-default goggles-pulse t))
 
 (defun flymake-eldoc-function (report-doc &rest _)
   "Document diagnostics at point.

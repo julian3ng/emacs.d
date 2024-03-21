@@ -77,8 +77,7 @@
 
 ;; (add-hook 'after-save-hook 'julian/flicker-highlight-changes-mode)
 
-(setq isearch-repeat-on-direction-change t
-      isearch-wrap-pause 'no)
+(setq isearch-repeat-on-direction-change t)
 ;;default search commands
 ;; in C-s
 ;; C-M-y: add char
