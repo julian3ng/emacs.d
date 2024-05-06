@@ -157,6 +157,7 @@
 
 (setq-default tab-bar-format '(tab-bar-format-history tab-bar-format-tabs-groups tab-bar-separator tab-bar-format-add-tab))
 
+
 (set-face-attribute 'default nil :font "Fira Code")
 
 ;; Fix frame stuff

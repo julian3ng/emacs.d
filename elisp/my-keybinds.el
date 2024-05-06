@@ -131,7 +131,7 @@
      "[a-z][A-Z]"
      (lambda (match)
        (concat (substring match 0 1)
-               ""
+               "_"
                (downcase (substring match 1))))
      str)))
 

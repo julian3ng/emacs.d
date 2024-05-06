@@ -35,8 +35,12 @@
               "t" #'avy-goto-char-timer
               "w" #'avy-goto-word-0
               "l"  #'avy-goto-line))
-  :bind-keymap ("C-'" . julian/avy-keymap)
-  :bind ((:map isearch-mode-map ("C-'" . avy-isearch))))
+  (setq avy-timeout-seconds 0.3
+        avy-style 'de-bruijn
+        avy-background t)
+  :bind-keymap ("C-;" . julian/avy-keymap)
+  :bind ((:map isearch-mode-map ("C-'" . avy-isearch)))
+  :bind (("C-'" . avy-goto-char-timer)))
 
 ;; M-x stuff
 (use-package diminish)
@@ -58,10 +62,13 @@
                                ("https://mathbabe.org/feed/" blog math)
                                ("https://ciechanow.ski/atom.xml" blog css)
                                ("https://planet.emacslife.com/atom.xml" blog emacs)
+                               ("https://karthinks.com/index.xml" blog emacs)
                                ("https://www.cnet.com/rss/gaming/" games cnet)
-                               ))
-  (setq shr-inhibit-images t)
-  (setq-default elfeed-search-filter "@1-month-ago +unread")
+                               ("http://crawl.develz.org/wordpress/feed" games)))
+  (setq shr-inhibit-images t
+        )
+  (setq-default elfeed-search-filter "@1-month-ago +unread"
+                elfeed-search-title-max-width 100)
 
 
 
@@ -77,8 +84,6 @@
   ;; # restricts number of entries
   ;;
   )
-
-
 
 (use-package elfeed-summary
   :bind (("C-c E" . elfeed-summary))
@@ -96,19 +101,6 @@
 (use-package expand-region
   :commands expand-region
   :bind (("C-=" . er/expand-region)))
-
-;; (use-package flycheck :init (global-flycheck-mode)
-;;   :config
-;;   (setq-default flycheck-disabled-checkers '(emacs-lisp
-;;                                              emacs-lisp-checkdoc)
-;;                 flycheck-emacs-lisp-load-path 'inherit)
-;;   :diminish global-flycheck-mode flycheck-mode)
-
-
-;; (use-package gnu-apl-mode
-;;   :config
-;;   (setq gnu-apl-mode-map-prefix "H-")
-;;   (setq gnu-apl-mode-map (gnu-apl--make-apl-mode-map)))
 
 (use-package hideshow
   :ensure nil
@@ -148,6 +140,7 @@
 
 ;; ORG MODE CONFIG ============================================================
 (use-package org
+  :init (setq org-fold-core-style 'overlays)
   :hook ((org-mode . (lambda () (display-line-numbers-mode 0)))
          (org-mode . (lambda () (display-fill-column-indicator-mode 0)))
          (org-mode . visual-line-mode)
@@ -352,10 +345,11 @@
 (use-package slime
   :config
   (setq inferior-lisp-program "sbcl"
-        slime-lisp-implementations '((sbcl ("/usr/bin/sbcl")))
+        slime-lisp-implementations '((sbcl ("/opt/homebrew/bin/sbcl")))
         slime-contribs '(slime-fancy))
   (add-to-list 'auto-mode-alist '("\\.lisp\\'" . common-lisp-mode))
-  (load "/home/julian/quicklisp/clhs-use-local.el" t))
+                                        ;(load "/home/julian/quicklisp/clhs-use-local.el" t)
+  )
 
 ;; Better highlights
 (use-package symbol-overlay
@@ -368,13 +362,17 @@
          ("C-c h m" . symbol-overlay-mode)
          ("C-c h C" . symbol-overlay-remove-all)))
 
-(use-package undo-tree
-  :diminish ""
-  :init (progn (global-undo-tree-mode) (setq undo-tree-visualizer-timestamps t))
-  :bind (("s-u" . undo-tree-visualize))
-  :config (setq undo-tree-history-directory-alist '(("." . "/.emacs.d/undo/"))
-                undo-tree-auto-save-history nil
-                undo-tree-enable-undo-in-region t))
+;; (use-package undo-tree
+;;   :diminish ""
+;;   :init (progn (global-undo-tree-mode) (setq undo-tree-visualizer-timestamps t))
+;;   :bind (("s-u" . undo-tree-visualize))
+;;   :config (setq undo-tree-history-directory-alist '(("." . "/.emacs.d/undo/"))
+;;                 undo-tree-auto-save-history nil
+;;                 undo-tree-enable-undo-in-region t))
+
+(use-package vundo
+  :bind (("s-u" . vundo))
+  :config (setq vundo-glyph-alist vundo-unicode-symbols))
 
 (use-package which-key
   :diminish which-key-mode
@@ -485,8 +483,10 @@
 
          ("s-k e" . consult-flymake)
          ("s-k g" . julian/consult-grep-here)
+         ("s-k G" . consult-ripgrep)
          ("s-k l" . consult-line)
          ("s-k f" . consult-find)
+         ("s-k SPC" . consult-mark)
          ("s-k m" . consult-mark)
          ("s-k b" . consult-buffer)
          ("s-k F" . consult-focus-lines)
@@ -499,16 +499,30 @@
         xref-show-definitions-function 'consult-xref))
 
 
+(defun avy-action-embark (pt)
+  (unwind-protect
+      (save-excursion
+        (goto-char pt)
+        (embark-act))
+    (select-window
+     (cdr (ring-ref avy-ring 0))))
+  t)
+
+
 (use-package embark
-  :bind (("s-." . embark-act)
-         ("s-," . embark-dwim)
+  :bind (("C-." . embark-act)
          ("C-h B" . embark-bindings))
   :config
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
                  nil
-                 (window-parameters (mode-line-format . none)))))
+                 (window-parameters (mode-line-format . none))))
+
+  (setf (alist-get ?. avy-dispatch-alist) 'avy-action-embark)
+  )
+
+;; from https://karthinks.com/software/avy-can-do-anything/
 
 (use-package embark-consult
   :hook
@@ -536,6 +550,7 @@
          ("C-c C-p &" . cape-sgml)
          ("C-c C-p r" . cape-rfc1345)))
 
+;; pulses modified regions
 (use-package goggles
   :hook (prog-mode . goggles-mode)
   :config (setq-default goggles-pulse t))
@@ -564,14 +579,6 @@
          ("s-l r r" . eglot-rename)
          ("s-l g t" . eglot-find-typeDefinition))
   :config (add-to-list 'project-vc-extra-root-markers "tsconfig.json"))
-
-;; (use-package eglot-booster
-;;   :after eglot
-;;   :config
-;;   (fset #'jsonrpc--log-event #'ignore)
-;;   (setq eglot-events-buffer-size 0)
-;; )
-
 
 (use-package markdown-mode) ;; we need markdown mode for eglot's eldoc to render
 
@@ -613,40 +620,8 @@
 ;; (require 'asdf)
 ;; (asdf-enable)
 
-;; (use-package eyebrowse
-;;   :init
-;;   (setq eyebrowse-new-workspace t)
-;;   :bind (
-;;          :map eyebrowse-mode-map
-;;               ("s-0" . eyebrowse-switch-to-window-config-0)
-;;               ("s-1" . eyebrowse-switch-to-window-config-1)
-;;               ("s-2" . eyebrowse-switch-to-window-config-2)
-;;               ("s-3" . eyebrowse-switch-to-window-config-3)
-;;               ("s-4" . eyebrowse-switch-to-window-config-4)
-;;               ("s-5" . eyebrowse-switch-to-window-config-5)
-;;               ("s-6" . eyebrowse-switch-to-window-config-6)
-;;               ("s-7" . eyebrowse-switch-to-window-config-7)
-;;               ("s-8" . eyebrowse-switch-to-window-config-8)
-;;               ("s-9" . eyebrowse-switch-to-window-config-9)
-;;               ("s-}" . eyebrowse-next-window-config)
-;;               ("s-{" . eyebrowse-prev-window-config)
-;;               ("C-c C-w n" . eyebrowse-next-window-config)
-;;               ("C-c C-w C-n" . eyebrowse-next-window-config)
-;;               ("C-c C-w p" . eyebrowse-prev-window-config)
-;;               ("C-c C-w C-p" . eyebrowse-prev-window-config)
-;;               ("C-c C-w f" . eyebrowse-next-window-config)
-;;               ("C-c C-w C-f" . eyebrowse-next-window-config)
-;;               ("C-c C-w b" . eyebrowse-prev-window-config)
-;;               ("C-c C-w C-b" . eyebrowse-prev-window-config))
-;;   :config
-;;   (eyebrowse-mode t)
-;;   (unless (assoc 'eyebrowse-mode frame-title-format)
-;;     (push '(eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))
-;;           (cdr (last mode-line-misc-info))))
-;;   (delq (assoc 'eyebrowse-mode mode-line-misc-info) mode-line-misc-info))
-
-
-;; (require 'eyebrowse)
+;; tabs are better, don't bother with eyebrowse
+;; (use-package eyebrowse ...)
 
 (use-package smerge-mode
   :ensure nil
@@ -659,7 +634,7 @@
               ("C-c C-s u" . smerge-keep-upper)))
 
 (use-package iedit
-  :bind ("C-c i" . iedit-mode))
+  :bind ("s-i" . iedit-mode))
 
 ;; (use-package typescript-mode
 ;;   :after tree-sitter
@@ -668,15 +643,6 @@
 ;;   (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))
 ;;   (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescript-tsx-mode))
 ;;   (setq typescript-indent-level 2))
-
-;; (use-package nyan-mode
-;;   :config
-;;   (setq nyan-bar-length 8)
-;;   (nyan-mode 1)
-;;   (nyan-start-animation)
-;;   (nyan-toggle-wavy-trail)
-;;   )
-
 
 (use-package poke-line
   :config
@@ -771,10 +737,20 @@
 
 (use-package forth-mode)
 
+(use-package casual :bind (:map calc-mode-map ("C-o" . casual-main-menu)))
+
+(use-package w3m)
+
+(use-package sqlformat)
 
 (use-package emacs
+  :config
+  (setq dired-listing-switches "-lGgha")
   :bind  (("s-{" . tab-previous)
           ("s-}" . tab-next)
+          ("s-<" . previous-window-any-frame)
+          ("s->" . next-window-any-frame)
+          ("M-_" . undo-redo)
           :repeat-map tab-repeat-map
           ("o" . tab-next)
           ("O" . tab-previous)
