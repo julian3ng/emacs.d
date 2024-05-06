@@ -737,11 +737,17 @@
 
 (use-package forth-mode)
 
+;; Calc menu for noobs
 (use-package casual :bind (:map calc-mode-map ("C-o" . casual-main-menu)))
 
 (use-package w3m)
 
+;; Give sqlformat command
 (use-package sqlformat)
+
+(use-package beframe
+  :bind-keymap ("C-c b" . beframe-prefix-map))
+
 
 (use-package emacs
   :config

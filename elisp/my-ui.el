@@ -143,7 +143,7 @@
                              ("\\*terminal\\*" (display-buffer-in-side-window) (side . bottom))
                              ("\\*ansi-term\\*" (display-buffer-in-side-window) (side . bottom))
                              ("\\*e?shell\\*" (display-buffer-in-side-window) (side . bottom))
-                             ("magit.*" (display-buffer-use-some-window) )))
+                             ("magit.*" (display-buffer-reuse-mode-window))))
 
 ;; (setq display-buffer-alist
 ;;       '((".*" (display-buffer-reuse-window display-buffer-same-window))))
