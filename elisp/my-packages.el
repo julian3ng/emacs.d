@@ -1,3 +1,6 @@
+;; Have to install this under emacs -nw -q for some reason 
+(use-package gptel)
+
 (use-package autothemer)
 (use-package erc
   :config
@@ -22,6 +25,10 @@
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
         aw-scope 'frame
         aw-dispatch-always nil)
+  (set-face-foreground 'aw-mode-line-face "#f0f")
+  (ace-window-display-mode t)
+
+  
   :bind
   ("M-o" . ace-window)
   ("C-x o" . other-window))
@@ -52,6 +59,7 @@
   :config (setq elfeed-feeds '(("https://news.ycombinator.com/rss" news tech)
                                ("https://lobste.rs/rss" news tech)
                                ("https://arraycast.com/episodes?format=rss" podcast pl)
+                               ("https://reddit.com/r/emacs.rss" reddit emacs)
                                         ;                               ("https://www.wired.com/feed/rss" news tech)
                                ("https://css-tricks.com/feed/" tech)
                                ("https://feeds.feedburner.com/codinghorror" blog tech)
@@ -64,7 +72,8 @@
                                ("https://planet.emacslife.com/atom.xml" blog emacs)
                                ("https://karthinks.com/index.xml" blog emacs)
                                ("https://www.cnet.com/rss/gaming/" games cnet)
-                               ("http://crawl.develz.org/wordpress/feed" games)))
+                               ("http://crawl.develz.org/wordpress/feed" games)
+                               ("https://nicole.express/feed.xml" blog tech)))
   (setq shr-inhibit-images t
         )
   (setq-default elfeed-search-filter "@1-month-ago +unread"
@@ -674,9 +683,9 @@
   :config (apheleia-global-mode +1)
   (setq apheleia-inhibit-functions '(julian/is-json-mode)))
 
-(use-package dirvish
-  :config
-  (dirvish-override-dired-mode))
+;; (use-package dirvish
+;;   :config
+;;   (dirvish-override-dired-mode))
 
 (use-package sicp)
 
@@ -739,6 +748,7 @@
 
 ;; Calc menu for noobs
 (use-package casual :bind (:map calc-mode-map ("C-o" . casual-main-menu)))
+(use-package casual-dired :bind (:map dired-mode-map ("C-o" . dired-display-file)))
 
 (use-package w3m)
 
@@ -748,6 +758,13 @@
 (use-package beframe
   :bind-keymap ("C-c b" . beframe-prefix-map))
 
+(use-package transpose-frame
+  :config (defvar julian/transpose-frame-keymap
+            (define-keymap "t" #'transpose-frame
+              "r" #'rotate-frame
+              "h" #'flip-frame
+              "v" #'flop-frame))
+  :bind-keymap ("s-f" . julian/transpose-frame-keymap))
 
 (use-package emacs
   :config
@@ -766,5 +783,11 @@
 
 (diminish 'auto-revert-mode)
 (diminish 'sideline-mode)
+
+;; Various Notes
+;; Use C-x 4 4 to do next command in other window
+;; Remember avy-dispatch and ace-window-dispatch exist
+;; Embark exists!
+;; Consult exists!
 
 (provide 'my-packages)

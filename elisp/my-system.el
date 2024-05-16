@@ -77,6 +77,12 @@
 
 ;; (add-hook 'after-save-hook 'julian/flicker-highlight-changes-mode)
 
+(setq dired-isearch-filenames 'dwim ; search filenames if in filename column
+      dired-kill-when-opening-new-dired-buffer t ; keep only one dired buffer
+      dired-create-destination-dirs t ; create missing dirs on RHS of rename
+
+      )
+
 (setq isearch-repeat-on-direction-change t)
 ;;default search commands
 ;; in C-s
