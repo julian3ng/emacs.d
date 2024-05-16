@@ -95,7 +95,7 @@
 ;; (setq sql-postgres-login-params (append sql-postgres-login-params '(port)))
 ;; (setq sql-port 35432)
 
-;; From https://karthinks.com/software/emacs-window-management-almanac/#transpose-frame--rotation-flip-and-flop
+;; From https://karthinks.com/software/emacs-window-management-almanac/
 (advice-add 'other-window :before
             (defun other-window-split-if-single (&rest _)
               "Split the frame if there is a single window."

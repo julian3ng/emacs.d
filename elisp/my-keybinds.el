@@ -165,6 +165,35 @@
 
 ;; (keymap-set global-map "s-t" test-prefix-map)
 
+;; https://karthinks.com/software/emacs-window-management-almanac/#isearch-other-window
+(defun isearch-other-window (regexp-p)
+  "Function to isearch-forward in the next window.
+
+With prefix arg REGEXP-P, perform a regular expression search."
+  (interactive "P")
+  (unless (one-window-p)
+    (with-selected-window (other-window-for-scrolling)
+      (isearch-forward regexp-p))))
+
+(keymap-global-set "C-M-s" #'isearch-other-window)
+
+
+(defun split-window-parent-below (arg)
+  (interactive "p")
+  (cond
+   ((= arg 4) (split-window-below nil (window-parent)))
+   ((= arg 16) (split-window-below nil (window-parent (window-parent))))
+   (t (split-window-below nil nil))))
+
+(defun split-window-parent-right (arg)
+  (interactive "p")
+  (cond
+   ((= arg 4) (split-window-right nil (window-parent)))
+   ((= arg 16) (split-window-right nil (window-parent (window-parent))))
+   (t (split-window-right nil nil))))
+
+(global-set-key (kbd "C-x 2") #'split-window-parent-below)
+(global-set-key (kbd "C-x 3") #'split-window-parent-right)
 
 
 (provide 'my-keybinds)
