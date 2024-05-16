@@ -769,6 +769,7 @@
 (use-package emacs
   :config
   (setq dired-listing-switches "-lGgha")
+  (tab-bar-history-mode 1)
   :bind  (("s-{" . tab-previous)
           ("s-}" . tab-next)
           ("s-<" . previous-window-any-frame)
@@ -784,10 +785,12 @@
 (diminish 'auto-revert-mode)
 (diminish 'sideline-mode)
 
+
 ;; Various Notes
 ;; Use C-x 4 4 to do next command in other window
 ;; Remember avy-dispatch and ace-window-dispatch exist
 ;; Embark exists!
 ;; Consult exists!
+;; Tab bar history!!
 
 (provide 'my-packages)
