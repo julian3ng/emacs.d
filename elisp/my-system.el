@@ -95,5 +95,16 @@
 ;; (setq sql-postgres-login-params (append sql-postgres-login-params '(port)))
 ;; (setq sql-port 35432)
 
+;; From https://karthinks.com/software/emacs-window-management-almanac/#transpose-frame--rotation-flip-and-flop
+(advice-add 'other-window :before
+            (defun other-window-split-if-single (&rest _)
+              "Split the frame if there is a single window."
+              (when (one-window-p) (split-window-sensibly))))
+
+;; Use most recent window for other-window-scroll
+(setq other-window-scroll-default (lambda ()
+                                    (or (get-mru-window nil nil 'not-this-one-dummy)
+                                        (next-window)
+                                        (next-window nil nil 'visible))))
 
 (provide 'my-system)
