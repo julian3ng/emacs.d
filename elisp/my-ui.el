@@ -29,7 +29,9 @@
 (global-font-lock-mode t) ; always syntax highlight
 (custom-theme-set-faces
  'user
- '(hl-line ((t :underline (:color "lime" ) ))))
+ '(hl-line ((t :underline (:color "lime" ) )))
+ '(sideline-blame ((t
+                    (:italic t :background unspecified :foreground "#7a88cf")))))
 (global-hl-line-mode t)   ; always highlight current line
 
 (setq visible-bell t) ; use a visible bell
@@ -158,7 +160,11 @@
 (setq-default tab-bar-format '(tab-bar-format-history tab-bar-format-tabs-groups tab-bar-separator tab-bar-format-add-tab))
 
 
-(set-face-attribute 'default nil :font "Fira Code")
+;;(set-face-attribute 'default nil :font "Fira Code")
+(set-face-attribute 'default nil :font "0xproto" )
+
+;; keep modeline output from going crazy
+(setq eldoc-echo-area-use-multiline-p nil)
 
 ;; Fix frame stuff
 ;;(set-frame-parameter (selected-frame) 'window-state nil)

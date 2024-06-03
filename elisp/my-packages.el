@@ -1,4 +1,7 @@
-;; Have to install this under emacs -nw -q for some reason 
+(require 'use-package-ensure)
+(setq use-package-always-ensure t)
+
+;; Have to install this under emacs -nw -q for some reason
 (use-package gptel)
 
 (use-package autothemer)
@@ -13,7 +16,7 @@
 ;;   :ensure t)
 
 (use-package elpy
-  :init (elpy-enable))
+  :config (elpy-enable))
 
 (use-package py-autopep8)
 
@@ -43,11 +46,23 @@
               "w" #'avy-goto-word-0
               "l"  #'avy-goto-line))
   (setq avy-timeout-seconds 0.3
-        avy-style 'de-bruijn
-        avy-background t)
+        avy-style 'at-full
+        avy-background t
+        avy-single-candidate-jump nil
+        )
   :bind-keymap ("C-;" . julian/avy-keymap)
   :bind ((:map isearch-mode-map ("C-'" . avy-isearch)))
   :bind (("C-'" . avy-goto-char-timer)))
+
+(use-package multiple-cursors
+  :config (setq julian/mc-keymap
+                (define-keymap
+                  "e" #'mc/edit-lines
+                  "n" #'mc/mark-next-like-this
+                  "p" #'mc/mark-previous-like-this
+                  "a" #'mc/mark-all-like-this-dwim
+                  ))
+  :bind-keymap (("s-m" . julian/mc-keymap)))
 
 ;; M-x stuff
 (use-package diminish)
@@ -298,6 +313,7 @@
   :bind (:map projectile-mode-map
               ("s-p" . projectile-command-map)
               ("C-c I" . julian/projectile-insert-relative-filename)
+              ("C-c j" . julian/copy-projectile-relative-filename)
               ("s-s" . projectile-ripgrep)))
 
 (use-package ripgrep)
@@ -507,7 +523,7 @@
   (setq xref-show-xrefs-function 'consult-xref
         xref-show-definitions-function 'consult-xref))
 
-
+;; from https://karthinks.com/software/avy-can-do-anything/
 (defun avy-action-embark (pt)
   (unwind-protect
       (save-excursion
@@ -531,7 +547,7 @@
   (setf (alist-get ?. avy-dispatch-alist) 'avy-action-embark)
   )
 
-;; from https://karthinks.com/software/avy-can-do-anything/
+
 
 (use-package embark-consult
   :hook
@@ -587,7 +603,8 @@
   :bind (("s-l c a" . eglot-code-actions)
          ("s-l r r" . eglot-rename)
          ("s-l g t" . eglot-find-typeDefinition))
-  :config (add-to-list 'project-vc-extra-root-markers "tsconfig.json"))
+  :config (add-to-list 'project-vc-extra-root-markers "tsconfig.json")
+  (setq eglot-confirm-server-initiated-edits nil))
 
 (use-package markdown-mode) ;; we need markdown mode for eglot's eldoc to render
 
@@ -740,7 +757,7 @@
   :config
   (setq sideline-backends-left '(sideline-flymake))
   (setq sideline-backends-right '(sideline-blame))
-  (global-sideline-mode 1))
+  (global-sideline-mode -1))
 
 (use-package nov)
 
@@ -765,6 +782,18 @@
               "h" #'flip-frame
               "v" #'flop-frame))
   :bind-keymap ("s-f" . julian/transpose-frame-keymap))
+
+(use-package emms)
+(use-package emms-player-spotify)
+
+;; Need to patch this to fix if-let body and when-let binding
+(use-package jinx
+  :demand t
+  :bind (("M-$" . jinx-correct)
+         ("C-M-$" . jinx-languages))
+  :config (global-jinx-mode)
+  )
+
 
 (use-package emacs
   :config
