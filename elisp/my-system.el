@@ -92,8 +92,28 @@
 
 (setq reb-re-syntax 'string)
 
-;; (setq sql-postgres-login-params (append sql-postgres-login-params '(port)))
-;; (setq sql-port 35432)
+;; Passwords go in ~/.pgpass
+(setq sql-connection-alist
+      '((local (sql-product 'postgres)
+               (sql-user "dev")
+               (sql-server "localhost")
+               (sql-port 35432)
+               (sql-database "development"))
+        (alpha (sql-product 'postgres)
+               (sql-user "dev")
+               (sql-server "db.alpha.i.outcomes4me-staging.com")
+               (sql-port 5432)
+               (sql-database "development"))
+        (staging (sql-product 'postgres)
+                 (sql-user "dev")
+                 (sql-server "db.staging.i.outcomes4me-staging.com")
+                 (sql-port 5432)
+                 (sql-database "development"))             
+        (prod-ro (sql-product 'postgres)
+                 (sql-user "postgres_ro")
+                 (sql-server "db.production.i.outcomes4me.com")
+                 (sql-port 5432)
+                 (sql-database "production"))))
 
 ;; From https://karthinks.com/software/emacs-window-management-almanac/
 (advice-add 'other-window :before
