@@ -177,8 +177,9 @@
 (setq-default tab-bar-format '(tab-bar-format-history tab-bar-format-tabs-groups tab-bar-separator tab-bar-format-add-tab))
 
 
-;;(set-face-attribute 'default nil :font "Fira Code")
-(set-face-attribute 'default nil :font "0xproto" )
+;; (seq-filter (lambda (s) (string-search "DejaVu Sans" s)) (font-family-list))
+;; (set-face-attribute 'default nil :font "0xProto Nerd Font Mono")
+(set-face-attribute 'default nil :font "DejaVu Sans Mono")
 
 ;; keep modeline output from going crazy
 (setq eldoc-echo-area-use-multiline-p nil)
