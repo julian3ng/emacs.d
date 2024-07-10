@@ -88,7 +88,12 @@
                                ("https://karthinks.com/index.xml" blog emacs)
                                ("https://www.cnet.com/rss/gaming/" games cnet)
                                ("http://crawl.develz.org/wordpress/feed" games)
-                               ("https://nicole.express/feed.xml" blog tech)))
+                               ("https://nicole.express/feed.xml" blog tech)
+                               ("https://danluu.com/atom.xml" blog tech)
+                               ("https://lambdaland.org/index.xml" blog tech)
+                               ("https://xeiaso.net/blog.rss" blog tech)
+                               ("http://feeds.feedburner.com/CbloomRants" blog tech)
+                               ("https://ericlippert.com/feed/" blog tech)))
   (setq shr-inhibit-images t
         )
   (setq-default elfeed-search-filter "@1-month-ago +unread"
@@ -200,7 +205,18 @@
                                                     "  /Entered on/ %U"))
                                           ("c" "Code" entry (file "inbox.org")
                                            ,(concat "* TODO %?\n"
-                                                    "  %A\n")))
+                                                    "  %A\n"))
+                                          ("f" "Friction" entry (file+olp "gtd.org" "Logs" "Friction Log")
+                                           ,(concat
+                                             "*** %U %^{Title} (%^{Size|small|small|medium|large})\n"
+                                             "**** Context\n"
+                                             "     - How familiar are you with the feature?\n"
+                                             "     - What are you trying to build?\n"
+                                             "     - What parts of the feature is this log about?\n"
+                                             "**** Pros/Cons: useful parts and improvements/wrong expectations\n"
+                                             "**** Stream of Consciousness\n"
+                                             )
+                                           ))
                   org-agenda-files (list "~/org/gtd.org")
                   org-refile-use-outline-path 'file
                   org-outline-path-complete-in-steps nil
@@ -660,7 +676,7 @@
               ("C-c C-s u" . smerge-keep-upper)))
 
 (use-package iedit
-  :bind ("s-i" . iedit-mode))
+  :bind ("C-c i" . iedit-mode))
 
 ;; (use-package typescript-mode
 ;;   :after tree-sitter
@@ -740,6 +756,8 @@
 
 (use-package bqn-mode)
 
+(use-package protobuf-mode)
+
 (use-package yaml-ts-mode
   :config
   (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-ts-mode)))
@@ -794,6 +812,8 @@
   :config (global-jinx-mode)
   )
 
+(use-package eat)
+(use-package gnuplot)
 
 (use-package emacs
   :config

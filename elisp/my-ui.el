@@ -31,7 +31,12 @@
  'user
  '(hl-line ((t :underline (:color "lime" ) )))
  '(sideline-blame ((t
-                    (:italic t :background unspecified :foreground "#7a88cf")))))
+                    (:italic t :background unspecified :foreground "#7a88cf"))))
+ '(tab-bar-tab ((t :foreground "#ff8844")))
+ '(tab-bar-tab-inactive ((t :foreground "#7c6f64")))
+ '(tab-bar-tab-group-current ((t :foreground "#ff8844"  :background "#282828")))
+ '(tab-bar-tab-group-inactive ((t :foreground "#446688"  :background "#282828"))))
+
 (global-hl-line-mode t)   ; always highlight current line
 
 (setq visible-bell t) ; use a visible bell
@@ -165,6 +170,8 @@
 
 ;; keep modeline output from going crazy
 (setq eldoc-echo-area-use-multiline-p nil)
+
+
 
 ;; Fix frame stuff
 ;;(set-frame-parameter (selected-frame) 'window-state nil)
