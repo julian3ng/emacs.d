@@ -177,4 +177,6 @@
 ;;(set-frame-parameter (selected-frame) 'window-state nil)
 (which-function-mode t)
 
+(global-display-fill-column-indicator-mode)
+
 (provide 'my-ui)

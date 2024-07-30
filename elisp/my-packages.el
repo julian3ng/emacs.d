@@ -74,6 +74,7 @@
   :config (setq elfeed-feeds '(("https://news.ycombinator.com/rss" news tech)
                                ("https://lobste.rs/rss" news tech)
                                ("https://arraycast.com/episodes?format=rss" podcast pl)
+                               ("https://reddit.com/r/forth.rss" reddit forth)
                                ("https://reddit.com/r/emacs.rss" reddit emacs)
                                         ;                               ("https://www.wired.com/feed/rss" news tech)
                                ("https://css-tricks.com/feed/" tech)
@@ -93,7 +94,8 @@
                                ("https://lambdaland.org/index.xml" blog tech)
                                ("https://xeiaso.net/blog.rss" blog tech)
                                ("http://feeds.feedburner.com/CbloomRants" blog tech)
-                               ("https://ericlippert.com/feed/" blog tech)))
+                               ("https://ericlippert.com/feed/" blog tech)
+                               ("https://alvaromontoro.com/feed.rss" blog css)))
   (setq shr-inhibit-images t
         )
   (setq-default elfeed-search-filter "@1-month-ago +unread"
@@ -164,8 +166,12 @@
    magit-status-margin '(nil "%Y-%m-%d %H:%M:%S" magit-log-margin-width nil 18)
    magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
    magit-bury-buffer-function #'magit-restore-window-configuration)
+  
   (defalias 'julian/magit-refresh-origin-develop
     (kmacro "f r <return> d e v e l o p : d e v e l o p <return>")))
+(defun julian/magit-refresh-origin-develop ()
+  (interactive)
+  (magit-fetch-refspec "origin" "develop:develop" (magit-fetch-arguments)))
 
 ;; ORG MODE CONFIG ============================================================
 (use-package org
@@ -814,6 +820,8 @@
 
 (use-package eat)
 (use-package gnuplot)
+
+(use-package terraform-mode)
 
 (use-package emacs
   :config
