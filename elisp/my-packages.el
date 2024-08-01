@@ -823,6 +823,8 @@
 
 (use-package terraform-mode)
 
+(use-package wgrep)
+
 (use-package emacs
   :config
   (setq dired-listing-switches "-lGgha")
