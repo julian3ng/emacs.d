@@ -791,7 +791,10 @@
 (use-package casual :bind (:map calc-mode-map ("C-o" . casual-main-menu)))
 (use-package casual-dired :bind (:map dired-mode-map ("C-o" . dired-display-file)))
 
-(use-package w3m)
+(use-package w3m
+  :init
+  (add-hook 'w3m-mode-hook #'(lambda () (display-line-numbers-mode -1)))
+  (add-hook 'w3m-mode-hook #'visual-line-fill-column-mode))
 
 ;; Give sqlformat command
 (use-package sqlformat)
@@ -824,6 +827,8 @@
 (use-package terraform-mode)
 
 (use-package wgrep)
+(use-package lin
+  :config (lin-global-mode))
 
 (use-package emacs
   :config

@@ -175,9 +175,6 @@ With prefix arg REGEXP-P, perform a regular expression search."
     (with-selected-window (other-window-for-scrolling)
       (isearch-forward regexp-p))))
 
-(keymap-global-set "C-M-s" #'isearch-other-window)
-
-
 (defun split-window-parent-below (arg)
   (interactive "p")
   (cond
