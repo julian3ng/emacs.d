@@ -95,7 +95,9 @@
                                ("https://xeiaso.net/blog.rss" blog tech)
                                ("http://feeds.feedburner.com/CbloomRants" blog tech)
                                ("https://ericlippert.com/feed/" blog tech)
-                               ("https://alvaromontoro.com/feed.rss" blog css)))
+                               ("https://alvaromontoro.com/feed.rss" blog css)
+                               ("https://www.siteinspire.com/websites/feed" blog design)
+                               ("https://caseymuratori.com/blog_atom.rss" blog dev)))
   (setq shr-inhibit-images t
         )
   (setq-default elfeed-search-filter "@1-month-ago +unread"
@@ -794,7 +796,9 @@
 (use-package w3m
   :init
   (add-hook 'w3m-mode-hook #'(lambda () (display-line-numbers-mode -1)))
-  (add-hook 'w3m-mode-hook #'visual-line-fill-column-mode))
+  (add-hook 'w3m-mode-hook #'visual-line-fill-column-mode)
+  :config
+  (setq w3m-search-default-engine "duckduckgo"))
 
 ;; Give sqlformat command
 (use-package sqlformat)
@@ -829,6 +833,12 @@
 (use-package wgrep)
 (use-package lin
   :config (lin-global-mode))
+
+;; (use-package eglot-booster
+;;   :after eglot
+;;   :config (eglot-booster-mode))
+
+(use-package highlight)
 
 (use-package emacs
   :config

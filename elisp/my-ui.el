@@ -27,6 +27,18 @@
 (setq uniquify-buffer-name-style 'forward) ; use forward slashes for names
 
 (global-font-lock-mode t) ; always syntax highlight
+(defface julian/vibrant-face '((t (:background "#dd4444" :foreground "#ffffff" :underline t )))
+  "Used for highlights")
+(defface julian/blue-face '((t (:background "#00ffff" :foreground "#000000" :underline t))) "Used for highlights")
+
+(defface julian/highlight '((t (:background "#444"))) "Used for highlights")
+
+(defun julian/add-highlights ()
+  (font-lock-add-keywords nil '(("TODO" 0 'julian/vibrant-face t)
+                                ("NOTE" 0 'julian/blue-face t))))
+(add-hook 'prog-mode-hook #'julian/add-highlights)
+
+
 (custom-theme-set-faces
  'user
  '(hl-line ((t :underline (:color "lime" ) )))

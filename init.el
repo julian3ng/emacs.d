@@ -53,6 +53,7 @@
 (require 'my-packages)
                                         ;(require 'linear)
                                         ;(require 'my-meow)
+(require 'my-skeletons)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
