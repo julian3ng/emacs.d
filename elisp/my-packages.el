@@ -659,7 +659,7 @@
 
 (use-package dabbrev
   ;; Swap M-/ and C-M-/
-  :bind (("M-/" . dabbrev-completion)
+  :bind (("M-/" . expand-abbrev)
          ("C-M-/" . hippie-expand))
   ;; Other useful Dabbrev configurations.
   :custom

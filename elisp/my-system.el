@@ -127,4 +127,5 @@
                                         (next-window)
                                         (next-window nil nil 'visible))))
 
+(add-hook 'prog-mode-hook 'abbrev-mode)
 (provide 'my-system)
