@@ -5,7 +5,8 @@
   _
   "}")
 
-(define-abbrev typescript-ts-base-mode-abbrev-table "atx"
-  "" 'julian/transaction-thunk)
+(when (boundp 'typescript-ts-base-mode-abbrev-table)
+  (define-abbrev typescript-ts-base-mode-abbrev-table "atx"
+    "" 'julian/transaction-thunk))
 
 (provide 'my-skeletons)

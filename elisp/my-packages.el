@@ -15,8 +15,8 @@
 ;;   :defer t
 ;;   :ensure t)
 
-(use-package elpy
-  :config (elpy-enable))
+;; (use-package elpy
+;;   :config (elpy-enable))
 
 (use-package py-autopep8)
 
@@ -720,10 +720,12 @@
 ;;   :config (minions-mode 1))
 (defun julian/is-json-mode ()
   (string-equal major-mode "json-ts-mode"))
+(defun julian/is-latex-mode ()
+  (string-equal major-mode "latex-mode"))
 
 (use-package apheleia
   :config (apheleia-global-mode +1)
-  (setq apheleia-inhibit-functions '(julian/is-json-mode)))
+  (setq apheleia-inhibit-functions '(julian/is-json-mode  julian/is-latex-mode)))
 
 ;; (use-package dirvish
 ;;   :config
@@ -840,6 +842,15 @@
 ;;   :config (eglot-booster-mode))
 
 (use-package highlight)
+
+(use-package howm
+  :bind
+  ((:map howm-menu-mode-map
+         ("C-h" . nil))
+   (:map riffle-summary-mode-map
+         ("C-h" . nil))
+   (:map howm-view-contents-mode-map
+         ("C-h" . nil))))
 
 (use-package emacs
   :config
