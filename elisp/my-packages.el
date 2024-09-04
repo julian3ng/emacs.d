@@ -97,7 +97,8 @@
                                ("https://ericlippert.com/feed/" blog tech)
                                ("https://alvaromontoro.com/feed.rss" blog css)
                                ("https://www.siteinspire.com/websites/feed" blog design)
-                               ("https://caseymuratori.com/blog_atom.rss" blog dev)))
+                               ("https://caseymuratori.com/blog_atom.rss" blog dev)
+                               ("https://hackaday.com/blog/feed/" tech)))
   (setq shr-inhibit-images t
         )
   (setq-default elfeed-search-filter "@1-month-ago +unread"
