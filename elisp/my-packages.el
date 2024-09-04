@@ -11,12 +11,9 @@
         erc-port 6697
         erc-nick "themonkeybob11"))
 
-;; (use-package auctex
-;;   :defer t
-;;   :ensure t)
-
-;; (use-package elpy
-;;   :config (elpy-enable))
+(use-package auctex
+  :defer t
+  :ensure t)
 
 (use-package py-autopep8)
 
@@ -791,7 +788,7 @@
 (use-package forth-mode)
 
 ;; Calc menu for noobs
-(use-package casual :bind (:map calc-mode-map ("C-o" . casual-main-menu)))
+(use-package casual-calc :bind (:map calc-mode-map ("C-o" . casual-calc-main-menu)))
 (use-package casual-dired :bind (:map dired-mode-map ("C-o" . dired-display-file)))
 
 (use-package w3m
