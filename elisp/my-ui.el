@@ -192,8 +192,7 @@
 
 
 
-;;(set-face-attribute 'default nil :font "Fira Code" :height 100 :weight 'normal)
-(set-face-attribute 'default nil :font "DejaVu Sans Mono")
+(set-face-attribute 'default nil :font "Fira Code" :height 100 :weight 'normal)
 
 
 ;; keep modeline output from going crazy
