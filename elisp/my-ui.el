@@ -191,12 +191,10 @@
 (setq-default tab-bar-format '(tab-bar-format-history tab-bar-format-tabs-groups tab-bar-separator tab-bar-format-add-tab))
 
 
-;;(seq-filter (lambda (s) (string-search "0xProto" s)) (font-family-list))
-;;(seq-filter (lambda (s) (string-search "Comic" s)) (font-family-list))
-                                        ;(seq-filter (lambda (s) (string-search "Monaspace Argon Var" s)) (font-family-list))
 
-(set-face-attribute 'default nil :font "Fira Code" :height 100 :weight 'normal)
-;;(set-face-attribute 'default nil :font "DejaVu Sans Mono")
+;;(set-face-attribute 'default nil :font "Fira Code" :height 100 :weight 'normal)
+(set-face-attribute 'default nil :font "DejaVu Sans Mono")
+
 
 ;; keep modeline output from going crazy
 (setq eldoc-echo-area-use-multiline-p nil)

@@ -20,5 +20,4 @@
   (define-abbrev typescript-ts-base-mode-abbrev-table "clnotify"
     "" 'julian/console-log-notify))
 
-
 (provide 'my-skeletons)

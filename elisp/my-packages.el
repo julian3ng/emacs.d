@@ -386,14 +386,18 @@
 
 (use-package lua-mode)
 
-(use-package slime
+(use-package sly
   :config
-  (setq inferior-lisp-program "sbcl"
-        slime-lisp-implementations '((sbcl ("/opt/homebrew/bin/sbcl")))
-        slime-contribs '(slime-fancy))
-  (add-to-list 'auto-mode-alist '("\\.lisp\\'" . common-lisp-mode))
-                                        ;(load "/home/julian/quicklisp/clhs-use-local.el" t)
+  (setq inferior-lisp-program "sbcl")
   )
+
+;; (use-package slime
+;;   :config
+;;   (setq inferior-lisp-program "sbcl"
+;;         slime-lisp-implementations '((sbcl ("/usr/bin/sbcl")))
+;;         slime-contribs '(slime-fancy))
+;;   (add-to-list 'auto-mode-alist '("\\.lisp\\'" . common-lisp-mode)))
+                                        ;(load "/home/julian/quicklisp/clhs-use-local.el" t))
 
 ;; Better highlights
 (use-package symbol-overlay
@@ -421,7 +425,7 @@
 (use-package which-key
   :diminish which-key-mode
   :init (which-key-mode)
-  :config (which-key-setup-side-window-right-bottom))
+  :config (which-key-setup-side-window-bottom))
 
 (use-package web-mode
   :config
@@ -593,7 +597,9 @@
          ("C-c C-p _" . cape-tex)
          ("C-c C-p ^" . cape-tex)
          ("C-c C-p &" . cape-sgml)
-         ("C-c C-p r" . cape-rfc1345)))
+         ("C-c C-p r" . cape-rfc1345))
+  ;; https://github.com/minad/corfu/issues/84
+  :config (setq slime-completion-at-point-functions (remove  'slime-c-p-c-completion-at-point slime-completion-at-point-functions)))
 
 ;; pulses modified regions
 (use-package goggles
@@ -840,10 +846,11 @@
 
 (use-package howm
   :config
+  (setq howm-directory "~/howm")
   (setq howm-file-name-format "%Y/%m/%Y-%m-%d-%H%M%S.md"
-        howm-keyword-file "~/howm/.howm-keys"
-        howm-history-file "~/howm/.howm-history")
-
+        howm-keyword-file (expand-file-name ".howm-keys" howm-directory)
+        howm-history-file (expand-file-name ".howm-history" howm-directory)
+        )
   :bind
   ((:map howm-menu-mode-map
          ("C-h" . nil))
@@ -852,7 +859,9 @@
    (:map howm-view-contents-mode-map
          ("C-h" . nil))))
 
+
 (use-package fish-mode)
+
 
 (use-package emacs
   :config
