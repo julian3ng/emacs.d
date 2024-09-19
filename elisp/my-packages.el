@@ -739,10 +739,10 @@
 ;; dark themes: ("kaolin-aurora" "kaolin-blossom"  "kaolin-bubblegum" "kaolin-dark" "kaolin-eclipse" "kaolin-galaxy" "kaolin-mono-dark" "kaolin-ocean" "kaolin-shiva" "kaolin-temple" "kaolin-valley-dark")
 
 (use-package kaolin-themes)
-(use-package gruvbox-theme :config (load-theme 'gruvbox-dark-medium t))
-                                        ;(load-theme 'modus-vivendi 1)
+(use-package gruvbox-theme)
 
-                                        ;(use-package racket-mode)
+(load-theme 'gruvbox-dark-medium t)
+
 
 (use-package visual-regexp)
 (use-package visual-regexp-steroids
@@ -845,6 +845,11 @@
 (use-package highlight)
 
 (use-package howm
+  :config
+  (setq howm-file-name-format "%Y/%m/%Y-%m-%d-%H%M%S.md"
+        howm-keyword-file "~/howm/.howm-keys"
+        howm-history-file "~/howm/.howm-history")
+
   :bind
   ((:map howm-menu-mode-map
          ("C-h" . nil))
@@ -852,6 +857,8 @@
          ("C-h" . nil))
    (:map howm-view-contents-mode-map
          ("C-h" . nil))))
+
+(use-package fish-mode)
 
 (use-package emacs
   :config

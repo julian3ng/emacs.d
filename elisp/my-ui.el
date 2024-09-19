@@ -156,13 +156,27 @@
 (setq switch-to-buffer-in-dedicated-window 'pop)
 
 ;; Custom buffer display behavior
-(setq display-buffer-alist '(
-                             ("\\*helpful.*\\*" (display-buffer-reuse-mode-window) (inhibit-same-window nil) (mode helpful-mode))
-                             ("\\*xref\\*" (display-buffer-reuse-mode-window) (inhibit-same-window nil) (mode xref--xref-buffer-mode))
-                             ("\\*terminal\\*" (display-buffer-in-side-window) (side . bottom))
-                             ("\\*ansi-term\\*" (display-buffer-in-side-window) (side . bottom))
-                             ("\\*e?shell\\*" (display-buffer-in-side-window) (side . bottom))
-                             ("magit.*" (display-buffer-reuse-mode-window))))
+(setq display-buffer-alist
+      '(("\\*helpful.*\\*"
+         (display-buffer-reuse-mode-window)
+         (inhibit-same-window nil)
+         (mode helpful-mode))
+        ("\\*xref\\*"
+         (display-buffer-reuse-mode-window)
+         (inhibit-same-window nil)
+         (mode xref--xref-buffer-mode))
+        ("\\*terminal\\*"
+         (display-buffer-in-side-window)
+         (side . bottom))
+        ("\\*ansi-term\\*"
+         (display-buffer-in-side-window)
+         (side . bottom))
+        ("\\*e?shell\\*"
+         (display-buffer-in-side-window)
+         (side . bottom))
+        ("magit.*"
+         (display-buffer-reuse-mode-window))
+        ))
 
 ;; (setq display-buffer-alist
 ;;       '((".*" (display-buffer-reuse-window display-buffer-same-window))))
@@ -177,9 +191,12 @@
 (setq-default tab-bar-format '(tab-bar-format-history tab-bar-format-tabs-groups tab-bar-separator tab-bar-format-add-tab))
 
 
-;; (seq-filter (lambda (s) (string-search "DejaVu Sans" s)) (font-family-list))
-;; (set-face-attribute 'default nil :font "0xProto Nerd Font Mono")
-(set-face-attribute 'default nil :font "DejaVu Sans Mono")
+;;(seq-filter (lambda (s) (string-search "0xProto" s)) (font-family-list))
+;;(seq-filter (lambda (s) (string-search "Comic" s)) (font-family-list))
+                                        ;(seq-filter (lambda (s) (string-search "Monaspace Argon Var" s)) (font-family-list))
+
+(set-face-attribute 'default nil :font "Fira Code" :height 100 :weight 'normal)
+;;(set-face-attribute 'default nil :font "DejaVu Sans Mono")
 
 ;; keep modeline output from going crazy
 (setq eldoc-echo-area-use-multiline-p nil)

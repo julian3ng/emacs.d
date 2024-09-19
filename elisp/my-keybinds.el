@@ -192,5 +192,10 @@ With prefix arg REGEXP-P, perform a regular expression search."
 (global-set-key (kbd "C-x 2") #'split-window-parent-below)
 (global-set-key (kbd "C-x 3") #'split-window-parent-right)
 
+(defun julian/test-propertize ()
+  (interactive)
+  (message (propertize "hello" 'face '(:foreground "red"))))
+
+
 
 (provide 'my-keybinds)

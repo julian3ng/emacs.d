@@ -33,6 +33,7 @@
                ("magit" (or (mode . magit-status-mode)
                             (mode . magit-diff-mode)
                             (mode . magit-process-mode)))
+               ("howm" (predicate . howm-mode))
                ("starred" (starred-name))
                ("dired" (mode . dired-mode))
                ("python" (mode . python-mode))
@@ -128,4 +129,7 @@
                                         (next-window nil nil 'visible))))
 
 (add-hook 'prog-mode-hook 'abbrev-mode)
+;; Avoid flymake yelling at me (https://github.com/joaotavora/eglot/issues/843)
+(add-hook 'clone-indirect-buffer-hook 'read-only-mode)
+
 (provide 'my-system)
