@@ -70,6 +70,17 @@
 (use-package dictionary)
 
 (use-package elfeed
+  ;; filters
+  ;; press "s" to start edit the filter
+  ;; +/- requires/diables a tag
+  ;; ex. +games -blog
+  ;; @ starts a date / date range
+  ;; ex. @10-days-ago--5-days-ago
+  ;; ! inverts regex
+  ;; = matches regex on entry's title or url (entry matches if hits at least one =)
+  ;; ~ inverts regex on entry's title or url
+  ;; # restricts number of entries
+  ;;
   :bind (("C-c e" . elfeed))
   :config (setq elfeed-feeds '(("https://news.ycombinator.com/rss" news tech)
                                ("https://lobste.rs/rss" news tech)
@@ -98,26 +109,12 @@
                                ("https://alvaromontoro.com/feed.rss" blog css)
                                ("https://www.siteinspire.com/websites/feed" blog design)
                                ("https://caseymuratori.com/blog_atom.rss" blog dev)
-                               ("https://hackaday.com/blog/feed/" tech)))
+                               ("https://hackaday.com/blog/feed/" tech)
+                               ("https://www.wheresyoured.at/rss" blog)))
   (setq shr-inhibit-images t
         )
   (setq-default elfeed-search-filter "@1-month-ago +unread"
-                elfeed-search-title-max-width 100)
-
-
-
-  ;; filters
-  ;; press "s" to start edit the filter
-  ;; +/- requires/diables a tag
-  ;; ex. +games -blog
-  ;; @ starts a date / date range
-  ;; ex. @10-days-ago--5-days-ago
-  ;; ! inverts regex
-  ;; = matches regex on entry's title or url (entry matches if hits at least one =)
-  ;; ~ inverts regex on entry's title or url
-  ;; # restricts number of entries
-  ;;
-  )
+                elfeed-search-title-max-width 100))
 
 (use-package elfeed-summary
   :bind (("C-c E" . elfeed-summary))
