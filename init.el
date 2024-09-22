@@ -46,9 +46,11 @@
 (put 'upcase-region 'disabled nil)
 
 (add-to-list 'load-path "~/.emacs.d/elisp/")
-(add-to-list 'load-path "~/.emacs.d/pico8-mode/")
 
-(require 'pico8-mode)
+
+(add-to-list 'load-path "~/.emacs.d/pico8-mode/")
+(when (file-exists-p "~/.emacs.d/pico8-mode/")
+  (require 'pico8-mode))
 
 (require 'my-system)
 (require 'my-ui)

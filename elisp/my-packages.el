@@ -559,6 +559,7 @@
 
 
 (use-package embark
+  :after avy
   :bind (("C-." . embark-act)
          ("C-h B" . embark-bindings))
   :config
@@ -568,8 +569,7 @@
                  nil
                  (window-parameters (mode-line-format . none))))
 
-  (setf (alist-get ?. avy-dispatch-alist) 'avy-action-embark)
-  )
+  (setf (alist-get ?. avy-dispatch-alist) 'avy-action-embark))
 
 
 
@@ -579,7 +579,7 @@
 
 ;; Completion frontend
 (use-package corfu
-  :init (global-corfu-mode))
+  :config (global-corfu-mode))
 
 (use-package cape
   :bind (("C-c C-p p" . completion-at-point) ;; capf
@@ -599,7 +599,8 @@
          ("C-c C-p &" . cape-sgml)
          ("C-c C-p r" . cape-rfc1345))
   ;; https://github.com/minad/corfu/issues/84
-  :config (setq slime-completion-at-point-functions (remove  'slime-c-p-c-completion-at-point slime-completion-at-point-functions)))
+  ;; :config (setq slime-completion-at-point-functions (remove  'slime-c-p-c-completion-at-point slime-completion-at-point-functions))
+  )
 
 ;; pulses modified regions
 (use-package goggles
@@ -847,7 +848,7 @@
 (use-package howm
   :config
   (setq howm-directory "~/howm")
-  (setq howm-file-name-format "%Y/%m/%Y-%m-%d-%H%M%S.md"
+  (setq howm-file-name-format "%Y/%m/%Y-%m-%d-%H%M%S.org"
         howm-keyword-file (expand-file-name ".howm-keys" howm-directory)
         howm-history-file (expand-file-name ".howm-history" howm-directory)
         )
@@ -881,7 +882,6 @@
 
 (diminish 'auto-revert-mode)
 (diminish 'sideline-mode)
-
 
 ;; Various Notes
 ;; Use C-x 4 4 to do next command in other window
