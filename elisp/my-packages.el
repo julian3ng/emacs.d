@@ -107,7 +107,8 @@
                                ("https://www.siteinspire.com/websites/feed" blog design)
                                ("https://caseymuratori.com/blog_atom.rss" blog dev)
                                ("https://hackaday.com/blog/feed/" tech)
-                               ("https://www.wheresyoured.at/rss" blog)))
+                               ("https://www.wheresyoured.at/rss" blog)
+                               ("https://twostopbits.com/rss" blog tech)))
   (setq shr-inhibit-images t
         )
   (setq-default elfeed-search-filter "@1-month-ago +unread"
@@ -839,10 +840,6 @@
 (use-package lin
   :config (lin-global-mode))
 
-;; (use-package eglot-booster
-;;   :after eglot
-;;   :config (eglot-booster-mode))
-
 (use-package highlight)
 
 (use-package howm
@@ -863,6 +860,15 @@
 
 (use-package fish-mode)
 
+;; color stuff
+(use-package ct)
+
+(use-package server
+  :ensure nil
+  :defer t
+  :config
+  (unless (server-running-p)
+    (server-start)))
 
 (use-package emacs
   :config
