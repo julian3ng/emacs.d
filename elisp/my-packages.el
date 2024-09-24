@@ -761,7 +761,7 @@
 
 (use-package embrace
   :bind
-  (("C-," . embrace-commander)
+  (("C-c C-," . embrace-commander)
    (:map org-mode-map
          ("C-c C-," . embrace-commander))))
 
@@ -864,9 +864,9 @@
 ;; color stuff
 (use-package ct)
 
-;; (use-package devil
-;;   :bind (("C-," . global-devil-mode))
-;;   :config (assoc-delete-all "%k SPC" devil-special-keys))
+(use-package devil
+  :bind (("C-," . global-devil-mode))
+  :config (assoc-delete-all "%k SPC" devil-special-keys))
 
 (use-package server
   :ensure nil
