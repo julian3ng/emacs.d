@@ -388,8 +388,12 @@
 
 (use-package sly
   :config
-  (setq inferior-lisp-program "sbcl")
-  )
+  (setq inferior-lisp-program "sbcl"))
+
+(use-package sly-asdf :after sly)
+(use-package sly-macrostep :after sly)
+(use-package sly-quicklisp :after sly)
+(use-package sly-repl-ansi-color :after sly)
 
 ;; (use-package slime
 ;;   :config
