@@ -198,4 +198,15 @@ With prefix arg REGEXP-P, perform a regular expression search."
 
 
 
+;; Fix (remove) treesit sexp commands
+(defun julian/fix-treesit-sexp-commands ()
+  (when (eq forward-sexp-function #'treesit-forward-sexp)
+    (setq forward-sexp-function nil))
+  (when (eq transpose-sexps-function #'treesit-transpose-sexps)
+    (setq transpose-sexps-function nil))
+  (when (eq forward-sentence-function #'treesit-forward-sentence)
+    (setq forward-sentence-function nil)))
+
+(add-hook 'prog-mode-hook #'julian/fix-treesit-sexp-commands)
+
 (provide 'my-keybinds)

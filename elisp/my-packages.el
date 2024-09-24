@@ -2,7 +2,10 @@
 (setq use-package-always-ensure t)
 
 ;; Have to install this under emacs -nw -q for some reason
-(use-package gptel)
+(use-package gptel
+  :config
+  (setq gptel-use-curl t
+        gptel-stream nil))
 
 (use-package autothemer)
 (use-package erc
@@ -167,6 +170,10 @@
   
   (defalias 'julian/magit-refresh-origin-develop
     (kmacro "f r <return> d e v e l o p : d e v e l o p <return>")))
+
+(use-package magit-todos :after magit
+  :config (magit-todos-mode 1))
+
 (defun julian/magit-refresh-origin-develop ()
   (interactive)
   (magit-fetch-refspec "origin" "develop:develop" (magit-fetch-arguments)))
@@ -241,13 +248,6 @@
                  (add-to-list 'org-emphasis-alist '("/" (:inherit italic :foreground "red")))))
 
 (use-package org-preview-html)
-
-(defun julian/insert-org-date-string ()
-  (insert  "[" (format-time-string "%Y-%m-%d %a") "]"))
-
-(define-abbrev org-mode-abbrev-table "orgtoday" "" 'julian/insert-org-date-string)
-
-                                        ;(unbind-key "C-c n d") ; what was this for??
 
 (use-package org-roam
   :init
@@ -761,7 +761,9 @@
 
 (use-package embrace
   :bind
-  (("C-," . embrace-commander)))
+  (("C-," . embrace-commander)
+   (:map org-mode-map
+         ("C-c C-," . embrace-commander))))
 
 (use-package j-mode
   :config
@@ -857,11 +859,14 @@
    (:map howm-view-contents-mode-map
          ("C-h" . nil))))
 
-
 (use-package fish-mode)
 
 ;; color stuff
 (use-package ct)
+
+;; (use-package devil
+;;   :bind (("C-," . global-devil-mode))
+;;   :config (assoc-delete-all "%k SPC" devil-special-keys))
 
 (use-package server
   :ensure nil

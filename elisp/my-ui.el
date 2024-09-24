@@ -41,10 +41,10 @@
 
 (custom-theme-set-faces
  'user
- '(hl-line ((t :underline (:color "lime" ) )))
+ '(hl-line ((t :underline (:color "lime" ) :background unspecified )))
  '(sideline-blame ((t
                     (:italic t :background unspecified :foreground "#7a88cf"))))
- '(tab-bar-tab ((t :foreground "#ff8844")))
+ '(tab-bar-tab ((t :foreground "#000000" :background "#ff8844")))
  '(tab-bar-tab-inactive ((t :foreground "#7c6f64")))
  '(tab-bar-tab-group-current ((t :foreground "#ff8844"  :background "#282828")))
  '(tab-bar-tab-group-inactive ((t :foreground "#446688"  :background "#282828"))))
