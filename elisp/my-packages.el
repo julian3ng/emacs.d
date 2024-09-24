@@ -864,8 +864,7 @@
 (use-package ct)
 
 (use-package devil
-  :bind (("C-," . global-devil-mode))
-  :config (assoc-delete-all "%k SPC" devil-special-keys))
+  :bind (("C-," . global-devil-mode)))
 
 (use-package server
   :ensure nil
