@@ -333,8 +333,7 @@
   :bind (:map projectile-mode-map
               ("s-p" . projectile-command-map)
               ("C-c I" . julian/projectile-insert-relative-filename)
-              ("C-c j" . julian/copy-projectile-relative-filename)
-              ("s-s" . projectile-ripgrep)))
+              ("C-c j" . julian/copy-projectile-relative-filename)))
 
 (use-package ripgrep)
 
