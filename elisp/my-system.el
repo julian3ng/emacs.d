@@ -131,5 +131,5 @@
 (add-hook 'prog-mode-hook 'abbrev-mode)
 ;; Avoid flymake yelling at me (https://github.com/joaotavora/eglot/issues/843)
 (add-hook 'clone-indirect-buffer-hook 'read-only-mode)
-
+(setq save-interprogram-paste-before-kill t)
 (provide 'my-system)
