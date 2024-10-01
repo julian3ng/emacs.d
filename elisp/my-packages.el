@@ -870,6 +870,17 @@
 (use-package devil
   :bind (("C-," . global-devil-mode)))
 
+(use-package dape
+  ;; Usage:
+  ;; Run M-x dape (or C-x C-a d)
+  ;; Make the prompt look like this:
+  ;; js-debug-node-attach :remoteRoot "/usr/src/app" :localRoot "/Users/julian/Documents/Outcomes4me/api"
+
+  ;; Make sure to be on a valid line when using breakpoints... trying to
+  ;; breakpoint between lines doesn't seem to do anything.
+  :config
+  (setq dape-buffer-window-arrangement 'right))
+
 (use-package server
   :ensure nil
   :defer t
