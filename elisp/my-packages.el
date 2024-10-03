@@ -31,7 +31,7 @@
   (set-face-foreground 'aw-mode-line-face "#f0f")
   (ace-window-display-mode t)
 
-  
+
   :bind
   ("M-o" . ace-window)
   ("C-x o" . other-window))
@@ -158,7 +158,7 @@
          ("C-c g" . magit-file-dispatch))
   :init
   ;; (format-time-string "%Y-%m-%d %H:%M:%S" (current-time))
-  (setq magit-log-margin '(t "%Y-%m-%d %H:%M:%S" magit-log-margin-width t 18)) 
+  (setq magit-log-margin '(t "%Y-%m-%d %H:%M:%S" magit-log-margin-width t 18))
 
   :config
   (setq
@@ -167,7 +167,7 @@
    magit-status-margin '(nil "%Y-%m-%d %H:%M:%S" magit-log-margin-width nil 18)
    magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
    magit-bury-buffer-function #'magit-restore-window-configuration)
-  
+
   (defalias 'julian/magit-refresh-origin-develop
     (kmacro "f r <return> d e v e l o p : d e v e l o p <return>")))
 
@@ -185,7 +185,7 @@
          (org-mode . (lambda () (display-fill-column-indicator-mode 0)))
          (org-mode . visual-line-mode)
          (org-mode . abbrev-mode))
-  
+
   :bind (:map org-mode-map ("C-'" . avy-goto-char-timer))
   :bind (("C-c a" . org-agenda)
          ("C-c C" . org-capture)
@@ -768,11 +768,6 @@
    (:map org-mode-map
          ("C-c C-," . embrace-commander))))
 
-(use-package j-mode
-  :config
-  (setq j-console-cmd "jcon")
-  )
-
 (use-package bqn-mode)
 
 (use-package protobuf-mode)
@@ -785,8 +780,7 @@
   :config
   (add-to-list 'auto-mode-alist '("^DDockerfile$" . dockerfile-ts-mode)))
 
-(use-package fringe-current-line
-  :config (global-fringe-current-line-mode))
+(use-package fringe-current-line)
 
 (use-package sideline-flymake :after sideline)
 (use-package sideline-blame :after sideline)
@@ -894,6 +888,8 @@
   (tab-bar-history-mode 1)
   :bind  (("s-{" . tab-previous)
           ("s-}" . tab-next)
+          ("s-]" . tab-line-switch-to-next-tab)
+          ("s-[" . tab-line-switch-to-prev-tab)
           ("s-<" . previous-window-any-frame)
           ("s->" . next-window-any-frame)
           ("M-_" . undo-redo)

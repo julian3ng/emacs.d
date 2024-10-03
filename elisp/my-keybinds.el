@@ -60,48 +60,8 @@
           (select-window first-win)
           (if this-win-2nd (other-window 1))))))
 
-(defun julian/copy-location-and-basename ()
-  (interactive)
-  (let ((locstring
-         (concat
-          (if (buffer-file-name)
-              (file-relative-name (buffer-file-name))
-            (buffer-name))
-          ":"
-          (number-to-string (1+ (current-line))))))
-    (kill-new locstring)
-    (message locstring)))
-
-
-(unbind-key (kbd "s-j"))
-(global-set-key (kbd "s-j g") 'julian/copy-location-and-basename)
-
-
-(defun julian/set-font-size (prefix)
-  (interactive "p")
-  (message "%d" prefix)
-  (if (= prefix 1)
-      (set-face-font 'default (font-spec :family "Fira Code" :size 12))
-    (set-face-font 'default (font-spec :family "Fira Code" :size 10))))
-
-(global-set-key (kbd "s-j f") 'julian/set-font-size)
-
-
-(defun julian/toggle-window-dedication ()
-  "Toggles window dedication in selected window"
-  (interactive)
-  (set-window-dedicated-p (selected-window)
-                          (not (window-dedicated-p (selected-window)))))
-
-(global-set-key (kbd "s-j s") 'julian/toggle-window-dedication)
-
-
 (global-set-key (kbd "C-x |") 'toggle-window-split)
 (repeat-mode 1)
-
-
-(defalias 'julian/setup-environment
-  (kmacro "C-x t 2 s-p p a p i <return> C-x t 2 s-p p m o b i l e <return>"))
 
 (defun julian/snake-to-camelcase (str)
   "Convert snakecase string to camelcase. i.e. foo_bar_123 to fooBar123"

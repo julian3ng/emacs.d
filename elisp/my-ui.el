@@ -47,7 +47,30 @@
  '(tab-bar-tab ((t :foreground "#000000" :background "#ff8844")))
  '(tab-bar-tab-inactive ((t :foreground "#7c6f64")))
  '(tab-bar-tab-group-current ((t :foreground "#ff8844"  :background "#282828")))
- '(tab-bar-tab-group-inactive ((t :foreground "#446688"  :background "#282828"))))
+ '(tab-bar-tab-group-inactive ((t :foreground "#446688"  :background "#282828")))
+ '(tab-line ((t :inherit variable-pitch)))
+ '(tab-line-highlight ((t :background unspecified :foreground "white")))
+ '(tab-line-tab-current ((t :background "#ff8844" :foreground "#000000")))
+ '(tab-line-tab-inactive ((t :background "#282828" :foreground "#446688"))) 
+ )
+(setq use-dialog-box nil)
+(setq-default tab-bar-format '(tab-bar-format-tabs-groups tab-bar-separator tab-bar-format-add-tab))
+
+(setq tab-bar-close-button-show nil
+      tab-bar-button-relief 1 )
+
+(setq tab-line-new-button nil )
+(setq tab-line-tabs-function #'tab-line-tabs-buffer-groups)
+(setq tab-line-tabs-buffer-group-function #'(lambda (buffer)
+                                              (with-current-buffer buffer
+                                                (car (last (file-name-split (project-root (project-current))) 2)))))
+
+
+
+
+
+
+
 
 (global-hl-line-mode t)   ; always highlight current line
 
@@ -76,7 +99,7 @@
 
 ;; Margins and stuff
 (fringe-mode 8)
-;; (set-face-foreground 'fringe "cyan")
+(set-face-foreground 'fringe "cyan")
 
 
 ;; (set-window-margins nil 0 0) ; what are margins for?
@@ -188,7 +211,6 @@
 ;; 'q' on a child frame won't do anything
 (setq iconify-child-frame nil)
 
-(setq-default tab-bar-format '(tab-bar-format-history tab-bar-format-tabs-groups tab-bar-separator tab-bar-format-add-tab))
 
 
 
