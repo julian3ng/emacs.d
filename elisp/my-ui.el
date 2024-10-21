@@ -44,33 +44,25 @@
  '(hl-line ((t :underline (:color "lime" ) :background unspecified )))
  '(sideline-blame ((t
                     (:italic t :background unspecified :foreground "#7a88cf"))))
- '(tab-bar-tab ((t :foreground "#000000" :background "#ff8844")))
+ ;; tab bar is for top level tabs 
+ '(tab-bar-tab ((t :foreground "#66ff66" :background nil)))
  '(tab-bar-tab-inactive ((t :foreground "#7c6f64")))
- '(tab-bar-tab-group-current ((t :foreground "#ff8844"  :background "#282828")))
- '(tab-bar-tab-group-inactive ((t :foreground "#446688"  :background "#282828")))
- '(tab-line ((t :inherit variable-pitch)))
- '(tab-line-highlight ((t :background unspecified :foreground "white")))
- '(tab-line-tab-current ((t :background "#ff8844" :foreground "#000000")))
- '(tab-line-tab-inactive ((t :background "#282828" :foreground "#446688"))) 
- )
-(setq use-dialog-box nil)
-(setq-default tab-bar-format '(tab-bar-format-tabs-groups tab-bar-separator tab-bar-format-add-tab))
+ '(tab-bar-tab-group-current ((t :foreground "#282828"  :background "#ff8844")))
+ '(tab-bar-tab-group-inactive ((t :foreground "#446688" :background "#282828" ))))
 
+
+
+(setq use-dialog-box nil)
+(setq-default tab-bar-format '(tab-bar-format-tabs-groups tab-bar-separator))
 (setq tab-bar-close-button-show nil
-      tab-bar-button-relief 1 )
+      tab-bar-button-relief 2
+      tab-bar-auto-width t)
 
 (setq tab-line-new-button nil )
 (setq tab-line-tabs-function #'tab-line-tabs-buffer-groups)
 (setq tab-line-tabs-buffer-group-function #'(lambda (buffer)
                                               (with-current-buffer buffer
                                                 (car (last (file-name-split (project-root (project-current))) 2)))))
-
-
-
-
-
-
-
 
 (global-hl-line-mode t)   ; always highlight current line
 
@@ -179,27 +171,29 @@
 (setq switch-to-buffer-in-dedicated-window 'pop)
 
 ;; Custom buffer display behavior
-(setq display-buffer-alist
-      '(("\\*helpful.*\\*"
-         (display-buffer-reuse-mode-window)
-         (inhibit-same-window nil)
-         (mode helpful-mode))
-        ("\\*xref\\*"
-         (display-buffer-reuse-mode-window)
-         (inhibit-same-window nil)
-         (mode xref--xref-buffer-mode))
-        ("\\*terminal\\*"
-         (display-buffer-in-side-window)
-         (side . bottom))
-        ("\\*ansi-term\\*"
-         (display-buffer-in-side-window)
-         (side . bottom))
-        ("\\*e?shell\\*"
-         (display-buffer-in-side-window)
-         (side . bottom))
-        ("magit.*"
-         (display-buffer-reuse-mode-window))
-        ))
+(setq display-buffer-alist nil)
+;;
+;; 
+;; '(("\\*helpful.*\\*"
+;;          (display-buffer-reuse-mode-window)
+;;          (inhibit-same-window nil)
+;;          (mode helpful-mode))
+;;         ("\\*xref\\*"
+;;          (display-buffer-reuse-mode-window)
+;;          (inhibit-same-window nil)
+;;          (mode xref--xref-buffer-mode))
+;;         ("\\*terminal\\*"
+;;          (display-buffer-in-side-window)
+;;          (side . bottom))
+;;         ("\\*ansi-term\\*"
+;;          (display-buffer-in-side-window)
+;;          (side . bottom))
+;;         ("\\*e?shell\\*"
+;;          (display-buffer-in-side-window)
+;;          (side . bottom))
+;;         ("magit.*"
+;;          (display-buffer-reuse-mode-window))
+;;         )
 
 ;; (setq display-buffer-alist
 ;;       '((".*" (display-buffer-reuse-window display-buffer-same-window))))

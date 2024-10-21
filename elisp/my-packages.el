@@ -69,6 +69,11 @@
 (use-package delight)
 (use-package dictionary)
 
+(defun julian/elfeed-go-to-comments ()
+  (interactive)
+  (elfeed-show-next-link)
+  (shr-browse-url))
+
 (use-package elfeed
   ;; filters
   ;; press "s" to start edit the filter
@@ -81,7 +86,9 @@
   ;; ~ inverts regex on entry's title or url
   ;; # restricts number of entries
   ;;
-  :bind (("C-c e" . elfeed))
+  :bind (("C-c e" . elfeed)
+         (:map elfeed-show-mode-map
+               ("C" . julian/elfeed-go-to-comments)))
   :config (setq elfeed-feeds '(("https://news.ycombinator.com/rss" news tech)
                                ("https://lobste.rs/rss" news tech)
                                ("https://arraycast.com/episodes?format=rss" podcast pl)
@@ -874,6 +881,13 @@
   ;; breakpoint between lines doesn't seem to do anything.
   :config
   (setq dape-buffer-window-arrangement 'right))
+
+(use-package eloud
+  :bind ("s-s" . eloud-mode)
+  :config
+  (setq eloud-espeak-path "/opt/homebrew/bin/espeak"
+        eloud-speech-rate 270))
+
 
 (use-package server
   :ensure nil
