@@ -6,20 +6,18 @@
   _
   "}")
 
-(define-skeleton julian/console-log
-  "Insert console.log"
+(define-skeleton julian/console-something
+  "Insert console.something"
   nil
-  "console.log(" _ ");")
-
-; console.log('\x1b[m', JSON.stringify(test, null, 4), '\x1b[m');
-
+  "console." str "(" _ ");")
+console.log('\x1b[31m', console.log();, '\x1b[m');
 (define-skeleton julian/notify
   "Insert iterm notification log"
   nil
   "'\\x1b]9;', " _ ", '\\x07'")
 
 (define-skeleton julian/json
-  "Insert console.log(JSON.stringify(..., null, 4))"
+  "Insert JSON.stringify"
   nil
   "JSON.stringify(" _ ", null, 4)")
 
@@ -38,35 +36,41 @@
          (blue (transient-arg-value "--blue" args))
          (bright (transient-arg-value "--bright" args))
          (json (transient-arg-value "--json" args))
+         (level (or (transient-arg-value "--level=" args) "log"))
          (notification (transient-arg-value "--notification" args))
-         (color (when (or red green blue) (+ (if bright 90 30) (* 4 (if blue 1 0)) (* 2 (if green 1 0)) (if red 1 0)))))
+         (color (when (or red green blue) (+ (if bright 90 30) (* 4 (if blue 1 0)) (* 2 (if green 1 0)) (if red 1 0))))
+         (do-kill mark-active))
     ;; TODO: Better way of managing region?
-    (kill-region r1 r2)
+    (when do-kill
+      (kill-region r1 r2))
     (let ((skeletons nil)
           (mark-active nil))
       (when json (push #'julian/json skeletons))
       (when notification (push #'julian/notify skeletons))
       (when (not (null color)) (push #'(lambda () (julian/color (number-to-string color))) skeletons))
-      (push #'julian/console-log skeletons)
+      (message "%s" level)
+      (push #'(lambda () (julian/console-something level)) skeletons)
       (dolist (s skeletons)
         (funcall s)))
-    (yank)))
+    (when do-kill
+      (yank))))
 
 (transient-define-prefix julian/console ()
-  "Infix test"
+  "Console statement builder"
   :incompatible '(("--notification" "--red")
                   ("--notification" "--green")
                   ("--notification" "--blue")
                   ("--notification" "--bright"))
-  ["Infixes"
+  ["Options"
    ("!" "bright" ("-!" "--bright"))
    ("r" "red" ("-r" "--red"))
    ("g" "green" ("-g" "--green"))
    ("b" "blue" ("-b" "--blue"))
    ("j" "JSON" "--json")
-   ("n" "Notification" "--notification")]
+   ("n" "Notification" "--notification")
+   ("-l" "Log level" "--level=" :choices ("error" "warn" "log" "info" "debug"))]
   [("RET" "confirm" julian/make-console-log :transient nil)])
-
+;
 (transient-define-prefix julian/main-menu ()
   "Julian's main menu"
   [("c" "console.log" julian/console :transient nil)
@@ -75,5 +79,3 @@
 (global-set-key (kbd "s-j") #'julian/main-menu)
 
 (provide 'my-skeletons)
-
-
