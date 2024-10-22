@@ -287,6 +287,8 @@
 
 (use-package org-journal)
 
+(use-package org-present)
+
 ;; END ORG MODE CONFIG ========================================================
 (use-package paredit
   :diminish paredit-mode
@@ -459,13 +461,13 @@
 (use-package wc-mode)
 
 
-(use-package yasnippet
-  :commands yas-global-mode
-  :config
-  (setq yas-triggers-in-field t)
-  (yas-reload-all)
-  (yas-global-mode 1)
-  :hook ((git-commit-setup-hook . yas-insert-snippet)))
+;; (use-package yasnippet
+;;   :commands yas-global-mode
+;;   :config
+;;   (setq yas-triggers-in-field t)
+;;   (yas-reload-all)
+;;   (yas-global-mode 1)
+;;   :hook ((git-commit-setup-hook . yas-insert-snippet)))
 
 (add-hook 'git-commit-setup-hook #'yas-insert-snippet)
 
@@ -831,11 +833,11 @@
 
 ;; Need to patch this to fix if-let body and when-let binding
 (use-package jinx
+  :diminish
   :demand t
   :bind (("M-$" . jinx-correct)
          ("C-M-$" . jinx-languages))
-  :config (global-jinx-mode)
-  )
+  :config (global-jinx-mode))
 
 (use-package eat)
 (use-package gnuplot)
@@ -869,6 +871,7 @@
 (use-package ct)
 
 (use-package devil
+  :diminish "😈"
   :bind (("C-," . global-devil-mode)))
 
 (use-package dape

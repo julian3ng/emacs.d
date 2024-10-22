@@ -120,7 +120,7 @@
                  mode-line-remote
                  mode-line-frame-identification
                  mode-line-buffer-identification
-                 (:eval (when (window-dedicated-p (selected-window)) (propertize "!" 'font-lock-face '(:foreground "red"))))
+                 (:eval (when (window-dedicated-p (selected-window)) (propertize "!" 'font-lock-face '(:foreground "black" :background "red"))))
                  " "
                  mode-line-position
                  " "
