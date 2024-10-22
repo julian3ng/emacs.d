@@ -10,7 +10,7 @@
   "Insert console.something"
   nil
   "console." str "(" _ ");")
-console.log('\x1b[31m', console.log();, '\x1b[m');
+
 (define-skeleton julian/notify
   "Insert iterm notification log"
   nil
@@ -56,25 +56,25 @@ console.log('\x1b[31m', console.log();, '\x1b[m');
       (yank))))
 
 (transient-define-prefix julian/console ()
-  "Console statement builder"
-  :incompatible '(("--notification" "--red")
-                  ("--notification" "--green")
-                  ("--notification" "--blue")
-                  ("--notification" "--bright"))
-  ["Options"
-   ("!" "bright" ("-!" "--bright"))
-   ("r" "red" ("-r" "--red"))
-   ("g" "green" ("-g" "--green"))
-   ("b" "blue" ("-b" "--blue"))
-   ("j" "JSON" "--json")
-   ("n" "Notification" "--notification")
-   ("-l" "Log level" "--level=" :choices ("error" "warn" "log" "info" "debug"))]
-  [("RET" "confirm" julian/make-console-log :transient nil)])
-;
+                         "Console statement builder"
+                         :incompatible '(("--notification" "--red")
+                                         ("--notification" "--green")
+                                         ("--notification" "--blue")
+                                         ("--notification" "--bright"))
+                         ["Options"
+                          ("!" "bright" ("-!" "--bright"))
+                          ("r" "red" ("-r" "--red"))
+                          ("g" "green" ("-g" "--green"))
+                          ("b" "blue" ("-b" "--blue"))
+                          ("j" "JSON" "--json")
+                          ("n" "Notification" "--notification")
+                          ("-l" "Log level" "--level=" :choices ("error" "warn" "log" "info" "debug"))]
+                         [("RET" "confirm" julian/make-console-log :transient nil)])
+                                        ;
 (transient-define-prefix julian/main-menu ()
-  "Julian's main menu"
-  [("c" "console.log" julian/console :transient nil)
-])
+                         "Julian's main menu"
+                         [("c" "console.log" julian/console :transient nil)
+                          ])
 
 (global-set-key (kbd "s-j") #'julian/main-menu)
 

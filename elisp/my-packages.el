@@ -254,6 +254,8 @@
                  (add-to-list 'org-modules 'org-habit)
                  (add-to-list 'org-emphasis-alist '("/" (:inherit italic :foreground "red")))))
 
+(require 'org-tempo) ;; make <s work again
+
 (use-package org-preview-html)
 
 (use-package org-roam
@@ -287,7 +289,35 @@
 
 (use-package org-journal)
 
-(use-package org-present)
+
+(defun julian/org-present-start ()
+  (visual-fill-column-mode t)
+  (visual-line-mode t)
+  (setq-local face-remapping-alist '((default (:height 1.5))))
+  ;; (setq-local face-remapping-alist '((default (:height 1.5) variable-pitch)
+  ;;                                    (header-line (:height 4.0) variable-pitch)
+  ;;                                    (org-document-title (:height 1.75) org-document-title)
+  ;;                                    (org-code (:height 1.55) org-code)
+  ;;                                    (org-verbatim (:height 1.55) org-verbatim)
+  ;;                                    (org-block (:height 1.25) org-block)
+  ;;                                    (org-block-begin-line (:height 0.7) org-block)))
+  )
+
+(defun julian/org-present-stop ()
+  (visual-fill-column-mode 0)
+  (visual-line-mode 0)
+  (setq-local face-remapping-alist '((default default)))
+  )
+
+;; &rest args to silence alert since the hook passes the slide as args
+(defun julian/org-present-prepare-slide (&rest args)
+)
+
+(use-package org-present
+  :hook ((org-present-mode . julian/org-present-start)
+         (org-present-mode-quit . julian/org-present-stop)
+         (org-present-after-navigate-functions . julian/org-present-prepare-slide)))
+
 
 ;; END ORG MODE CONFIG ========================================================
 (use-package paredit
@@ -802,10 +832,6 @@
 (use-package nov)
 
 (use-package forth-mode)
-
-;; Calc menu for noobs
-(use-package casual-calc :bind (:map calc-mode-map ("C-o" . casual-calc-main-menu)))
-(use-package casual-dired :bind (:map dired-mode-map ("C-o" . dired-display-file)))
 
 (use-package w3m
   :init
