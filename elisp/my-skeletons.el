@@ -1,3 +1,5 @@
+(require 'transient)
+
 (setq skeleton-end-newline nil)
 (define-skeleton julian/transaction-thunk
   "Insert transaction thunk"
@@ -55,26 +57,27 @@
     (when do-kill
       (yank))))
 
+
 (transient-define-prefix julian/console ()
-                         "Console statement builder"
-                         :incompatible '(("--notification" "--red")
-                                         ("--notification" "--green")
-                                         ("--notification" "--blue")
-                                         ("--notification" "--bright"))
-                         ["Options"
-                          ("!" "bright" ("-!" "--bright"))
-                          ("r" "red" ("-r" "--red"))
-                          ("g" "green" ("-g" "--green"))
-                          ("b" "blue" ("-b" "--blue"))
-                          ("j" "JSON" "--json")
-                          ("n" "Notification" "--notification")
-                          ("-l" "Log level" "--level=" :choices ("error" "warn" "log" "info" "debug"))]
-                         [("RET" "confirm" julian/make-console-log :transient nil)])
+  "Console statement builder"
+  :incompatible '(("--notification" "--red")
+                  ("--notification" "--green")
+                  ("--notification" "--blue")
+                  ("--notification" "--bright"))
+  ["Options"
+   ("!" "bright" ("-!" "--bright"))
+   ("r" "red" ("-r" "--red"))
+   ("g" "green" ("-g" "--green"))
+   ("b" "blue" ("-b" "--blue"))
+   ("j" "JSON" "--json")
+   ("n" "Notification" "--notification")
+   ("-l" "Log level" "--level=" :choices ("error" "warn" "log" "info" "debug"))]
+  [("RET" "confirm" julian/make-console-log :transient nil)])
                                         ;
 (transient-define-prefix julian/main-menu ()
-                         "Julian's main menu"
-                         [("c" "console.log" julian/console :transient nil)
-                          ])
+  "Julian's main menu"
+  [("c" "console.log" julian/console :transient nil)
+   ])
 
 (global-set-key (kbd "s-j") #'julian/main-menu)
 

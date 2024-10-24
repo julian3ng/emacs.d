@@ -917,6 +917,7 @@
   (setq eloud-espeak-path "/opt/homebrew/bin/espeak"
         eloud-speech-rate 270))
 
+(use-package jq-mode)
 
 (use-package server
   :ensure nil

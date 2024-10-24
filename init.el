@@ -1,5 +1,7 @@
 (setq byte-compile-warnings '(cl-functions)) ;; TEMPORARY: turn off cl package deprecation warning
 
+(setq julian/at-work (eq system-type 'darwin))
+
 (if init-file-debug
     (setq use-package-verbose t
           use-package-expand-minimally nil
@@ -109,20 +111,20 @@
      "7887cf8b470098657395502e16809523b629249060d61607c2225d2ef2ad59f5"
      "cca1d386d4a3f645c2f8c49266e3eb9ee14cf69939141e3deb9dfd50ccaada79" default))
  '(package-selected-packages
-   '(ace-window apheleia auctex beframe bqn-mode cape casual casual-calc
-                casual-dired code-review common-lisp-snippets corfu ct dape
-                delight devil diminish eat eldoc-box elfeed-summary
-                elisp-autofmt elpy embark-consult embrace emmet-mode
-                emms-player-spotify exec-path-from-shell fish-mode forth-mode
-                fringe-current-line geiser-chicken gnu-apl-mode gnuplot goggles
-                gptel gruvbox-theme helpful highlight howm iedit inf-ruby j-mode
-                jinx kaolin-themes ligature lin lua-mode magit-todos marginalia
+   '(ace-window apheleia auctex beframe bqn-mode cape code-review
+                common-lisp-snippets corfu ct dape delight devil diminish eat
+                eldoc-box elfeed-summary elisp-autofmt eloud elpy embark-consult
+                embrace emmet-mode emms-player-spotify exec-path-from-shell
+                fish-mode forth-mode fringe-current-line geiser-chicken
+                gnu-apl-mode gnuplot goggles gptel gruvbox-theme helpful
+                highlight howm iedit inf-ruby insert-kaomoji jinx jq jq-mode
+                kaolin-themes ligature lin lua-mode magit-todos marginalia
                 modus-themes multiple-cursors nov oauth2 orderless org-journal
-                org-preview-html org-roam paredit plantuml-mode poke-line
-                projectile protobuf-mode py-autopep8 rainbow-delimiters
-                rainbow-mode restclient ripgrep rspec-mode seeing-is-believing
-                sicp sideline-blame sideline-flymake sly sqlformat
-                symbol-overlay terraform-mode transpose-frame vertico
+                org-present org-preview-html org-roam org-tempo paredit
+                plantuml-mode poke-line projectile protobuf-mode py-autopep8
+                rainbow-delimiters rainbow-mode restclient ripgrep rspec-mode
+                seeing-is-believing sicp sideline-blame sideline-flymake sly
+                sqlformat symbol-overlay terraform-mode transpose-frame vertico
                 visible-mark visual-regexp-steroids vundo w3m wc-mode web-mode
                 wgrep which-key writegood-mode writeroom-mode))
  '(safe-local-variable-directories '("/Users/julian/Documents/Outcomes4me/api/"))
@@ -137,25 +139,34 @@
      (projectile-project-name . "API"))))
 
 
-
-(defun julian/initialize  ()
-  (tab-bar-change-tab-group "DEV")
-  (magit-status "~/Documents/Outcomes4Me/web")
-  (tab-new-to 0)
-  (magit-status "~/Documents/Outcomes4me/mobile-3")
-  (tab-new-to 0)
-  (magit-status "~/Documents/Outcomes4me/api")
-  (tab-new-to 0)
-  (tab-bar-change-tab-group "ETC")
-  (elfeed-summary))
-
-(julian/initialize) ; Do this after safe-variable stuff so we don't get the message
-
-
 ;; Reset garbage collection threshold
 (setq gc-cons-threshold (* 2 1000 1000))
 (put 'overwrite-mode 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
+
+(defmacro delay (&rest body)
+  `(lambda () (progn ,@body)))
+
+(defmacro force (thunk)
+  `(funcall ,thunk))
+
+(defun julian/ensure-tab (position command group)
+  (if (<= position (length (tab-bar-tabs)))
+      (tab-bar-select-tab position)
+    (tab-bar-new-tab-to position))
+  (tab-bar-change-tab-group group position)
+  (funcall command))
+
+(defun julian/setup-workspaces ()
+  (tab-bar-close-other-tabs 1)
+  (julian/ensure-tab 1 #'elfeed-summary "ETC")
+  (julian/ensure-tab 2 #'ielm "ETC")
+  (julian/ensure-tab 3 (delay (find-file "~/Documents/Outcomes4me/api/") (magit-status)) "API")
+  (julian/ensure-tab 4 (delay (find-file "~/Documents/Outcomes4me/mobile-3/") (magit-status)) "MOBILE")
+  (julian/ensure-tab 5 (delay (find-file "~/Documents/Outcomes4me/web") (magit-status)) "WEB"))
+
+(when julian/at-work
+  (julian/setup-workspaces))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -163,10 +174,14 @@
  ;; If there is more than one, they won't work right.
  '(hl-line ((t :underline (:color "lime") :background unspecified)))
  '(sideline-blame ((t (:italic t :background unspecified :foreground "#7a88cf"))))
- '(tab-bar-tab ((t :foreground "#000000" :background "#ff8844")))
- '(tab-bar-tab-group-current ((t :foreground "#ff8844" :background "#282828")))
+ '(tab-bar-tab ((t :foreground "#66ff66" :background nil)))
+ '(tab-bar-tab-group-current ((t :foreground "#282828" :background "#ff8844")))
  '(tab-bar-tab-group-inactive ((t :foreground "#446688" :background "#282828")))
  '(tab-bar-tab-inactive ((t :foreground "#7c6f64")))
+ '(tab-line ((t :inherit nil)))
+ '(tab-line-current ((t :background "#ff8844" :foreground "#000000")))
+ '(tab-line-highlight ((t :background unspecified :foreground "white")))
+ '(tab-line-inactive ((t :background "#282828" :foreground "#446688")))
+ '(tab-line-tab-current ((t :background "#ff8844" :foreground "#000000")))
+ '(tab-line-tab-inactive ((t :background "#282828" :foreground "#446688")))
  '(variable-pitch ((t (:family "ETBembo" :weight thin)))))
-
-

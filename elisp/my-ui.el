@@ -50,8 +50,6 @@
  '(tab-bar-tab-group-current ((t :foreground "#282828"  :background "#ff8844")))
  '(tab-bar-tab-group-inactive ((t :foreground "#446688" :background "#282828" ))))
 
-
-
 (setq use-dialog-box nil)
 (setq-default tab-bar-format '(tab-bar-format-tabs-groups tab-bar-separator))
 (setq tab-bar-close-button-show nil
