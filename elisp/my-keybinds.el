@@ -157,6 +157,16 @@ With prefix arg REGEXP-P, perform a regular expression search."
   (message (propertize "hello" 'face '(:foreground "red"))))
 
 
+(defun julian/delete-flymake-window ()
+  (interactive)
+  (let ((target (get-buffer-window (concat "*Flymake diagnostics for `" (buffer-name (current-buffer)) "'*") 'visible)))
+
+    (if target
+        (delete-window target)
+      (message "No flymake window for this buffer"))))
+
+(global-set-key (kbd "s-e k") 'julian/delete-flymake-window)
+
 
 ;; Fix (remove) treesit sexp commands
 (defun julian/fix-treesit-sexp-commands ()

@@ -118,7 +118,8 @@
                                ("https://caseymuratori.com/blog_atom.rss" blog dev)
                                ("https://hackaday.com/blog/feed/" tech)
                                ("https://www.wheresyoured.at/rss" blog)
-                               ("https://twostopbits.com/rss" blog tech)))
+                               ("https://twostopbits.com/rss" blog tech)
+                               ("https://yoric.github.io/index.xml" blog tech)))
   (setq shr-inhibit-images t
         )
   (setq-default elfeed-search-filter "@1-month-ago +unread"
@@ -127,8 +128,11 @@
 (use-package elfeed-summary
   :bind (("C-c E" . elfeed-summary))
   :bind (:map elfeed-summary-mode-map
-              ("p" . magit-section-backward)))
-
+              ("p" . magit-section-backward))
+  :config
+  (setq elfeed-summary-settings
+        '((auto-tags (:title "All feeds"
+                             :max-level 2)))))
 
 ;; HTML/CSS expansion
 (use-package emmet-mode :diminish emmet-mode)
@@ -152,11 +156,11 @@
               ("s-h d" . hs-hide-block)
               ("s-h l" . hs-hide-level)))
 
-(use-package helpful
-  :bind (("C-h f" . helpful-callable)
-         ("C-h v" . helpful-variable)
-         ("C-h k" . helpful-key)
-         ("C-h C" . helpful-command)))
+;; (use-package helpful
+;;   :bind (("C-h f" . helpful-callable)
+;;          ("C-h v" . helpful-variable)
+;;          ("C-h k" . helpful-key)
+;;          ("C-h C" . helpful-command)))
 
 (use-package magit
   :bind (
@@ -184,6 +188,11 @@
 (defun julian/magit-refresh-origin-develop ()
   (interactive)
   (magit-fetch-refspec "origin" "develop:develop" (magit-fetch-arguments)))
+
+(use-package diff-hl :after magit
+  :config
+  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
 
 ;; ORG MODE CONFIG ============================================================
 (use-package org
@@ -311,7 +320,7 @@
 
 ;; &rest args to silence alert since the hook passes the slide as args
 (defun julian/org-present-prepare-slide (&rest args)
-)
+  )
 
 (use-package org-present
   :hook ((org-present-mode . julian/org-present-start)
@@ -865,7 +874,8 @@
          ("C-M-$" . jinx-languages))
   :config (global-jinx-mode))
 
-(use-package eat)
+(use-package eat
+  :config (setq eat-term-name "xterm-256color"))
 (use-package gnuplot)
 
 (use-package terraform-mode)

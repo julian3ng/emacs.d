@@ -112,18 +112,19 @@
      "cca1d386d4a3f645c2f8c49266e3eb9ee14cf69939141e3deb9dfd50ccaada79" default))
  '(package-selected-packages
    '(ace-window apheleia auctex beframe bqn-mode cape code-review
-                common-lisp-snippets corfu ct dape delight devil diminish eat
-                eldoc-box elfeed-summary elisp-autofmt eloud elpy embark-consult
-                embrace emmet-mode emms-player-spotify exec-path-from-shell
-                fish-mode forth-mode fringe-current-line geiser-chicken
-                gnu-apl-mode gnuplot goggles gptel gruvbox-theme helpful
-                highlight howm iedit inf-ruby insert-kaomoji jinx jq jq-mode
-                kaolin-themes ligature lin lua-mode magit-todos marginalia
-                modus-themes multiple-cursors nov oauth2 orderless org-journal
-                org-present org-preview-html org-roam org-tempo paredit
+                common-lisp-snippets corfu ct dape delight devil diff-hl
+                diminish eat eldoc-box elfeed-summary elisp-autofmt eloud elpy
+                embark-consult embrace emmet-mode emms-player-spotify
+                exec-path-from-shell fish-mode forth-mode fringe-current-line
+                geiser-chicken gnu-apl-mode gnuplot goggles gptel gruvbox-theme
+                helpful highlight howm iedit inf-ruby insert-kaomoji jinx
+                jq-mode kaolin-themes ligature lin lua-mode magit-todos
+                marginalia modus-themes multiple-cursors nov oauth2 orderless
+                org-journal org-present org-preview-html org-roam paredit
                 plantuml-mode poke-line projectile protobuf-mode py-autopep8
                 rainbow-delimiters rainbow-mode restclient ripgrep rspec-mode
-                seeing-is-believing sicp sideline-blame sideline-flymake sly
+                seeing-is-believing sicp sideline-blame sideline-flymake
+                sly-asdf sly-macrostep sly-quicklisp sly-repl-ansi-color
                 sqlformat symbol-overlay terraform-mode transpose-frame vertico
                 visible-mark visual-regexp-steroids vundo w3m wc-mode web-mode
                 wgrep which-key writegood-mode writeroom-mode))
@@ -185,3 +186,4 @@
  '(tab-line-tab-current ((t :background "#ff8844" :foreground "#000000")))
  '(tab-line-tab-inactive ((t :background "#282828" :foreground "#446688")))
  '(variable-pitch ((t (:family "ETBembo" :weight thin)))))
+(put 'list-timers 'disabled nil)

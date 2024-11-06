@@ -132,4 +132,7 @@
 ;; Avoid flymake yelling at me (https://github.com/joaotavora/eglot/issues/843)
 (add-hook 'clone-indirect-buffer-hook 'read-only-mode)
 (setq save-interprogram-paste-before-kill t)
+
+(setq browse-url-browser-function 'browse-url-default-browser)
+(setq browse-url-secondary-browser-function 'w3m)
 (provide 'my-system)

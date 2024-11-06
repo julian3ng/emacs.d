@@ -29,6 +29,18 @@
   nil
   "'\\x1b[" str "m', " _ ", '\\x1b[m'")
 
+(define-skeleton julian/mark
+  "Insert console mark for iterm"
+  nil
+  "'\\x1b]1337;SetMark\\x07', " _)
+
+(define-skeleton julian/js-block-comment
+  "Insert /** */"
+  nil
+  "/**
+" _ "
+*/")
+
 
 (defun julian/make-console-log (r1 r2)
   (interactive "r")
@@ -40,6 +52,7 @@
          (json (transient-arg-value "--json" args))
          (level (or (transient-arg-value "--level=" args) "log"))
          (notification (transient-arg-value "--notification" args))
+         (mark (transient-arg-value "--mark" args))
          (color (when (or red green blue) (+ (if bright 90 30) (* 4 (if blue 1 0)) (* 2 (if green 1 0)) (if red 1 0))))
          (do-kill mark-active))
     ;; TODO: Better way of managing region?
@@ -50,6 +63,7 @@
       (when json (push #'julian/json skeletons))
       (when notification (push #'julian/notify skeletons))
       (when (not (null color)) (push #'(lambda () (julian/color (number-to-string color))) skeletons))
+      (when mark (push #'julian/mark skeletons))
       (message "%s" level)
       (push #'(lambda () (julian/console-something level)) skeletons)
       (dolist (s skeletons)
@@ -57,6 +71,9 @@
     (when do-kill
       (yank))))
 
+(transient-define-prefix julian/comment ()
+  "Comment builder"
+  [("d" "documentation" julian/js-block-comment :transient nil)])
 
 (transient-define-prefix julian/console ()
   "Console statement builder"
@@ -71,12 +88,14 @@
    ("b" "blue" ("-b" "--blue"))
    ("j" "JSON" "--json")
    ("n" "Notification" "--notification")
+   ("m" "Mark" "--mark")
    ("-l" "Log level" "--level=" :choices ("error" "warn" "log" "info" "debug"))]
   [("RET" "confirm" julian/make-console-log :transient nil)])
-                                        ;
+
 (transient-define-prefix julian/main-menu ()
   "Julian's main menu"
   [("c" "console.log" julian/console :transient nil)
+   (";" "comments" julian/comment :transient nil)
    ])
 
 (global-set-key (kbd "s-j") #'julian/main-menu)
