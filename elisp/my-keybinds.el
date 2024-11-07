@@ -170,11 +170,11 @@ With prefix arg REGEXP-P, perform a regular expression search."
 
 ;; Fix (remove) treesit sexp commands
 (defun julian/fix-treesit-sexp-commands ()
-  (when (eq forward-sexp-function #'treesit-forward-sexp)
+  (when (and (fboundp 'forward-sexp-function) (eq forward-sexp-function #'treesit-forward-sexp))
     (setq forward-sexp-function nil))
-  (when (eq transpose-sexps-function #'treesit-transpose-sexps)
+  (when (and (fboundp 'transpose-sexps-function) (eq transpose-sexps-function #'treesit-transpose-sexps))
     (setq transpose-sexps-function nil))
-  (when (eq forward-sentence-function #'treesit-forward-sentence)
+  (when (and (fboundp 'forward-sentence-function) (eq forward-sentence-function #'treesit-forward-sentence))
     (setq forward-sentence-function nil)))
 
 (add-hook 'prog-mode-hook #'julian/fix-treesit-sexp-commands)
