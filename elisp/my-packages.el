@@ -558,6 +558,10 @@
   :after orderless
   :init (vertico-mode))
 
+(define-advice sly-completing-read (:around (fn &rest args))
+  (let ((icomplete-mode t))
+    (apply fn args)))
+
 (use-package savehist
   :init (savehist-mode))
 
