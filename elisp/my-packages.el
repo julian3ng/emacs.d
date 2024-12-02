@@ -930,6 +930,8 @@
 
 (use-package jq-mode)
 
+(use-package erlang)
+
 (use-package server
   :ensure nil
   :defer t
