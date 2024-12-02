@@ -187,3 +187,8 @@
  '(tab-line-tab-inactive ((t :background "#282828" :foreground "#446688")))
  '(variable-pitch ((t (:family "ETBembo" :weight thin)))))
 (put 'list-timers 'disabled nil)
+
+;; Not sure where to put this so that it's always evaluated?
+(define-advice sly-completing-read (:around (fn &rest args))
+  (let ((icomplete-mode t))
+    (apply fn args)))
