@@ -194,3 +194,5 @@
 (define-advice sly-completing-read (:around (fn &rest args))
   (let ((icomplete-mode t))
     (apply fn args)))
+
+;; TODO: figure out how to configure ff-find-other-file and similar
