@@ -203,21 +203,18 @@
 ;; 'q' on a child frame won't do anything
 (setq iconify-child-frame nil)
 
-
-
-
 (set-face-attribute 'default nil :font "Fira Code" :height 100 :weight 'normal)
 
 
 ;; keep modeline output from going crazy
 (setq eldoc-echo-area-use-multiline-p nil)
 
-
-
 ;; Fix frame stuff
 ;;(set-frame-parameter (selected-frame) 'window-state nil)
 (which-function-mode t)
 
 (global-display-fill-column-indicator-mode)
+
+(set-face-attribute 'aw-leading-char-face nil :height 100)
 
 (provide 'my-ui)

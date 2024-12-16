@@ -55,9 +55,9 @@
   (require 'pico8-mode))
 
 (require 'my-system)
-(require 'my-ui)
 (require 'my-keybinds)
 (require 'my-packages)
+(require 'my-ui)
 (require 'my-skeletons)
 
 (if (not (require 'o4m-utils nil t))
@@ -113,21 +113,22 @@
  '(package-selected-packages
    '(ace-window apheleia auctex beframe bqn-mode cape code-review
                 common-lisp-snippets corfu ct dape delight devil diff-hl
-                diminish eat eldoc-box elfeed-summary elisp-autofmt eloud elpy
-                embark-consult embrace emmet-mode emms-player-spotify
+                diminish eat eglot eldoc-box elfeed-summary elisp-autofmt eloud
+                elpy embark-consult embrace emmet-mode emms-player-spotify
                 exec-path-from-shell fish-mode forth-mode fringe-current-line
                 geiser-chicken gnu-apl-mode gnuplot goggles gptel gruvbox-theme
                 helpful highlight howm iedit inf-ruby insert-kaomoji jinx
                 jq-mode kaolin-themes ligature lin lua-mode magit-todos
                 marginalia modus-themes multiple-cursors nov oauth2 orderless
                 org-journal org-present org-preview-html org-roam paredit
-                plantuml-mode poke-line projectile protobuf-mode py-autopep8
-                rainbow-delimiters rainbow-mode restclient ripgrep rspec-mode
-                seeing-is-believing sicp sideline-blame sideline-flymake
-                sly-asdf sly-macrostep sly-quicklisp sly-repl-ansi-color
-                sqlformat symbol-overlay terraform-mode transpose-frame vertico
-                visible-mark visual-regexp-steroids vundo w3m wc-mode web-mode
-                wgrep which-key writegood-mode writeroom-mode))
+                plantuml-mode poke-line projectile protobuf-mode pulsar
+                py-autopep8 rainbow-delimiters rainbow-mode restclient ripgrep
+                rspec-mode seeing-is-believing sicp sideline-blame
+                sideline-flymake sly-asdf sly-macrostep sly-quicklisp
+                sly-repl-ansi-color sqlformat symbol-overlay terraform-mode
+                transpose-frame uniline vertico vertico-posframe visible-mark
+                visual-regexp-steroids vundo w3m wc-mode web-mode wgrep
+                which-key which-key-posframe writegood-mode writeroom-mode))
  '(safe-local-variable-directories '("/Users/julian/Documents/Outcomes4me/api/"))
  '(safe-local-variable-values
    '((eval when (fboundp 'rainbow-mode) (rainbow-mode 1))
@@ -173,6 +174,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(aw-leading-char-face ((t (:background "#282828" :foreground "#fb4933"))))
  '(hl-line ((t :underline (:color "lime") :background unspecified)))
  '(sideline-blame ((t (:italic t :background unspecified :foreground "#7a88cf"))))
  '(tab-bar-tab ((t :foreground "#66ff66" :background nil)))

@@ -876,7 +876,10 @@
   :config (global-jinx-mode))
 
 (use-package eat
+  :hook ((eshell-first-time-mode . eat-eshell-mode)
+         (eshell-first-time-mode . eat-eshell-visual-command-mode))
   :config (setq eat-term-name "xterm-256color"))
+
 (use-package gnuplot)
 
 (use-package terraform-mode)
@@ -932,12 +935,21 @@
 
 (use-package erlang)
 
+(use-package uniline)
+
+(use-package pulsar)
+
 (use-package server
   :ensure nil
   :defer t
   :config
   (unless (server-running-p)
     (server-start)))
+
+(use-package vertico-posframe :after vertico
+  :config (vertico-posframe-mode t))
+(use-package which-key-posframe :after which-key
+  :config (which-key-posframe-mode t))
 
 (use-package emacs
   :config
