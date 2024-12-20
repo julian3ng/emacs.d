@@ -135,4 +135,10 @@
 
 (setq browse-url-browser-function 'browse-url-default-browser)
 (setq browse-url-secondary-browser-function 'w3m)
+
+(setq completion-auto-help 'always)
+(setq completions-format 'one-column)
+(setq completion-auto-select 'second-tab)
+(setq tab-always-indent 'complete)
+(setq dictionary-server "dict.org")
 (provide 'my-system)

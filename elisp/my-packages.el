@@ -298,6 +298,19 @@
 
 (use-package org-journal)
 
+(use-package org-static-blog
+  :config
+  (setq
+   org-static-blog-publish-title "Blog"
+   org-static-blog-publish-url "http://julian3ng.github.io/"
+   org-static-blog-publish-directory "~/Public/julian3ng.github.io"
+   org-static-blog-posts-directory "~/Public/julian3ng.github.io/posts"
+   org-static-blog-drafts-directory "~/Public/julian3ng.github.io/drafts"
+   org-static-blog-enable-tags t
+   org-export-with-toc nil
+   org-export-with-section-numbers nil
+   org-static-blog-index-front-matter "<h1> Welcome to my blog </h1>\n"
+   org-static-blog-use-preview t))
 
 (defun julian/org-present-start ()
   (visual-fill-column-mode t)
@@ -778,9 +791,9 @@
 (defun julian/is-latex-mode ()
   (string-equal major-mode "latex-mode"))
 
-(use-package apheleia
-  :config (apheleia-global-mode +1)
-  (setq apheleia-inhibit-functions '(julian/is-json-mode  julian/is-latex-mode)))
+;; (use-package apheleia
+;;   :config (apheleia-global-mode +1)
+;;   (setq apheleia-inhibit-functions '(julian/is-json-mode  julian/is-latex-mode)))
 
 ;; (use-package dirvish
 ;;   :config
@@ -831,13 +844,16 @@
 
 (use-package fringe-current-line)
 
-(use-package sideline-flymake :after sideline)
+(use-package sideline-flymake :after sideline
+  :config
+  (setq sideline-flymake-display-mode 'line))
 (use-package sideline-blame :after sideline)
 (use-package sideline
   :config
   (setq sideline-backends-left '(sideline-flymake))
   (setq sideline-backends-right '(sideline-blame))
-  (global-sideline-mode -1))
+
+  (global-sideline-mode t))
 
 (use-package nov)
 
@@ -938,6 +954,10 @@
 (use-package uniline)
 
 (use-package pulsar)
+
+(use-package devdocs)
+(use-package focus)
+
 
 (use-package server
   :ensure nil
