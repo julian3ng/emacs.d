@@ -133,8 +133,11 @@
 (add-hook 'clone-indirect-buffer-hook 'read-only-mode)
 (setq save-interprogram-paste-before-kill t)
 
-(setq browse-url-browser-function 'browse-url-default-browser)
-(setq browse-url-secondary-browser-function 'w3m)
+;; (setq browse-url-browser-function 'browse-url-default-browser)
+;; (setq browse-url-secondary-browser-function 'w3m)
+(setq browse-url-browser-function 'w3m)
+(setq browse-url-secondary-browser-function 'browse-url-default-browser)
+
 
 (setq completion-auto-help 'always)
 (setq completions-format 'one-column)

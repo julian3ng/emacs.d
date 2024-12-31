@@ -49,6 +49,8 @@
  '(tab-bar-tab-inactive ((t :foreground "#7c6f64")))
  '(tab-bar-tab-group-current ((t :foreground "#282828"  :background "#ff8844")))
  '(tab-bar-tab-group-inactive ((t :foreground "#446688" :background "#282828" ))))
+(setq tab-bar-separator " ⣿ ")
+
 
 (setq use-dialog-box nil)
 (setq-default tab-bar-format '(tab-bar-format-tabs-groups tab-bar-separator))
@@ -216,5 +218,7 @@
 (global-display-fill-column-indicator-mode)
 
 (set-face-attribute 'aw-leading-char-face nil :height 100)
+
+(global-hi-lock-mode)
 
 (provide 'my-ui)

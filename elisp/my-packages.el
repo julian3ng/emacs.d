@@ -12,7 +12,10 @@
   :config
   (setq erc-server "irc.libera.chat"
         erc-port 6697
-        erc-nick "themonkeybob11"))
+        erc-nick "themonkeybob11")
+  (add-to-list 'erc-modules 'services)
+  (setq erc-prompt-for-nickserv-password nil)
+  )
 
 (use-package auctex
   :defer t
@@ -24,6 +27,7 @@
                                         ;(load-theme 'selenized t)
 
 (use-package ace-window
+  :demand t
   :config
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
         aw-scope 'frame
@@ -196,7 +200,7 @@
 
 ;; ORG MODE CONFIG ============================================================
 (use-package org
-  :init (setq org-fold-core-style 'overlays)
+  :init (progn (setq org-fold-core-style 'overlays))
   :hook ((org-mode . (lambda () (display-line-numbers-mode 0)))
          (org-mode . (lambda () (display-fill-column-indicator-mode 0)))
          (org-mode . visual-line-mode)
@@ -260,8 +264,7 @@
                  (set-face-foreground 'org-block "#888")
                  (set-face-foreground 'org-code "aquamarine")
                  (set-face-foreground 'org-verbatim "#888")
-                 (add-to-list 'org-modules 'org-habit)
-                 (add-to-list 'org-emphasis-alist '("/" (:inherit italic :foreground "red")))))
+                 (add-to-list 'org-modules 'org-habit)))
 
 (require 'org-tempo) ;; make <s work again
 
@@ -302,7 +305,7 @@
   :config
   (setq
    org-static-blog-publish-title "Blog"
-   org-static-blog-publish-url "http://julian3ng.github.io/"
+   org-static-blog-publish-url "https://julian3ng.github.io/"
    org-static-blog-publish-directory "~/Public/julian3ng.github.io"
    org-static-blog-posts-directory "~/Public/julian3ng.github.io/posts"
    org-static-blog-drafts-directory "~/Public/julian3ng.github.io/drafts"
@@ -450,7 +453,12 @@
 (use-package sly
   :after vertico
   :config
-  (setq inferior-lisp-program "sbcl"))
+  (setq inferior-lisp-program "sbcl")
+  (load "/home/julian/quicklisp/clhs-use-local.el" t)
+  ;; Everything should go through vertico, not sly
+  (sly-symbol-completion-mode -1))
+
+
 
 (use-package sly-asdf :after sly)
 (use-package sly-macrostep :after sly)
@@ -970,6 +978,13 @@
   :config (vertico-posframe-mode t))
 (use-package which-key-posframe :after which-key
   :config (which-key-posframe-mode t))
+
+(use-package form-feed-st
+  :config (global-form-feed-st-mode))
+
+(use-package uiua-mode)
+(use-package glsl-mode)
+;; (use-package edts)
 
 (use-package emacs
   :config
