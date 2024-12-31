@@ -578,7 +578,8 @@
 
 (use-package vertico
   :after orderless
-  :init (vertico-mode))
+  :init (vertico-mode)
+  :config (setq vertico-count 48))
 
 (use-package savehist
   :init (savehist-mode))
