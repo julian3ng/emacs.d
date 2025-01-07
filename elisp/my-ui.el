@@ -217,8 +217,10 @@
 
 (global-display-fill-column-indicator-mode)
 
+(require 'ace-window)
 (set-face-attribute 'aw-leading-char-face nil :height 100)
 
 (global-hi-lock-mode)
+(setq shr-use-fonts nil)
 
 (provide 'my-ui)

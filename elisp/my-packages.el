@@ -98,7 +98,6 @@
                                ("https://arraycast.com/episodes?format=rss" podcast pl)
                                ("https://reddit.com/r/forth.rss" reddit forth)
                                ("https://reddit.com/r/emacs.rss" reddit emacs)
-                                        ;                               ("https://www.wired.com/feed/rss" news tech)
                                ("https://css-tricks.com/feed/" tech)
                                ("https://feeds.feedburner.com/codinghorror" blog tech)
                                ("https://jvns.ca/atom.xml" blog tech)
@@ -123,7 +122,11 @@
                                ("https://hackaday.com/blog/feed/" tech)
                                ("https://www.wheresyoured.at/rss" blog)
                                ("https://twostopbits.com/rss" blog tech)
-                               ("https://yoric.github.io/index.xml" blog tech)))
+                               ("https://yoric.github.io/index.xml" blog tech)
+                               ("https://www.redblobgames.com/blog/posts.xml" blog tech games)
+                               ("https://www.internalpointers.com/rss" blog tech)
+                               ("https://jakelazaroff.com/rss.xml" blog tech)
+                               ))
   (setq shr-inhibit-images t
         )
   (setq-default elfeed-search-filter "@1-month-ago +unread"
@@ -986,6 +989,9 @@
 (use-package uiua-mode)
 (use-package glsl-mode)
 ;; (use-package edts)
+
+(use-package docker
+  :bind ("s-d" . docker))
 
 (use-package emacs
   :config
