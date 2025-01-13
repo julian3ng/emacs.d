@@ -5,7 +5,10 @@
 (use-package gptel
   :config
   (setq gptel-use-curl t
-        gptel-stream nil))
+        gptel-stream nil)
+  (gptel-make-ollama "Ollama"
+                     :models '(qwen2.5-coder codeqwen))
+)
 
 (use-package autothemer)
 (use-package erc
@@ -126,7 +129,7 @@
                                ("https://www.redblobgames.com/blog/posts.xml" blog tech games)
                                ("https://www.internalpointers.com/rss" blog tech)
                                ("https://jakelazaroff.com/rss.xml" blog tech)
-                               ))
+                               ("https://simonwillison.net/atom/everything/" blog tech)))
   (setq shr-inhibit-images t
         )
   (setq-default elfeed-search-filter "@1-month-ago +unread"
@@ -979,7 +982,11 @@
     (server-start)))
 
 (use-package vertico-posframe :after vertico
-  :config (vertico-posframe-mode t))
+  :config
+  (setq vertico-posframe-height 40
+        vertico-posframe-width 100 )
+  (setq vertico-count vertico-posframe-height)
+  (vertico-posframe-mode t))
 (use-package which-key-posframe :after which-key
   :config (which-key-posframe-mode t))
 
@@ -992,6 +999,10 @@
 
 (use-package docker
   :bind ("s-d" . docker))
+
+(use-package dumber-jump
+  :config
+  (add-hook 'xref-backend-functions #'dumber-jump-xref-activate))
 
 (use-package emacs
   :config
