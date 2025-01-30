@@ -7,8 +7,11 @@
   (setq gptel-use-curl t
         gptel-stream nil)
   (gptel-make-ollama "Ollama"
-                     :models '(qwen2.5-coder codeqwen))
-)
+                     :models '(qwen2.5-coder codeqwen deepseek-r1)))
+
+(package-vc-install '(aider :url "https://github.com/tninja/aider.el"))
+(use-package aider
+  :config (setq aider-args '("--model" "ollama_chat/deepseek-r1")))
 
 (use-package autothemer)
 (use-package erc
@@ -17,8 +20,7 @@
         erc-port 6697
         erc-nick "themonkeybob11")
   (add-to-list 'erc-modules 'services)
-  (setq erc-prompt-for-nickserv-password nil)
-  )
+  (setq erc-prompt-for-nickserv-password nil))
 
 (use-package auctex
   :defer t
@@ -111,7 +113,7 @@
                                ("https://ciechanow.ski/atom.xml" blog css)
                                ("https://planet.emacslife.com/atom.xml" blog emacs)
                                ("https://karthinks.com/index.xml" blog emacs)
-                               ("https://www.cnet.com/rss/gaming/" games cnet)
+                               ;; ("https://www.cnet.com/rss/gaming/" games cnet)
                                ("http://crawl.develz.org/wordpress/feed" games)
                                ("https://nicole.express/feed.xml" blog tech)
                                ("https://danluu.com/atom.xml" blog tech)
@@ -129,7 +131,8 @@
                                ("https://www.redblobgames.com/blog/posts.xml" blog tech games)
                                ("https://www.internalpointers.com/rss" blog tech)
                                ("https://jakelazaroff.com/rss.xml" blog tech)
-                               ("https://simonwillison.net/atom/everything/" blog tech)))
+                               ("https://simonwillison.net/atom/everything/" blog tech)
+                               ("https://feedpress.me/512pixels" blog tech history)))
   (setq shr-inhibit-images t
         )
   (setq-default elfeed-search-filter "@1-month-ago +unread"
@@ -212,7 +215,9 @@
          (org-mode . visual-line-mode)
          (org-mode . abbrev-mode))
 
-  :bind (:map org-mode-map ("C-'" . avy-goto-char-timer))
+  :bind (:map org-mode-map ("C-'" . avy-goto-char-timer)
+              ("C-c n" . org-next-item)
+              ("C-c p" . org-previous-item))
   :bind (("C-c a" . org-agenda)
          ("C-c C" . org-capture)
          ("C-c l" . org-store-link))
@@ -254,7 +259,7 @@
                                              "**** Stream of Consciousness\n"
                                              )
                                            ))
-                  org-agenda-files (list "~/org/gtd.org")
+                  org-agenda-files (list "~/Documents/journal/")
                   org-refile-use-outline-path 'file
                   org-outline-path-complete-in-steps nil
                   org-refile-targets '((nil :maxlevel . 3)
@@ -270,6 +275,8 @@
                  (set-face-foreground 'org-block "#888")
                  (set-face-foreground 'org-code "aquamarine")
                  (set-face-foreground 'org-verbatim "#888")
+                 (set-face-foreground 'org-hide (face-attribute 'default :background))
+                 (set-face-background 'org-hide (face-attribute 'default :background))
                  (add-to-list 'org-modules 'org-habit)))
 
 (require 'org-tempo) ;; make <s work again
@@ -305,7 +312,11 @@
      (python . t)
      (ruby . t))))
 
-(use-package org-journal)
+(use-package org-journal
+  :bind (:map org-journal-mode-map
+              ("C-c C-s" . org-schedule))
+  :config
+ (setq org-journal-file-format "%Y%m%d.org"))
 
 (use-package org-static-blog
   :config
@@ -984,9 +995,10 @@
 (use-package vertico-posframe :after vertico
   :config
   (setq vertico-posframe-height 40
-        vertico-posframe-width 100 )
+        vertico-posframe-width nil )
   (setq vertico-count vertico-posframe-height)
-  (vertico-posframe-mode t))
+  (vertico-posframe-mode -1))
+
 (use-package which-key-posframe :after which-key
   :config (which-key-posframe-mode t))
 
@@ -1003,6 +1015,9 @@
 (use-package dumber-jump
   :config
   (add-hook 'xref-backend-functions #'dumber-jump-xref-activate))
+
+(use-package ready-player
+  :config (ready-player-mode +1))
 
 (use-package emacs
   :config

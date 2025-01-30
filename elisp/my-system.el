@@ -138,6 +138,7 @@
 ;; (setq browse-url-browser-function 'w3m)
 ;; (setq browse-url-secondary-browser-function 'browse-url-default-browser)
 
+(setq echo-keystrokes 0.01)
 
 (setq completion-auto-help 'always)
 (setq completions-format 'one-column)
