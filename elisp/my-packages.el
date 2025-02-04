@@ -132,7 +132,8 @@
                                ("https://www.internalpointers.com/rss" blog tech)
                                ("https://jakelazaroff.com/rss.xml" blog tech)
                                ("https://simonwillison.net/atom/everything/" blog tech)
-                               ("https://feedpress.me/512pixels" blog tech history)))
+                               ("https://feedpress.me/512pixels" blog tech history)
+                               ("https://gamedev.city/rss" news gamedev)))
   (setq shr-inhibit-images t
         )
   (setq-default elfeed-search-filter "@1-month-ago +unread"
@@ -1018,6 +1019,8 @@
 
 (use-package ready-player
   :config (ready-player-mode +1))
+
+(use-package csv-mode)
 
 (use-package emacs
   :config
