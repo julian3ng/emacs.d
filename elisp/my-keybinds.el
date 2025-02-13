@@ -3,6 +3,11 @@
 (setq mac-function-modifier 'hyper)
 (setq mac-pass-command-to-system nil)
 
+;; C-<ARROW> moves in that direction
+(windmove-default-keybindings 'control)
+
+(setq tab-bar-select-tab-modifiers '(control))
+
 (global-set-key [mouse-3] 'xref-go-back)
 (global-set-key [mouse-4] 'xref-find-definitions)
 (global-set-key (kbd "C-c w") 'whitespace-cleanup)

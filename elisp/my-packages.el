@@ -133,7 +133,9 @@
                                ("https://jakelazaroff.com/rss.xml" blog tech)
                                ("https://simonwillison.net/atom/everything/" blog tech)
                                ("https://feedpress.me/512pixels" blog tech history)
-                               ("https://gamedev.city/rss" news gamedev)))
+                               ("https://gamedev.city/rss" news gamedev)
+                               ("https://blog.jpalardy.com/atom.xml" blog tech)
+                               ("https://catonmat.net/feed" blog tech)))
   (setq shr-inhibit-images t
         )
   (setq-default elfeed-search-filter "@1-month-ago +unread"
