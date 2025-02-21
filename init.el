@@ -1,7 +1,4 @@
-(setq byte-compile-warnings '(cl-functions)) ;; TEMPORARY: turn off cl package deprecation warning
-
 (setq julian/at-work (eq system-type 'darwin))
-
 (if init-file-debug
     (setq use-package-verbose t
           use-package-expand-minimally nil
@@ -11,8 +8,7 @@
         use-package-expand-minimally t
         use-package-always-ensure t))
 
-;; Increase garbage collection threshold to speed up initialization
-(setq gc-cons-threshold (* 100 1000 1000))
+
 (add-hook 'emacs-startup-hook
           (lambda ()
             (message "Emacs ready in %s with %d garbage collections."
@@ -60,6 +56,9 @@
 (require 'my-ui)
 (require 'my-skeletons)
 
+
+(tab-bar-mode t)
+
 (if (not (require 'o4m-utils nil t))
     (message "'o4m-utils not found"))
 ;;(require 'linear)
@@ -91,7 +90,7 @@
 
 
 ;; Reset garbage collection threshold
-(setq gc-cons-threshold (* 2 1000 1000))
+(setq gc-cons-threshold julian--original-gc-cons-threshold)
 (put 'overwrite-mode 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 
@@ -114,10 +113,12 @@
   (julian/ensure-tab 2 #'ielm "ETC")
   (julian/ensure-tab 3 (delay (find-file "~/Documents/Outcomes4me/api/") (magit-status)) "API")
   (julian/ensure-tab 4 (delay (find-file "~/Documents/Outcomes4me/mobile-3/") (magit-status)) "MOBILE")
-  (julian/ensure-tab 5 (delay (find-file "~/Documents/Outcomes4me/web") (magit-status)) "WEB"))
+  (julian/ensure-tab 5 (delay (find-file "~/Documents/Outcomes4me/web") (magit-status)) "WEB")
+  (julian/ensure-tab 6 (delay (find-file "~/Documents/Outcomes4me/infrastructure") (magit-status)) "INFRA"))
 
 (when julian/at-work
   (julian/setup-workspaces))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -385,39 +385,41 @@
                      (and matching (char-syntax matching)))))))
 
 
-(defun julian/projectile-insert-relative-filename (prefix)
-  (interactive "P")
-  (let* ((project-root (projectile-acquire-root))
-         (file (projectile-completing-read "Pick file: " (projectile-project-files project-root)))
-         (filename (expand-file-name file project-root))
-         (relative-filename (file-relative-name filename project-root)))
-    (if prefix
-        (insert (string-trim-right relative-filename "\\.[^.]*"))
-      (insert relative-filename))))
+;; (defun julian/projectile-insert-relative-filename (prefix)
+;;   (interactive "P")
+;;   (let* ((project-root (projectile-acquire-root))
+;;          (file (projectile-completing-read "Pick file: " (projectile-project-files project-root)))
+;;          (filename (expand-file-name file project-root))
+;;          (relative-filename (file-relative-name filename project-root)))
+;;     (if prefix
+;;         (insert (string-trim-right relative-filename "\\.[^.]*"))
+;;       (insert relative-filename))))
 
-(defun julian/copy-projectile-relative-filename (prefix)
-  (interactive "P")
-  (let* ((project-root (projectile-acquire-root))
-         (file (buffer-file-name))
-         (filename (expand-file-name file project-root))
-         (relative-filename (file-relative-name filename project-root)))
-    (kill-new relative-filename)
-    (message relative-filename)))
+;; (defun julian/copy-projectile-relative-filename (prefix)
+;;   (interactive "P")
+;;   (let* ((project-root (projectile-acquire-root))
+;;          (file (buffer-file-name))
+;;          (filename (expand-file-name file project-root))
+;;          (relative-filename (file-relative-name filename project-root)))
+;;     (kill-new relative-filename)
+;;     (message relative-filename)))
 
 
-(use-package projectile
-  :diminish projectile-mode
-  :init (projectile-mode +1)
-  :config (progn
-            (add-to-list 'projectile-globally-ignored-directories "node_modules")
-            (add-to-list 'projectile-globally-ignored-directories "dist")
-            (setq projectile-switch-project-action #'magit
-                  projectile-create-missing-test-files t)
-            (projectile-mode t))
-  :bind (:map projectile-mode-map
-              ("s-p" . projectile-command-map)
-              ("C-c I" . julian/projectile-insert-relative-filename)
-              ("C-c j" . julian/copy-projectile-relative-filename)))
+;; (use-package projectile
+;;   :diminish projectile-mode
+;;   :init (projectile-mode +1)
+;;   :config (progn
+;;             (add-to-list 'projectile-globally-ignored-directories "node_modules")
+;;             (add-to-list 'projectile-globally-ignored-directories "dist")
+;;             (setq projectile-switch-project-action #'magit
+;;                   projectile-create-missing-test-files t)
+;;             (projectile-mode t))
+;;   :bind (:map projectile-mode-map
+;;               ("s-p" . projectile-command-map)
+;;               ("C-c I" . julian/projectile-insert-relative-filename)
+;;               ("C-c j" . julian/copy-projectile-relative-filename)))
+
+
 
 (use-package ripgrep)
 
@@ -838,7 +840,7 @@
 (use-package gruvbox-theme)
 
 (load-theme 'gruvbox-dark-medium t)
-
+(set-face-attribute 'mode-line-buffer-id nil :inherit nil)
 
 (use-package visual-regexp)
 (use-package visual-regexp-steroids

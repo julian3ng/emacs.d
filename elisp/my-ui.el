@@ -199,7 +199,7 @@
 ;; (setq display-buffer-alist
 ;;       '((".*" (display-buffer-reuse-window display-buffer-same-window))))
 
-(setq display-buffer-alist '(("\\*elfeed-summary\\*" . (display-buffer-full-frame))
+(setq display-buffer-alist '(("\\*elfeed-.*\\*" . (display-buffer-full-frame))
                              ("\\*elfeed-.*\\*" . (display-buffer-reuse-window display-buffer-same-window))))
 (setq display-buffer-reuse-frames t)         ; reuse windows in other frames
 (setq even-window-sizes nil)                 ; display-buffer: avoid resizing
@@ -229,5 +229,5 @@
 (setq completions-detailed t)
 (setq x-underline-at-descent-line t)
 (setq display-line-numbers-width 3)
-(setq tab-bar-show 1)
+
 (provide 'my-ui)
