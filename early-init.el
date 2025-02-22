@@ -26,7 +26,6 @@
 (setq frame-resize-pixelwise t)
 (setq tool-bar-mode -1)
 
-
 (setq frame-inhibit-implied-resize t)
 (setq auto-mode-case-fold nil)
 
@@ -40,3 +39,18 @@
    native-comp-async-report-warnings-errors 'silent
    package-native-compile t))
 
+(setq user-full-name "Julian Eng"
+      user-mail-address "julian3ng@gmail.com")
+
+(setq default-frame-alist '((fullscreen . maximized)
+
+                            ;; You can turn off scroll bars by uncommenting these lines:
+                            ;; (vertical-scroll-bars . nil)
+                            ;; (horizontal-scroll-bars . nil)
+
+                            ;; Setting the face in here prevents flashes of
+                            ;; color as the theme gets activated
+                            (background-color . "#000000")
+                            (foreground-color . "#ffffff")
+                            (ns-appearance . dark)
+                            (ns-transparent-titlebar . t)))
