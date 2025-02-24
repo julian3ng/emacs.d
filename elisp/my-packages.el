@@ -67,6 +67,7 @@
   :config (setq julian/mc-keymap
                 (define-keymap
                   "e" #'mc/edit-lines
+                  "E" #'mc/edit-ends-of-lines
                   "n" #'mc/mark-next-like-this
                   "p" #'mc/mark-previous-like-this
                   "a" #'mc/mark-all-like-this-dwim
