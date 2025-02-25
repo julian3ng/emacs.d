@@ -59,11 +59,13 @@
       tab-bar-button-relief 2
       tab-bar-auto-width t)
 
-(setq tab-line-new-button nil )
-(setq tab-line-tabs-function #'tab-line-tabs-buffer-groups)
-(setq tab-line-tabs-buffer-group-function #'(lambda (buffer)
-                                              (with-current-buffer buffer
-                                                (car (last (file-name-split (project-root (project-current))) 2)))))
+(setq tab-line-tabs-buffer-group-function 'tab-line-tabs-buffer-group-by-project)
+
+;; (setq tab-line-new-button nil )
+;; (setq tab-line-tabs-function #'tab-line-tabs-buffer-groups)
+;; (setq tab-line-tabs-buffer-group-function #'(lambda (buffer)
+;;                                               (with-current-buffer buffer
+;;                                                 (car (last (file-name-split (project-root (project-current))) 2)))))
 
 (global-hl-line-mode t)   ; always highlight current line
 
@@ -172,33 +174,6 @@
 (setq switch-to-buffer-in-dedicated-window 'pop)
 
 ;; Custom buffer display behavior
-(setq display-buffer-alist nil)
-;;
-;; 
-;; '(("\\*helpful.*\\*"
-;;          (display-buffer-reuse-mode-window)
-;;          (inhibit-same-window nil)
-;;          (mode helpful-mode))
-;;         ("\\*xref\\*"
-;;          (display-buffer-reuse-mode-window)
-;;          (inhibit-same-window nil)
-;;          (mode xref--xref-buffer-mode))
-;;         ("\\*terminal\\*"
-;;          (display-buffer-in-side-window)
-;;          (side . bottom))
-;;         ("\\*ansi-term\\*"
-;;          (display-buffer-in-side-window)
-;;          (side . bottom))
-;;         ("\\*e?shell\\*"
-;;          (display-buffer-in-side-window)
-;;          (side . bottom))
-;;         ("magit.*"
-;;          (display-buffer-reuse-mode-window))
-;;         )
-
-;; (setq display-buffer-alist
-;;       '((".*" (display-buffer-reuse-window display-buffer-same-window))))
-
 (setq display-buffer-alist '(("\\*elfeed-.*\\*" . (display-buffer-full-frame))
                              ("\\*elfeed-.*\\*" . (display-buffer-reuse-window display-buffer-same-window))))
 (setq display-buffer-reuse-frames t)         ; reuse windows in other frames
@@ -217,6 +192,7 @@
 ;; Fix frame stuff
 ;;(set-frame-parameter (selected-frame) 'window-state nil)
 (which-function-mode t)
+(setq-default which-func-display 'header)
 
 (global-display-fill-column-indicator-mode)
 
@@ -229,5 +205,10 @@
 (setq completions-detailed t)
 (setq x-underline-at-descent-line t)
 (setq display-line-numbers-width 3)
+
+(which-key-mode)
+(setq which-key-idle-delay 0.5)
+
+(setq bs-default-configuration "all-intern-last")
 
 (provide 'my-ui)

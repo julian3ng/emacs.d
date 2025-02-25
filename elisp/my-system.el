@@ -27,21 +27,6 @@
 (setq python-shell-completion-native nil)
 
 
-;; Make C-x C-b group things in the specified way
-(setq ibuffer-saved-filter-groups
-      (quote (("default"
-               ("magit" (or (mode . magit-status-mode)
-                            (mode . magit-diff-mode)
-                            (mode . magit-process-mode)))
-               ("howm" (predicate . howm-mode))
-               ("starred" (starred-name))
-               ("dired" (mode . dired-mode))
-               ("python" (mode . python-mode))
-               ("org" (mode . org-mode))
-               ("go" (mode . go-mode))))))
-
-(add-hook 'ibuffer-mode-hook (lambda () (ibuffer-switch-to-saved-filter-groups "default")))
-
 ;; js ================================
 (setq js-indent-level 2)
 

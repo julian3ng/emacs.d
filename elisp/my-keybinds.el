@@ -20,7 +20,7 @@
 (global-set-key (kbd "s-`") 'other-frame)
 (global-set-key (kbd "s-=") 'text-scale-increase)
 (global-set-key (kbd "s--") 'text-scale-decrease)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "C-x C-b") 'bs-show)
 (global-set-key (kbd "C-x C-M-t") 'transpose-regions)
 (global-set-key (kbd "M-u") 'upcase-dwim)
 (global-set-key (kbd "M-l") 'downcase-dwim)
@@ -172,16 +172,26 @@ With prefix arg REGEXP-P, perform a regular expression search."
 
 (global-set-key (kbd "s-e k") 'julian/delete-flymake-window)
 
-
+(setq-default forward-sexp-function 'forward-sexp-default-function)
+(setq-default transpose-sexp-function 'transpose-sexp-default-function)
+(setq-default forward-sentence-function 'forward-sentence-default-function)
 ;; Fix (remove) treesit sexp commands
 (defun julian/fix-treesit-sexp-commands ()
-  (when (and (fboundp 'forward-sexp-function) (eq forward-sexp-function #'treesit-forward-sexp))
-    (setq forward-sexp-function nil))
-  (when (and (fboundp 'transpose-sexps-function) (eq transpose-sexps-function #'treesit-transpose-sexps))
-    (setq transpose-sexps-function nil))
-  (when (and (fboundp 'forward-sentence-function) (eq forward-sentence-function #'treesit-forward-sentence))
-    (setq forward-sentence-function nil)))
+  (when (and (boundp 'forward-sexp-function) (eq forward-sexp-function #'treesit-forward-sexp))
+    (setq forward-sexp-function nil)
+    (setq-local forward-sexp-function nil))
+  (when (and (boundp 'transpose-sexps-function) (eq transpose-sexps-function #'treesit-transpose-sexps))
+    (setq transpose-sexps-function nil)
+    (setq-local transpose-sexps-function nil))
+  (when (and (boundp 'forward-sentence-function) (eq forward-sentence-function #'treesit-forward-sentence))
+    (setq forward-sentence-function nil)
+    (setq-local forward-sentence-function nil)))
 
 (add-hook 'prog-mode-hook #'julian/fix-treesit-sexp-commands)
+ 
+(defun julian/copy-magit-relative-filename ()
+  (interactive)
+  (let ((name (magit-file-relative-name)))
+    (kill-new name)))
 
 (provide 'my-keybinds)

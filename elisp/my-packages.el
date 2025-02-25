@@ -9,9 +9,8 @@
   (gptel-make-ollama "Ollama"
                      :models '(qwen2.5-coder codeqwen deepseek-r1)))
 
-(package-vc-install '(aider :url "https://github.com/tninja/aider.el"))
-(use-package aider
-  :config (setq aider-args '("--model" "ollama_chat/deepseek-r1")))
+(use-package ollama-buddy
+  :bind (("C-c o" . ollama-buddy-menu)))
 
 (use-package autothemer)
 (use-package erc
@@ -519,10 +518,10 @@
   :bind (("s-u" . vundo))
   :config (setq vundo-glyph-alist vundo-unicode-symbols))
 
-(use-package which-key
-  :diminish which-key-mode
-  :init (which-key-mode)
-  :config (which-key-setup-side-window-bottom))
+;; (use-package which-key
+;;   :diminish which-key-mode
+;;   :init (which-key-mode)
+;;   :config (which-key-setup-side-window-bottom))
 
 (use-package web-mode
   :config
@@ -538,7 +537,7 @@
 (use-package writeroom-mode
   :bind (("C-z z" . writeroom-mode))
   :config
-  (setq writeroom-width 90
+  (setq writeroom-width 120
         writeroom-fullscreen-effect 'maximized))
 
 
@@ -677,7 +676,8 @@
 
 ;; Completion frontend
 (use-package corfu
-  :config (global-corfu-mode))
+  :config ;; (global-corfu-mode)
+  (global-completion-preview-mode))
 
 (use-package cape
   :bind (("C-c C-p p" . completion-at-point) ;; capf
@@ -1004,9 +1004,6 @@
         vertico-posframe-width nil )
   (setq vertico-count vertico-posframe-height)
   (vertico-posframe-mode -1))
-
-(use-package which-key-posframe :after which-key
-  :config (which-key-posframe-mode t))
 
 (use-package form-feed-st
   :config (global-form-feed-st-mode))
