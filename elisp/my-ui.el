@@ -206,8 +206,14 @@
 (setq x-underline-at-descent-line t)
 (setq display-line-numbers-width 3)
 
-(which-key-mode)
-(setq which-key-idle-delay 0.5)
+(which-key-mode 1)
+(which-key-setup-side-window-right-bottom)
+(setq which-key-idle-delay 0.5
+      which-key-max-display-columns 1
+      which-key-min-column-description-width 0
+      which-key-add-column-padding 0
+      which-key-max-description-length 50
+      which-key-show-docstrings nil)
 
 (setq bs-default-configuration "all-intern-last")
 

@@ -795,11 +795,11 @@
 ;;   (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescript-tsx-mode))
 ;;   (setq typescript-indent-level 2))
 
-(use-package poke-line
-  :config
-  (setq poke-line-bar-length 16)
-  (poke-line-set-random-pokemon)
-  (poke-line-global-mode))
+;; (use-package poke-line
+;;   :config
+;;   (setq poke-line-bar-length 16)
+;;   (poke-line-set-random-pokemon)
+;;   (poke-line-global-mode))
 
 
 (defun julian/push-mark-no-activate ()
