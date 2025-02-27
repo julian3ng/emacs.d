@@ -135,9 +135,9 @@
                                ("https://feedpress.me/512pixels" blog tech history)
                                ("https://gamedev.city/rss" news gamedev)
                                ("https://blog.jpalardy.com/atom.xml" blog tech)
-                               ("https://catonmat.net/feed" blog tech)))
-  (setq shr-inhibit-images t
-        )
+                               ("https://catonmat.net/feed" blog tech)
+                               ("https://localthunk.com/?format=rss" blog gamedev)))
+  (setq shr-inhibit-images t)
   (setq-default elfeed-search-filter "@1-month-ago +unread"
                 elfeed-search-title-max-width 100))
 
