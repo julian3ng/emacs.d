@@ -48,7 +48,7 @@
  '(tab-bar-tab ((t :foreground "#66ff66" :background unspecified)))
  '(tab-bar-tab-inactive ((t :foreground "#7c6f64")))
  '(tab-bar-tab-group-current ((t :foreground "#282828"  :background "#ff8844")))
- '(tab-bar-tab-group-inactive ((t :foreground "#446688" :background "#282828" ))))
+ '(tab-bar-tab-group-inactive ((t :foreground "#282828" :background "#446688" ))))
 (setq tab-bar-separator " ⣿ ")
 (setq tab-bar-tab-hints t)
 
