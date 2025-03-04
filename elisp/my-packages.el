@@ -28,7 +28,6 @@
 (use-package py-autopep8)
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-                                        ;(load-theme 'selenized t)
 
 (use-package ace-window
   :demand t
@@ -840,8 +839,12 @@
 (use-package kaolin-themes)
 (use-package gruvbox-theme)
 
-(load-theme 'gruvbox-dark-medium t)
-(set-face-attribute 'mode-line-buffer-id nil :inherit nil)
+(defun julian/load-theme-after-frame (&optional frame)
+  (load-theme 'gruvbox-dark-medium t)
+  (set-face-attribute 'mode-line-buffer-id nil :inherit nil))
+
+(add-to-list 'after-make-frame-functions #'julian/load-theme-after-frame)
+(julian/load-theme-after-frame)
 
 (use-package visual-regexp)
 (use-package visual-regexp-steroids

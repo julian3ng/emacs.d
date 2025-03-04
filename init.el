@@ -49,6 +49,7 @@
 (require 'my-packages)
 (require 'my-ui)
 (require 'my-skeletons)
+(require 'my-remember)
 
 (tab-bar-mode t)
 
