@@ -929,6 +929,9 @@
 (use-package eat
   :hook ((eshell-first-time-mode . eat-eshell-mode)
          (eshell-first-time-mode . eat-eshell-visual-command-mode))
+
+  ;; you can add `[ -x $(which fish) ] && SHELL=$(which fish) exec fish`
+  ;; to your .posixshellrc file to make eat use fish
   :config (setq eat-term-name "xterm-256color"))
 
 (use-package gnuplot)
