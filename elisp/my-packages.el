@@ -1,14 +1,6 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
-;; Have to install this under emacs -nw -q for some reason
-(use-package gptel
-  :config
-  (setq gptel-use-curl t
-        gptel-stream nil)
-  (gptel-make-ollama "Ollama"
-                     :models '(qwen2.5-coder codeqwen deepseek-r1)))
-
 (use-package ollama-buddy
   :bind (("C-c o" . ollama-buddy-menu)))
 
@@ -25,8 +17,6 @@
   :defer t
   :ensure t)
 
-(use-package py-autopep8)
-
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
 (use-package ace-window
@@ -37,7 +27,6 @@
         aw-dispatch-always nil)
   (set-face-foreground 'aw-mode-line-face "#f0f")
   (ace-window-display-mode t)
-
 
   :bind
   ("M-o" . ace-window)
@@ -72,15 +61,15 @@
                   ))
   :bind-keymap (("s-m" . julian/mc-keymap)))
 
-;; M-x stuff
+;; ;; M-x stuff
 (use-package diminish)
 (use-package delight)
 (use-package dictionary)
 
-(defun julian/elfeed-go-to-comments ()
-  (interactive)
-  (elfeed-show-next-link)
-  (shr-browse-url))
+ (defun julian/elfeed-go-to-comments ()
+   (interactive)
+   (elfeed-show-next-link)
+   (shr-browse-url))
 
 (use-package elfeed
   ;; filters
@@ -149,16 +138,13 @@
         '((auto-tags (:title "All feeds"
                              :max-level 2)))))
 
-;; HTML/CSS expansion
+;; ;; HTML/CSS expansion
 (use-package emmet-mode :diminish emmet-mode)
 
 (use-package exec-path-from-shell
   :config
+  (setq exec-path-from-shell-arguments nil)
   (exec-path-from-shell-initialize))
-
-(use-package expand-region
-  :commands expand-region
-  :bind (("C-=" . er/expand-region)))
 
 (use-package hideshow
   :ensure nil
@@ -170,12 +156,6 @@
               ("s-h c" . hs-toggle-hiding)
               ("s-h d" . hs-hide-block)
               ("s-h l" . hs-hide-level)))
-
-;; (use-package helpful
-;;   :bind (("C-h f" . helpful-callable)
-;;          ("C-h v" . helpful-variable)
-;;          ("C-h k" . helpful-key)
-;;          ("C-h C" . helpful-command)))
 
 (use-package magit
   :bind (
@@ -197,17 +177,9 @@
   (defalias 'julian/magit-refresh-origin-develop
     (kmacro "f r <return> d e v e l o p : d e v e l o p <return>")))
 
-(use-package magit-todos :after magit
-  :config (magit-todos-mode 1))
-
 (defun julian/magit-refresh-origin-develop ()
   (interactive)
   (magit-fetch-refspec "origin" "develop:develop" (magit-fetch-arguments)))
-
-(use-package diff-hl :after magit
-  :config
-  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
 
 ;; ORG MODE CONFIG ============================================================
 (use-package org
@@ -283,28 +255,26 @@
 
 (require 'org-tempo) ;; make <s work again
 
-(use-package org-preview-html)
-
-(use-package org-roam
-  :init
-  (setq org-roam-v2-ack t)
-  :custom
-  (org-roam-directory "~/org/roam")
-  :bind (("s-o l" . org-roam-buffer-toggle)
-         ("s-o f" . org-roam-node-find)
-         ("s-o i" . org-roam-node-insert)
-         ("s-o I" . org-id-get-create)
-         ("s-o c" . org-roam-capture)
-         ("s-o t" . org-roam-tag-add)
-         ("s-o d" . org-roam-dailies-capture-today)
-         ("s-o g" . org-roam-db-sync))
-  :config
-  (org-roam-db-autosync-mode t)
-  (setq org-roam-dailies-directory "daily/")
-  (setq org-roam-dailies-capture-templates  '(("d" "default" entry
-                                               "* %?"
-                                               :target (file+head "%<%Y-%m-%d>.org"
-                                                                  "#+title: %<%Y-%m-%d>\n")))))
+;; (use-package org-roam
+;;   :init
+;;   (setq org-roam-v2-ack t)
+;;   :custom
+;;   (org-roam-directory "~/org/roam")
+;;   :bind (("s-o l" . org-roam-buffer-toggle)
+;;          ("s-o f" . org-roam-node-find)
+;;          ("s-o i" . org-roam-node-insert)
+;;          ("s-o I" . org-id-get-create)
+;;          ("s-o c" . org-roam-capture)
+;;          ("s-o t" . org-roam-tag-add)
+;;          ("s-o d" . org-roam-dailies-capture-today)
+;;          ("s-o g" . org-roam-db-sync))
+;;   :config
+;;   (org-roam-db-autosync-mode t)
+;;   (setq org-roam-dailies-directory "daily/")
+;;   (setq org-roam-dailies-capture-templates  '(("d" "default" entry
+;;                                                "* %?"
+;;                                                :target (file+head "%<%Y-%m-%d>.org"
+;;                                                                   "#+title: %<%Y-%m-%d>\n")))))
 (use-package ob-C
   :ensure nil
   :config
@@ -313,12 +283,6 @@
    '((C . t)
      (python . t)
      (ruby . t))))
-
-(use-package org-journal
-  :bind (:map org-journal-mode-map
-              ("C-c C-s" . org-schedule))
-  :config
- (setq org-journal-file-format "%Y%m%d.org"))
 
 (use-package org-static-blog
   :config
@@ -334,36 +298,7 @@
    org-static-blog-index-front-matter "<h1> Welcome to my blog </h1>\n"
    org-static-blog-use-preview t))
 
-(defun julian/org-present-start ()
-  (visual-fill-column-mode t)
-  (visual-line-mode t)
-  (setq-local face-remapping-alist '((default (:height 1.5))))
-  ;; (setq-local face-remapping-alist '((default (:height 1.5) variable-pitch)
-  ;;                                    (header-line (:height 4.0) variable-pitch)
-  ;;                                    (org-document-title (:height 1.75) org-document-title)
-  ;;                                    (org-code (:height 1.55) org-code)
-  ;;                                    (org-verbatim (:height 1.55) org-verbatim)
-  ;;                                    (org-block (:height 1.25) org-block)
-  ;;                                    (org-block-begin-line (:height 0.7) org-block)))
-  )
-
-(defun julian/org-present-stop ()
-  (visual-fill-column-mode 0)
-  (visual-line-mode 0)
-  (setq-local face-remapping-alist '((default default)))
-  )
-
-;; &rest args to silence alert since the hook passes the slide as args
-(defun julian/org-present-prepare-slide (&rest args)
-  )
-
-(use-package org-present
-  :hook ((org-present-mode . julian/org-present-start)
-         (org-present-mode-quit . julian/org-present-stop)
-         (org-present-after-navigate-functions . julian/org-present-prepare-slide)))
-
-
-;; END ORG MODE CONFIG ========================================================
+;; ;; END ORG MODE CONFIG ========================================================
 (use-package paredit
   :diminish paredit-mode
   :hook ((lisp-mode . paredit-mode)
@@ -381,60 +316,15 @@
        (memq (char-syntax (if endp (char-after) (char-before)))
              (list ?\" ;; REMOVED ?w ?_
                    (let ((matching (matching-paren delimiter)))
-                     (and matching (char-syntax matching)))))))
-
-
-;; (defun julian/projectile-insert-relative-filename (prefix)
-;;   (interactive "P")
-;;   (let* ((project-root (projectile-acquire-root))
-;;          (file (projectile-completing-read "Pick file: " (projectile-project-files project-root)))
-;;          (filename (expand-file-name file project-root))
-;;          (relative-filename (file-relative-name filename project-root)))
-;;     (if prefix
-;;         (insert (string-trim-right relative-filename "\\.[^.]*"))
-;;       (insert relative-filename))))
-
-;; (defun julian/copy-projectile-relative-filename (prefix)
-;;   (interactive "P")
-;;   (let* ((project-root (projectile-acquire-root))
-;;          (file (buffer-file-name))
-;;          (filename (expand-file-name file project-root))
-;;          (relative-filename (file-relative-name filename project-root)))
-;;     (kill-new relative-filename)
-;;     (message relative-filename)))
-
-
-;; (use-package projectile
-;;   :diminish projectile-mode
-;;   :init (projectile-mode +1)
-;;   :config (progn
-;;             (add-to-list 'projectile-globally-ignored-directories "node_modules")
-;;             (add-to-list 'projectile-globally-ignored-directories "dist")
-;;             (setq projectile-switch-project-action #'magit
-;;                   projectile-create-missing-test-files t)
-;;             (projectile-mode t))
-;;   :bind (:map projectile-mode-map
-;;               ("s-p" . projectile-command-map)
-;;               ("C-c I" . julian/projectile-insert-relative-filename)
-;;               ("C-c j" . julian/copy-projectile-relative-filename)))
-
-
+                      (and matching (char-syntax matching)))))))
 
 (use-package ripgrep)
 
-;; ; EXAMPLE DIR LOCALS FOR PROJECTILE PROJECT
-;; ; these get "s-p t" to work
-;; ((nil . ((projectile-project-name . "API")
-;;          (projectile-project-test-suffix . ".ispec")
-;;          (projectile-project-test-dir . "test-integration/"))))
-
-
-(defun julian/projectile-relative-filename ()
-  (interactive)
-  (when (buffer-file-name)
-    (let ((relative-filename (string-remove-prefix (projectile-project-root) (buffer-file-name))))
-      (kill-new relative-filename)
-      (message relative-filename))))
+;; ;; ; EXAMPLE DIR LOCALS FOR PROJECTILE PROJECT
+;; ;; ; these get "s-p t" to work
+;; ;; ((nil . ((projectile-project-name . "API")
+;; ;;          (projectile-project-test-suffix . ".ispec")
+;; ;;          (projectile-project-test-dir . "test-integration/"))))
 
 (use-package rainbow-mode :diminish rainbow-mode
   :hook ((prog-mode . rainbow-mode)))
@@ -442,32 +332,10 @@
 (use-package rainbow-delimiters :diminish ""
   :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode-enable))
 
+(use-package robe)
 
-(use-package restclient
-  :config (add-to-list 'auto-mode-alist '("\\.restclient\\'" . restclient-mode))
-  )
-
-
-;;(use-package enh-ruby-mode)
-(use-package rspec-mode)
-
-(use-package inf-ruby
-  :hook ((ruby-mode . inf-ruby-minor-mode)))
-
-(use-package seeing-is-believing
-  :config (setq seeing-is-believing-prefix "C-c ?")
-  :hook ((ruby-mode . seeing-is-believing)))
-
-;; Rust setup from https://robert.kra.hn/posts/2021-02-07_rust-with-emacs/
-;; (use-package rustic
-;;   :bind (("C-c C-c j" . lsp-ui-imenu)
-;;          ("C-c C-c f" . lsp-find-references)
-;;          ("C-c C-c r" . lsp-rename)
-;;          ("C-c C-c q" . lsp-workspace-restart)
-;;          ("C-c C-c Q" . lsp-workspace-shutdown)
-;;          ("C-c C-c s" . lsp-rust-analyzer-status))
-;;   :config
-;;   (setq rustic-format-on-save t))
+;; (use-package inf-ruby
+;;   :hook ((ruby-mode . inf-ruby-minor-mode)))
 
 (use-package lua-mode)
 
@@ -486,13 +354,6 @@
 (use-package sly-quicklisp :after sly)
 (use-package sly-repl-ansi-color :after sly)
 
-;; (use-package slime
-;;   :config
-;;   (setq inferior-lisp-program "sbcl"
-;;         slime-lisp-implementations '((sbcl ("/usr/bin/sbcl")))
-;;         slime-contribs '(slime-fancy))
-;;   (add-to-list 'auto-mode-alist '("\\.lisp\\'" . common-lisp-mode)))
-                                        ;(load "/home/julian/quicklisp/clhs-use-local.el" t))
 
 ;; Better highlights
 (use-package symbol-overlay
@@ -505,22 +366,9 @@
          ("C-c h m" . symbol-overlay-mode)
          ("C-c h C" . symbol-overlay-remove-all)))
 
-;; (use-package undo-tree
-;;   :diminish ""
-;;   :init (progn (global-undo-tree-mode) (setq undo-tree-visualizer-timestamps t))
-;;   :bind (("s-u" . undo-tree-visualize))
-;;   :config (setq undo-tree-history-directory-alist '(("." . "/.emacs.d/undo/"))
-;;                 undo-tree-auto-save-history nil
-;;                 undo-tree-enable-undo-in-region t))
-
 (use-package vundo
   :bind (("s-u" . vundo))
   :config (setq vundo-glyph-alist vundo-unicode-symbols))
-
-;; (use-package which-key
-;;   :diminish which-key-mode
-;;   :init (which-key-mode)
-;;   :config (which-key-setup-side-window-bottom))
 
 (use-package web-mode
   :config
@@ -528,38 +376,12 @@
   (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.js\\'" . js-ts-mode))
   (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
   (setq web-mode-engines-alist '(("php" . "\\.php\\'")))
   (setq web-mode-enable-auto-indentation nil))
 
-
-(use-package writegood-mode)
-(use-package writeroom-mode
-  :bind (("C-z z" . writeroom-mode))
-  :config
-  (setq writeroom-width 120
-        writeroom-fullscreen-effect 'maximized))
-
-
-(use-package wc-mode)
-
-
-;; (use-package yasnippet
-;;   :commands yas-global-mode
-;;   :config
-;;   (setq yas-triggers-in-field t)
-;;   (yas-reload-all)
-;;   (yas-global-mode 1)
-;;   :hook ((git-commit-setup-hook . yas-insert-snippet)))
-
-(add-hook 'git-commit-setup-hook #'yas-insert-snippet)
-
-
-(use-package common-lisp-snippets)
 (use-package geiser)
 (use-package geiser-chicken)
-
-
-(use-package gnu-apl-mode) ;; this is for C-\ APL input method
 
 (use-package ligature
   :config
@@ -587,7 +409,7 @@
 
 
 
-;; Vertico/Marginalia/
+;; ;; Vertico/Marginalia/
 (use-package orderless
   :init
   ;; Configure a custom style dispatcher (see the Consult wiki)
@@ -606,13 +428,13 @@
   :init (savehist-mode))
 
 
-;; Enable rich annotations using the Marginalia package
+;; ;; Enable rich annotations using the Marginalia package
 (use-package marginalia
   :bind (:map minibuffer-local-map
               ("M-A" . marginalia-cycle))
   :init (marginalia-mode))
 
-;; default to default directory instead of project dir
+;; ;; default to default directory instead of project dir
 (defun julian/consult-grep-here (&optional dir)
   (interactive "P")
   (consult-grep (if dir dir default-directory)))
@@ -643,7 +465,7 @@
   (setq xref-show-xrefs-function 'consult-xref
         xref-show-definitions-function 'consult-xref))
 
-;; from https://karthinks.com/software/avy-can-do-anything/
+;; ;; from https://karthinks.com/software/avy-can-do-anything/
 (defun avy-action-embark (pt)
   (unwind-protect
       (save-excursion
@@ -664,7 +486,6 @@
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
                  nil
                  (window-parameters (mode-line-format . none))))
-
   (setf (alist-get ?. avy-dispatch-alist) 'avy-action-embark))
 
 
@@ -673,7 +494,7 @@
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
-;; Completion frontend
+;; ;; Completion frontend
 (use-package corfu
   :config ;; (global-corfu-mode)
   (global-completion-preview-mode))
@@ -699,28 +520,28 @@
   ;; :config (setq slime-completion-at-point-functions (remove  'slime-c-p-c-completion-at-point slime-completion-at-point-functions))
   )
 
-;; pulses modified regions
+;; ;; pulses modified regions
 (use-package goggles
   :hook (prog-mode . goggles-mode)
   :config (setq-default goggles-pulse t))
 
-(defun flymake-eldoc-function (report-doc &rest _)
-  "Document diagnostics at point.
-   Intended for `eldoc-documentation-functions' (which see)."
-  (let ((diags (flymake-diagnostics (point))))
-    (when diags
-      (funcall report-doc
-               (mapconcat (lambda (d)
-                            (let ((level (flymake-diagnostic-type d)))
-                              (pcase level
-                                ('warning (propertize (flymake-diagnostic-text d) 'face 'flymake-warning))
-                                ('error (propertize (flymake-diagnostic-text d) 'face 'flymake-error))
-                                ('note (propertize (flymake-diagnostic-text d) 'face 'flymake-note))
-                                ('eglot-warning (propertize (flymake-diagnostic-text d) 'face 'flymake-warning))
-                                ('eglot-error (propertize (flymake-diagnostic-text d) 'face 'flymake-error))
-                                ('eglot-note (propertize (flymake-diagnostic-text d) 'face 'flymake-note))
-                                (_ (flymake-diagnostic-text d)))
-                              )) diags "\n")))))
+;; (defun flymake-eldoc-function (report-doc &rest _)
+;;   "Document diagnostics at point.
+;;    Intended for `eldoc-documentation-functions' (which see)."
+;;   (let ((diags (flymake-diagnostics (point))))
+;;     (when diags
+;;       (funcall report-doc
+;;                (mapconcat (lambda (d)
+;;                             (let ((level (flymake-diagnostic-type d)))
+;;                               (pcase level
+;;                                 ('warning (propertize (flymake-diagnostic-text d) 'face 'flymake-warning))
+;;                                 ('error (propertize (flymake-diagnostic-text d) 'face 'flymake-error))
+;;                                 ('note (propertize (flymake-diagnostic-text d) 'face 'flymake-note))
+;;                                 ('eglot-warning (propertize (flymake-diagnostic-text d) 'face 'flymake-warning))
+;;                                 ('eglot-error (propertize (flymake-diagnostic-text d) 'face 'flymake-error))
+;;                                 ('eglot-note (propertize (flymake-diagnostic-text d) 'face 'flymake-note))
+;;                                 (_ (flymake-diagnostic-text d)))
+;;                               )) diags "\n")))))
 
 
 (use-package eglot
@@ -738,15 +559,11 @@
    eldoc-echo-area-use-multiline-p t
    eldoc-echo-area-prefer-doc-buffer nil))
 
-(use-package eldoc-box
-  :after eldoc
-  :hook (eglot--managed-mode-hook . eldoc-box-hover-mode))
-
 (use-package flymake
-  :bind (("C-c ! n" . flymake-goto-next-error)
-         ("C-c ! p" . flymake-goto-prev-error)
-         ("C-c ! l" . flymake-show-buffer-diagnostics)
-         ("C-c ! L" . flymake-show-project-diagnostics)
+  :bind (("C-c C-f n" . flymake-goto-next-error)
+         ("C-c C-f p" . flymake-goto-prev-error)
+         ("C-c C-f l" . flymake-show-buffer-diagnostics)
+         ("C-c C-f L" . flymake-show-project-diagnostics)
          ("s-e n" . flymake-goto-next-error)
          ("s-e p" . flymake-goto-prev-error)
          ("s-e l" . flymake-show-buffer-diagnostics)
@@ -765,14 +582,6 @@
   :custom
   (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
 
-;; asdf package manager to find ruby and such
-;; (add-to-list 'load-path "~/.emacs.d/elisp/asdf.el")
-;; (require 'asdf)
-;; (asdf-enable)
-
-;; tabs are better, don't bother with eyebrowse
-;; (use-package eyebrowse ...)
-
 (use-package smerge-mode
   :ensure nil
   :bind (:map smerge-mode-map
@@ -785,50 +594,6 @@
 
 (use-package iedit
   :bind ("C-c i" . iedit-mode))
-
-;; (use-package typescript-mode
-;;   :after tree-sitter
-;;   :config
-;;   (define-derived-mode typescript-tsx-mode typescript-mode "tsx")
-;;   (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))
-;;   (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescript-tsx-mode))
-;;   (setq typescript-indent-level 2))
-
-;; (use-package poke-line
-;;   :config
-;;   (setq poke-line-bar-length 16)
-;;   (poke-line-set-random-pokemon)
-;;   (poke-line-global-mode))
-
-
-(defun julian/push-mark-no-activate ()
-  (interactive)
-  (push-mark (point) t nil)
-  (message "Pushed mark to ring"))
-
-;; not sure about this stuff
-(use-package visible-mark
-  :bind (("C-c C-SPC" . transient-mark-mode)
-         ("C-M-SPC" . julian/push-mark-no-activate))
-  :config
-  (global-visible-mark-mode t)
-  (setq visible-mark-max 3))
-
-;; (use-package minions
-;;   :bind (("M-~" . minions-minor-modes-menu))
-;;   :config (minions-mode 1))
-(defun julian/is-json-mode ()
-  (string-equal major-mode "json-ts-mode"))
-(defun julian/is-latex-mode ()
-  (string-equal major-mode "latex-mode"))
-
-;; (use-package apheleia
-;;   :config (apheleia-global-mode +1)
-;;   (setq apheleia-inhibit-functions '(julian/is-json-mode  julian/is-latex-mode)))
-
-;; (use-package dirvish
-;;   :config
-;;   (dirvish-override-dired-mode))
 
 (use-package sicp)
 
@@ -846,18 +611,9 @@
 (add-to-list 'after-make-frame-functions #'julian/load-theme-after-frame)
 (julian/load-theme-after-frame)
 
-(use-package visual-regexp)
-(use-package visual-regexp-steroids
-  :after visual-regexp)
-
-                                        ;(use-package combobulate)
-(use-package plantuml-mode
-  :config
-  (setq org-plantuml-jar-path (expand-file-name "~/plantuml.jar"))
-  (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
-  (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
-  (setq plantuml-default-exec-mode 'jar)
-  )
+;; (use-package visual-regexp)
+;; (use-package visual-regexp-steroids
+;;   :after visual-regexp)
 
 (use-package embrace
   :bind
@@ -866,46 +622,22 @@
          ("C-c C-," . embrace-commander))))
 
 (use-package bqn-mode)
-
 (use-package protobuf-mode)
 
-(use-package yaml-ts-mode
-  :config
-  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-ts-mode)))
+(use-package yaml-ts-mode :mode "\\.yml")
 
-(use-package dockerfile-ts-mode
-  :config
-  (add-to-list 'auto-mode-alist '("^DDockerfile$" . dockerfile-ts-mode)))
-
-(use-package fringe-current-line)
-
-(use-package sideline-flymake :after sideline
-  :config
-  (setq sideline-flymake-display-mode 'line))
+(use-package sideline-flymake :after sideline :config (setq sideline-flymake-display-mode 'line))
 (use-package sideline-blame :after sideline)
+(use-package sideline-eglot :after sideline)
 (use-package sideline
   :config
   (setq sideline-backends-left '(sideline-flymake))
-  (setq sideline-backends-right '(sideline-blame))
-
+  (setq sideline-backends-right '(sideline-eglot))
   (global-sideline-mode t))
-
-(use-package nov)
 
 (use-package forth-mode)
 
-(use-package w3m
-  :init
-  (add-hook 'w3m-mode-hook #'(lambda () (display-line-numbers-mode -1)))
-  (add-hook 'w3m-mode-hook #'visual-line-fill-column-mode)
-  :config
-  (setq w3m-search-default-engine "duckduckgo"))
-
-;; Give sqlformat command
 (use-package sqlformat)
-
-(use-package beframe
-  :bind-keymap ("C-c b" . beframe-prefix-map))
 
 (use-package transpose-frame
   :config (defvar julian/transpose-frame-keymap
@@ -915,16 +647,6 @@
               "v" #'flop-frame))
   :bind-keymap ("s-f" . julian/transpose-frame-keymap))
 
-(use-package emms)
-(use-package emms-player-spotify)
-
-;; Need to patch this to fix if-let body and when-let binding
-(use-package jinx
-  :diminish
-  :demand t
-  :bind (("M-$" . jinx-correct)
-         ("C-M-$" . jinx-languages))
-  :config (global-jinx-mode))
 
 (use-package eat
   :hook ((eshell-first-time-mode . eat-eshell-mode)
@@ -939,34 +661,8 @@
 (use-package terraform-mode)
 
 (use-package wgrep)
-(use-package lin
-  :config (lin-global-mode))
-
-(use-package highlight)
-
-(use-package howm
-  :config
-  (setq howm-directory "~/howm")
-  (setq howm-file-name-format "%Y/%m/%Y-%m-%d-%H%M%S.org"
-        howm-keyword-file (expand-file-name ".howm-keys" howm-directory)
-        howm-history-file (expand-file-name ".howm-history" howm-directory)
-        )
-  :bind
-  ((:map howm-menu-mode-map
-         ("C-h" . nil))
-   (:map riffle-summary-mode-map
-         ("C-h" . nil))
-   (:map howm-view-contents-mode-map
-         ("C-h" . nil))))
 
 (use-package fish-mode)
-
-;; color stuff
-(use-package ct)
-
-(use-package devil
-  :diminish "😈"
-  :bind (("C-," . global-devil-mode)))
 
 (use-package dape
   ;; Usage:
@@ -986,12 +682,7 @@
         eloud-speech-rate 270))
 
 (use-package jq-mode)
-
 (use-package erlang)
-
-(use-package uniline)
-
-(use-package pulsar)
 
 (use-package devdocs)
 (use-package focus)
@@ -1004,29 +695,15 @@
   (unless (server-running-p)
     (server-start)))
 
-(use-package vertico-posframe :after vertico
-  :config
-  (setq vertico-posframe-height 40
-        vertico-posframe-width nil )
-  (setq vertico-count vertico-posframe-height)
-  (vertico-posframe-mode -1))
-
 (use-package form-feed-st
   :config (global-form-feed-st-mode))
 
 (use-package uiua-mode)
 (use-package glsl-mode)
-;; (use-package edts)
-
-(use-package docker
-  :bind ("s-d" . docker))
 
 (use-package dumber-jump
   :config
   (add-hook 'xref-backend-functions #'dumber-jump-xref-activate))
-
-(use-package ready-player
-  :config (ready-player-mode +1))
 
 (use-package csv-mode)
 
