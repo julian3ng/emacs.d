@@ -7,9 +7,9 @@
 (fset 'yes-or-no-p 'y-or-n-p) ; y/n instead of yes/no
 
 (setq inhibit-startup-message t)     ; no startup message
-(line-number-mode t)                 ; line number in modeline
-(column-number-mode t)               ; column number in modeline
-(global-display-line-numbers-mode 1) ; Turn this on for line numbers
+;; (line-number-mode t)                 ; line number in modeline
+;; (column-number-mode t)               ; column number in modeline
+;; (global-display-line-numbers-mode 1) ; Turn this on for line numbers
 (transient-mark-mode t)              ; highlight the active region
 
 (setq set-mark-command-repeat-pop t)

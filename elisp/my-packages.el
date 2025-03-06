@@ -157,6 +157,9 @@
               ("s-h d" . hs-hide-block)
               ("s-h l" . hs-hide-level)))
 
+(use-package hideshowvis
+  :hook ((prog-mode-hook . hideshowvis-enable)))
+
 (use-package magit
   :bind (
          ("C-x g" . magit-status)
@@ -707,6 +710,16 @@
 
 (use-package csv-mode)
 
+(use-package linum-relative
+  :config
+  (setq linum-relative-backend 'display-line-numbers-mode)
+  (linum-relative-global-mode))
+
+(use-package hyperbole)
+(use-package writeroom-mode
+  :hook (info-mode . writeroom-mode)
+  :config (setq
+           writeroom-fullscreen-effect 'maximized))
 (use-package emacs
   :config
   (setq dired-listing-switches "-lGgha")
