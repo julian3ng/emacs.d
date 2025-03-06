@@ -636,7 +636,7 @@
   :config
   (setq sideline-backends-left '(sideline-flymake))
   (setq sideline-backends-right '(sideline-eglot))
-  (global-sideline-mode t))
+  (global-sideline-mode -1))
 
 (use-package forth-mode)
 

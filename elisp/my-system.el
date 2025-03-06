@@ -138,4 +138,8 @@
   (dolist (theme custom-enabled-themes)
     (disable-theme theme)))
 
+(if julian/at-work
+    (setq shell-file-name "/opt/homebrew/bin/fish")
+  )
+
 (provide 'my-system)
