@@ -306,7 +306,7 @@
   :diminish paredit-mode
   :hook ((lisp-mode . paredit-mode)
          (emacs-lisp-mode . paredit-mode))
-  :bind (("M-d" . paredit-forward-kill-word))
+  :bind (:map paredit-mode-map ("M-d" . paredit-forward-kill-word))
   :config (progn (add-hook 'lisp-mode-hook #'paredit-mode)
                  (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
                  (add-hook 'common-lisp-mode-hook #'paredit-mode)
@@ -721,7 +721,7 @@
   :config (setq
            writeroom-fullscreen-effect 'maximized))
 
-(use-package gdscript-mode)
+;;(use-package gdscript-mode)
 
 (use-package emacs
   :config
