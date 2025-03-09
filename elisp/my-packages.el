@@ -715,7 +715,7 @@
   (setq linum-relative-backend 'display-line-numbers-mode)
   (linum-relative-global-mode))
 
-(use-package hyperbole)
+;; (use-package hyperbole)
 (use-package writeroom-mode
   :hook (info-mode . writeroom-mode)
   :config (setq
