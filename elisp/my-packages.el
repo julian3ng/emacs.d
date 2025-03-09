@@ -720,6 +720,9 @@
   :hook (info-mode . writeroom-mode)
   :config (setq
            writeroom-fullscreen-effect 'maximized))
+
+(use-package gdscript-mode)
+
 (use-package emacs
   :config
   (setq dired-listing-switches "-lGgha")
