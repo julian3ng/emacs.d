@@ -47,27 +47,15 @@
 ;; M-x inside M-x, do shell stuff inside C-x C-f, etc.
 (setq enable-recursive-minibuffers t)
 (minibuffer-depth-indicate-mode t)
-(setq-default dabbrev-case-fold-search nil )
 (setq tramp-default-method "ssh")
 
 
 ;; Spaces match themselves, not one or more of themselves
 (setq search-whitespace-regexp nil)
 
-;; Highlight changes between saves
-(defun julian/flicker-highlight-changes-mode ()
-  (interactive)
-  (if highlight-changes-mode
-      (progn  (highlight-changes-mode 0) (highlight-changes-mode 1))
-    (progn  (highlight-changes-mode 1) (highlight-changes-mode 0))))
-
-;; (add-hook 'after-save-hook 'julian/flicker-highlight-changes-mode)
-
-(setq dired-isearch-filenames 'dwim ; search filenames if in filename column
+(setq dired-isearch-filenames 'dwim     ; search filenames if in filename column
       dired-kill-when-opening-new-dired-buffer t ; keep only one dired buffer
-      dired-create-destination-dirs t ; create missing dirs on RHS of rename
-
-      )
+      dired-create-destination-dirs t   ; create missing dirs on RHS of rename)
 
 (setq isearch-repeat-on-direction-change t)
 ;;default search commands
@@ -94,7 +82,7 @@
                  (sql-user "dev")
                  (sql-server "db.staging.i.outcomes4me-staging.com")
                  (sql-port 5432)
-                 (sql-database "development"))             
+                 (sql-database "development"))
         (prod-ro (sql-product 'postgres)
                  (sql-user "postgres_ro")
                  (sql-server "db.production.i.outcomes4me.com")
@@ -102,10 +90,10 @@
                  (sql-database "production"))))
 
 ;; From https://karthinks.com/software/emacs-window-management-almanac/
-(advice-add 'other-window :before
-            (defun other-window-split-if-single (&rest _)
-              "Split the frame if there is a single window."
-              (when (one-window-p) (split-window-sensibly))))
+;; (advice-add 'other-window :before
+;;             (defun other-window-split-if-single (&rest _)
+;;               "Split the frame if there is a single window."
+;;               (when (one-window-p) (split-window-sensibly))))
 
 ;; Use most recent window for other-window-scroll
 (setq other-window-scroll-default (lambda ()
@@ -119,17 +107,11 @@
 (setq save-interprogram-paste-before-kill t)
 
 (setq browse-url-browser-function 'browse-url-default-browser)
-(setq browse-url-secondary-browser-function 'w3m)
+(setq browse-url-secondary-browser-function 'eww)
 ;; (setq browse-url-browser-function 'w3m)
 ;; (setq browse-url-secondary-browser-function 'browse-url-default-browser)
 
 (setq echo-keystrokes 0.01)
-
-(setq completion-auto-help 'always)
-(setq completions-format 'one-column)
-(setq completion-auto-select 'second-tab)
-(setq tab-always-indent 'complete)
-(setq dictionary-server "dict.org")
 
 ;; from https://emacsredux.com/blog/2025/02/03/clean-unloading-of-emacs-themes/
 (defun julian/disable-all-active-themes ()
@@ -139,7 +121,6 @@
     (disable-theme theme)))
 
 (if julian/at-work
-    (setq shell-file-name "/opt/homebrew/bin/fish")
-  )
+    (setq shell-file-name "/opt/homebrew/bin/fish"))
 
 (provide 'my-system)

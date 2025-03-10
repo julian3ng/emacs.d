@@ -1,6 +1,3 @@
-(require 'use-package-ensure)
-(setq use-package-always-ensure t)
-
 (use-package ollama-buddy
   :bind (("C-c o" . ollama-buddy-menu)))
 
@@ -13,9 +10,7 @@
   (add-to-list 'erc-modules 'services)
   (setq erc-prompt-for-nickserv-password nil))
 
-(use-package auctex
-  :defer t
-  :ensure t)
+
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
@@ -24,13 +19,15 @@
   :config
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
         aw-scope 'frame
-        aw-dispatch-always nil)
+        aw-dispatch-always t)
   (set-face-foreground 'aw-mode-line-face "#f0f")
   (ace-window-display-mode t)
 
   :bind
-  ("M-o" . ace-window)
-  ("C-x o" . other-window))
+  (("M-o" . ace-window)
+   ("C-x o" . other-window)
+   :map hyperbole-mode-map
+   ("M-o" . ace-window)))
 
 (use-package avy
   :config (defvar julian/avy-keymap
@@ -137,9 +134,6 @@
   (setq elfeed-summary-settings
         '((auto-tags (:title "All feeds"
                              :max-level 2)))))
-
-;; ;; HTML/CSS expansion
-(use-package emmet-mode :diminish emmet-mode)
 
 (use-package exec-path-from-shell
   :config
@@ -335,27 +329,6 @@
 (use-package rainbow-delimiters :diminish ""
   :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode-enable))
 
-(use-package robe)
-
-;; (use-package inf-ruby
-;;   :hook ((ruby-mode . inf-ruby-minor-mode)))
-
-(use-package lua-mode)
-
-(use-package sly
-  :after vertico
-  :config
-  (setq inferior-lisp-program "sbcl")
-  (load "/home/julian/quicklisp/clhs-use-local.el" t)
-  ;; Everything should go through vertico, not sly
-  (sly-symbol-completion-mode -1))
-
-
-
-(use-package sly-asdf :after sly)
-(use-package sly-macrostep :after sly)
-(use-package sly-quicklisp :after sly)
-(use-package sly-repl-ansi-color :after sly)
 
 
 ;; Better highlights
@@ -372,19 +345,6 @@
 (use-package vundo
   :bind (("s-u" . vundo))
   :config (setq vundo-glyph-alist vundo-unicode-symbols))
-
-(use-package web-mode
-  :config
-  (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.js\\'" . js-ts-mode))
-  (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-  (setq web-mode-engines-alist '(("php" . "\\.php\\'")))
-  (setq web-mode-enable-auto-indentation nil))
-
-(use-package geiser)
-(use-package geiser-chicken)
 
 (use-package ligature
   :config
@@ -409,119 +369,6 @@
                                       "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
                                       "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
   (global-ligature-mode t))
-
-
-
-;; ;; Vertico/Marginalia/
-(use-package orderless
-  :init
-  ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
-  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-  (setq completion-styles '(orderless basic)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles basic partial-completion)))))
-
-(use-package vertico
-  :after orderless
-  :init (vertico-mode)
-  :config (setq vertico-count 48))
-
-(use-package savehist
-  :init (savehist-mode))
-
-
-;; ;; Enable rich annotations using the Marginalia package
-(use-package marginalia
-  :bind (:map minibuffer-local-map
-              ("M-A" . marginalia-cycle))
-  :init (marginalia-mode))
-
-;; ;; default to default directory instead of project dir
-(defun julian/consult-grep-here (&optional dir)
-  (interactive "P")
-  (consult-grep (if dir dir default-directory)))
-
-(unbind-key "s-k")
-(use-package consult
-  :bind (("C-c c g" . julian/consult-grep-here)
-         ("C-c c l" . consult-line)
-         ("C-c c f" . consult-find)
-         ("C-c c m" . consult-mark)
-         ("C-c c b" . consult-buffer)
-         ("C-c c F" . consult-focus-lines)
-
-         ("s-k e" . consult-flymake)
-         ("s-k g" . julian/consult-grep-here)
-         ("s-k G" . consult-ripgrep)
-         ("s-k l" . consult-line)
-         ("s-k f" . consult-find)
-         ("s-k SPC" . consult-mark)
-         ("s-k m" . consult-mark)
-         ("s-k b" . consult-buffer)
-         ("s-k F" . consult-focus-lines)
-         ("s-k y" . consult-yank-from-kill-ring)
-         ("s-k r" . consult-register)
-         ("s-k T" . consult-theme)
-         ("s-k x" . consult-complex-command))
-  :init
-  (setq xref-show-xrefs-function 'consult-xref
-        xref-show-definitions-function 'consult-xref))
-
-;; ;; from https://karthinks.com/software/avy-can-do-anything/
-(defun avy-action-embark (pt)
-  (unwind-protect
-      (save-excursion
-        (goto-char pt)
-        (embark-act))
-    (select-window
-     (cdr (ring-ref avy-ring 0))))
-  t)
-
-
-(use-package embark
-  :after avy
-  :bind (("C-." . embark-act)
-         ("C-h B" . embark-bindings))
-  :config
-  ;; Hide the mode line of the Embark live/completions buffers
-  (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none))))
-  (setf (alist-get ?. avy-dispatch-alist) 'avy-action-embark))
-
-
-
-(use-package embark-consult
-  :hook
-  (embark-collect-mode . consult-preview-at-point-mode))
-
-;; ;; Completion frontend
-(use-package corfu
-  :config ;; (global-corfu-mode)
-  (global-completion-preview-mode))
-
-(use-package cape
-  :bind (("C-c C-p p" . completion-at-point) ;; capf
-         ("C-c C-p t" . complete-tag)        ;; etags
-         ("C-c C-p d" . cape-dabbrev)        ;; or dabbrev-completion
-         ("C-c C-p h" . cape-history)
-         ("C-c C-p f" . cape-file)
-         ("C-c C-p k" . cape-keyword)
-         ("C-c C-p s" . cape-symbol)
-         ("C-c C-p a" . cape-abbrev)
-         ("C-c C-p i" . cape-ispell)
-         ("C-c C-p l" . cape-line)
-         ("C-c C-p w" . cape-dict)
-         ("C-c C-p \\" . cape-tex)
-         ("C-c C-p _" . cape-tex)
-         ("C-c C-p ^" . cape-tex)
-         ("C-c C-p &" . cape-sgml)
-         ("C-c C-p r" . cape-rfc1345))
-  ;; https://github.com/minad/corfu/issues/84
-  ;; :config (setq slime-completion-at-point-functions (remove  'slime-c-p-c-completion-at-point slime-completion-at-point-functions))
-  )
 
 ;; ;; pulses modified regions
 (use-package goggles
@@ -554,8 +401,6 @@
   :config (add-to-list 'project-vc-extra-root-markers "tsconfig.json")
   (setq eglot-confirm-server-initiated-edits nil))
 
-(use-package markdown-mode) ;; we need markdown mode for eglot's eldoc to render
-
 (use-package eldoc
   :config
   (setq
@@ -576,14 +421,6 @@
          ("p" . flymake-goto-prev-error)
          ("l" . flymake-show-buffer-diagnostics)
          ("L" . flymake-show-project-diagnostics)))
-
-(use-package dabbrev
-  ;; Swap M-/ and C-M-/
-  :bind (("M-/" . expand-abbrev)
-         ("C-M-/" . hippie-expand))
-  ;; Other useful Dabbrev configurations.
-  :custom
-  (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
 
 (use-package smerge-mode
   :ensure nil
@@ -614,20 +451,12 @@
 (add-to-list 'after-make-frame-functions #'julian/load-theme-after-frame)
 (julian/load-theme-after-frame)
 
-;; (use-package visual-regexp)
-;; (use-package visual-regexp-steroids
-;;   :after visual-regexp)
-
 (use-package embrace
   :bind
   (("C-c C-," . embrace-commander)
    (:map org-mode-map
          ("C-c C-," . embrace-commander))))
 
-(use-package bqn-mode)
-(use-package protobuf-mode)
-
-(use-package yaml-ts-mode :mode "\\.yml")
 
 (use-package sideline-flymake :after sideline :config (setq sideline-flymake-display-mode 'line))
 (use-package sideline-blame :after sideline)
@@ -638,7 +467,6 @@
   (setq sideline-backends-right '(sideline-eglot))
   (global-sideline-mode -1))
 
-(use-package forth-mode)
 
 (use-package sqlformat)
 
@@ -661,11 +489,8 @@
 
 (use-package gnuplot)
 
-(use-package terraform-mode)
-
 (use-package wgrep)
 
-(use-package fish-mode)
 
 (use-package dape
   ;; Usage:
@@ -684,12 +509,8 @@
   (setq eloud-espeak-path "/opt/homebrew/bin/espeak"
         eloud-speech-rate 270))
 
-(use-package jq-mode)
-(use-package erlang)
-
 (use-package devdocs)
 (use-package focus)
-
 
 (use-package server
   :ensure nil
@@ -701,14 +522,9 @@
 (use-package form-feed-st
   :config (global-form-feed-st-mode))
 
-(use-package uiua-mode)
-(use-package glsl-mode)
-
 (use-package dumber-jump
   :config
   (add-hook 'xref-backend-functions #'dumber-jump-xref-activate))
-
-(use-package csv-mode)
 
 (use-package linum-relative
   :config

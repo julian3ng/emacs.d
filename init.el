@@ -39,7 +39,6 @@
 
 (add-to-list 'load-path "~/.emacs.d/elisp/")
 
-
 (add-to-list 'load-path "~/.emacs.d/pico8-mode/")
 (when (file-exists-p "~/.emacs.d/pico8-mode/")
   (require 'pico8-mode))
@@ -48,6 +47,8 @@
 (require 'my-keybinds)
 (require 'my-packages)
 (require 'my-ui)
+(require 'my-autocomplete)
+(require 'my-modes)
 (require 'my-skeletons)
 (require 'my-remember)
 

@@ -158,14 +158,6 @@
 
 (setq isearch-lazy-count t)
 
-;; Window display management: look at
-;; https://www.masteringemacs.org/article/demystifying-emacs-window-manager
-(defun julian/toggle-window-dedication ()
-  "Toggles window dedication in selected window"
-  (interactive)
-  (set-window-dedicated-p (selected-window)
-                          (not (window-dedicated-p (selected-window)))))
-
 (setq window-sides-slots '(1 1 1 1))
 
 ;; switch to buffer acts like programmatic switch to buffer
