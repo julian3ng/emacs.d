@@ -6,7 +6,8 @@
 ;; C-<ARROW> moves in that direction
 (windmove-default-keybindings 'control)
 
-(setq tab-bar-select-tab-modifiers '(control))
+;; You don't actually use this much
+;; (setq tab-bar-select-tab-modifiers nil)
 
 (global-set-key [mouse-3] 'xref-go-back)
 (global-set-key [mouse-4] 'xref-find-definitions)
@@ -188,7 +189,7 @@ With prefix arg REGEXP-P, perform a regular expression search."
     (setq-local forward-sentence-function nil)))
 
 (add-hook 'prog-mode-hook #'julian/fix-treesit-sexp-commands)
- 
+
 (defun julian/copy-magit-relative-filename ()
   (interactive)
   (let ((name (magit-file-relative-name)))
