@@ -120,6 +120,8 @@
   (setq eloud-espeak-path "/opt/homebrew/bin/espeak"
         eloud-speech-rate 270))
 
+(use-package keycast)
+
 (use-package server
   :ensure nil
   :defer t

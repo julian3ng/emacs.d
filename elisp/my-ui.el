@@ -7,9 +7,9 @@
 (fset 'yes-or-no-p 'y-or-n-p) ; y/n instead of yes/no
 
 (setq inhibit-startup-message t)     ; no startup message
-;; (line-number-mode t)                 ; line number in modeline
-;; (column-number-mode t)               ; column number in modeline
-;; (global-display-line-numbers-mode 1) ; Turn this on for line numbers
+(line-number-mode nil)
+(column-number-mode nil)
+(global-display-line-numbers-mode nil)
 (transient-mark-mode t)              ; highlight the active region
 
 (setq set-mark-command-repeat-pop t)
@@ -48,9 +48,9 @@
  '(tab-bar-tab-inactive ((t :foreground "#7c6f64")))
  '(tab-bar-tab-group-current ((t :foreground "#282828"  :background "#ff8844")))
  '(tab-bar-tab-group-inactive ((t :foreground "#282828" :background "#446688" ))))
+
 (setq tab-bar-separator " ⣿ ")
 (setq tab-bar-tab-hints t)
-
 
 (setq use-dialog-box nil)
 (setq-default tab-bar-format '(tab-bar-format-tabs-groups tab-bar-separator))
@@ -60,19 +60,9 @@
 
 (setq tab-line-tabs-buffer-group-function 'tab-line-tabs-buffer-group-by-project)
 
-;; (setq tab-line-new-button nil )
-;; (setq tab-line-tabs-function #'tab-line-tabs-buffer-groups)
-;; (setq tab-line-tabs-buffer-group-function #'(lambda (buffer)
-;;                                               (with-current-buffer buffer
-;;                                                 (car (last (file-name-split (project-root (project-current))) 2)))))
-
 (global-hl-line-mode t)   ; always highlight current line
-
 (setq visible-bell t) ; use a visible bell
 (setq ring-bell-function 'ignore) ; call 'ignore when bell would ring
-
-;; Pretty symbols
-                                        ;(global-prettify-symbols-mode t)
 
 ;; UTF 8
 (setq local-coding-system 'utf-8)
@@ -85,7 +75,7 @@
 
 ;; Cursor
 (setq-default cursor-type 'box)
-(blink-cursor-mode 1)
+(blink-cursor-mode -1)
 (setq blink-cursor-blinks 0) ; blink forever
 
 
@@ -300,5 +290,11 @@
 (use-package form-feed-st
   :config (global-form-feed-st-mode))
 
+
+;; minibuffer
+(setq resize-mini-windows t)
+(minibuffer-depth-indicate-mode t)
+(setq read-answer-short t)
+(setq kill-ring-max 60)
 
 (provide 'my-ui)

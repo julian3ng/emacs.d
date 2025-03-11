@@ -2,6 +2,9 @@
 
 (setq-default dabbrev-case-fold-search nil )
 
+(setq read-buffer-completion-ignore-case t)
+(setq read-file-name-completion-ignore-case t)
+
 (setq completion-auto-help 'always)
 (setq completions-format 'one-column)
 (setq completion-auto-select 'second-tab)
@@ -9,7 +12,12 @@
 (setq dictionary-server "dict.org")
 
 ;; Completion frontend
-(use-package corfu :config (global-corfu-mode))
+(use-package corfu :config
+  (global-corfu-mode)
+  (corfu-popupinfo-mode t)
+  (setq corfu-min-width 20
+        corfu-popupinfo-delay '(1.25 . 0.25)))
+
 (use-package cape
   :bind (("C-c C-p p" . completion-at-point) ;; capf
          ("C-c C-p t" . complete-tag)        ;; etags
