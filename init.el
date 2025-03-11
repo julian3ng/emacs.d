@@ -49,6 +49,7 @@
 (require 'my-ui)
 (require 'my-autocomplete)
 (require 'my-modes)
+(require 'my-knowledge)
 (require 'my-skeletons)
 (require 'my-remember)
 

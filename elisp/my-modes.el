@@ -51,8 +51,6 @@
 (use-package uiua-mode)
 (use-package glsl-mode)
 (use-package csv-mode)
-
-
-
+(use-package gdscript-mode)
 
 (provide 'my-modes)

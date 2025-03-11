@@ -209,4 +209,92 @@
 
 (setq bs-default-configuration "all-intern-last")
 
+(use-package diminish)
+(use-package delight)
+
+(use-package autothemer)
+(use-package modus-themes)
+;; dark themes: ("kaolin-aurora" "kaolin-blossom"  "kaolin-bubblegum" "kaolin-dark" "kaolin-eclipse" "kaolin-galaxy" "kaolin-mono-dark" "kaolin-ocean" "kaolin-shiva" "kaolin-temple" "kaolin-valley-dark")
+
+(use-package kaolin-themes)
+(use-package gruvbox-theme)
+(defun julian/load-theme-after-frame (&optional frame)
+  (load-theme 'gruvbox-dark-medium t)
+  (set-face-attribute 'mode-line-buffer-id nil :inherit nil))
+
+(add-to-list 'after-make-frame-functions #'julian/load-theme-after-frame)
+(julian/load-theme-after-frame)
+
+;; These feel kinda slow
+;; (use-package sideline-flymake :after sideline :config (setq sideline-flymake-display-mode 'line))
+;; (use-package sideline-blame :after sideline)
+;; (use-package sideline-eglot :after sideline)
+;; (use-package sideline
+;;   :config
+;;   (setq sideline-backends-left '())
+;;   (setq sideline-backends-right '(sideline-eglot sideline-blame))
+;;   (global-sideline-mode t))
+
+(use-package hideshow
+  :ensure nil
+  :hook ((prog-mode-hook . hs-minor-mode))
+  :diminish hs-minor-mode
+  :bind (:map hs-minor-mode-map
+              ("s-h a" . hs-show-all)
+              ("s-h t" . hs-hide-all)
+              ("s-h c" . hs-toggle-hiding)
+              ("s-h d" . hs-hide-block)
+              ("s-h l" . hs-hide-level)))
+
+(use-package hideshowvis
+  :hook ((prog-mode-hook . hideshowvis-enable)))
+
+(use-package rainbow-mode :diminish rainbow-mode
+  :hook ((prog-mode . rainbow-mode)))
+
+(use-package rainbow-delimiters :diminish ""
+  :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode-enable))
+
+(use-package ligature
+  :config
+  (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+                                       ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+                                       "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+                                       "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+                                       "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+                                       "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+                                       "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+                                       "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+                                       "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+                                       "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+  (ligature-set-ligatures 'org-mode '("www" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+                                      ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+                                      "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+                                      "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+                                      "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+                                      "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+                                      "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+                                      "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+                                      "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+                                      "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+  (global-ligature-mode t))
+
+;; ;; pulses modified regions
+(use-package goggles
+  :hook (prog-mode . goggles-mode)
+  :config (setq-default goggles-pulse t))
+
+(use-package focus)
+
+(use-package linum-relative
+  :config
+  (setq linum-relative-backend 'display-line-numbers-mode)
+  (linum-relative-global-mode))
+
+(use-package writeroom-mode
+  :hook (info-mode . writeroom-mode)
+  :config (setq
+           writeroom-fullscreen-effect 'maximized))
+
+
 (provide 'my-ui)
