@@ -38,7 +38,6 @@
                                 ("NOTE" 0 'julian/blue-face t))))
 (add-hook 'prog-mode-hook #'julian/add-highlights)
 
-
 (custom-theme-set-faces
  'user
  '(hl-line ((t :underline (:color "lime" ) :background unspecified )))
@@ -212,6 +211,8 @@
 (use-package diminish)
 (use-package delight)
 
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+
 (use-package autothemer)
 (use-package modus-themes)
 ;; dark themes: ("kaolin-aurora" "kaolin-blossom"  "kaolin-bubblegum" "kaolin-dark" "kaolin-eclipse" "kaolin-galaxy" "kaolin-mono-dark" "kaolin-ocean" "kaolin-shiva" "kaolin-temple" "kaolin-valley-dark")
@@ -295,6 +296,9 @@
   :hook (info-mode . writeroom-mode)
   :config (setq
            writeroom-fullscreen-effect 'maximized))
+
+(use-package form-feed-st
+  :config (global-form-feed-st-mode))
 
 
 (provide 'my-ui)

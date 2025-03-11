@@ -51,6 +51,8 @@
 (require 'my-modes)
 (require 'my-knowledge)
 (require 'my-skeletons)
+(require 'my-editing)
+(require 'my-navigation)
 (require 'my-remember)
 
 (tab-bar-mode t)

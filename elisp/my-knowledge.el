@@ -167,7 +167,6 @@
   (setq howm-view-grep-command nil))
 
 (use-package hyperbole)
-
 (use-package sicp)
 (use-package devdocs)
 

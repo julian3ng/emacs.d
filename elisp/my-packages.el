@@ -9,54 +9,6 @@
   (add-to-list 'erc-modules 'services)
   (setq erc-prompt-for-nickserv-password nil))
 
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-
-(use-package ace-window
-  :after hyperbole
-  :demand t
-  :config
-  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
-        aw-scope 'frame
-        aw-dispatch-always nil)
-  (set-face-foreground 'aw-mode-line-face "#f0f")
-  (ace-window-display-mode t)
-  :bind
-  (("M-o" . ace-window)
-   ("C-x o" . other-window)
-   :map hyperbole-mode-map
-   ("M-o" . ace-window)))
-
-(use-package avy
-  :config (defvar julian/avy-keymap
-            (define-keymap
-              "c"  #'avy-goto-char
-              "'"  #'avy-goto-char
-              "\""  #'avy-goto-char-2
-              "t" #'avy-goto-char-timer
-              "w" #'avy-goto-word-0
-              "l"  #'avy-goto-line))
-  (setq avy-timeout-seconds 0.3
-        avy-style 'at-full
-        avy-background t
-        avy-single-candidate-jump nil
-        )
-  :bind-keymap ("C-;" . julian/avy-keymap)
-  :bind ((:map isearch-mode-map ("C-'" . avy-isearch)))
-  :bind (("C-'" . avy-goto-char-timer)))
-
-(use-package multiple-cursors
-  :config (setq julian/mc-keymap
-                (define-keymap
-                  "e" #'mc/edit-lines
-                  "E" #'mc/edit-ends-of-lines
-                  "n" #'mc/mark-next-like-this
-                  "p" #'mc/mark-previous-like-this
-                  "a" #'mc/mark-all-like-this-dwim
-                  ))
-  :bind-keymap (("s-m" . julian/mc-keymap)))
-
-(use-package dictionary)
-
 (use-package exec-path-from-shell
   :config
   (setq exec-path-from-shell-arguments nil)
@@ -100,25 +52,6 @@
    org-static-blog-index-front-matter "<h1> Welcome to my blog </h1>\n"
    org-static-blog-use-preview t))
 
-(use-package paredit
-  :diminish paredit-mode
-  :hook ((lisp-mode . paredit-mode)
-         (emacs-lisp-mode . paredit-mode))
-  :bind (:map paredit-mode-map ("M-d" . paredit-forward-kill-word))
-  :config (progn (add-hook 'lisp-mode-hook #'paredit-mode)
-                 (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
-                 (add-hook 'common-lisp-mode-hook #'paredit-mode)
-                 (add-hook 'scheme-mode-hook #'paredit-mode)
-                 (add-hook 'racket-mode-hook #'paredit-mode)))
-
-(defun paredit-space-for-delimiter-p (endp delimiter)
-  "Paredit spacing tweaks"
-  (and (not (if endp (eobp) (bobp)))
-       (memq (char-syntax (if endp (char-after) (char-before)))
-             (list ?\" ;; REMOVED ?w ?_
-                   (let ((matching (matching-paren delimiter)))
-                      (and matching (char-syntax matching)))))))
-
 (use-package ripgrep)
 
 ;; Better highlights
@@ -131,10 +64,6 @@
          ("C-c h r" . symbol-overlay-rename)
          ("C-c h m" . symbol-overlay-mode)
          ("C-c h C" . symbol-overlay-remove-all)))
-
-(use-package vundo
-  :bind (("s-u" . vundo))
-  :config (setq vundo-glyph-alist vundo-unicode-symbols))
 
 (use-package eglot
   :bind (("s-l c a" . eglot-code-actions)
@@ -164,34 +93,7 @@
          ("l" . flymake-show-buffer-diagnostics)
          ("L" . flymake-show-project-diagnostics)))
 
-(use-package smerge-mode
-  :ensure nil
-  :bind (:map smerge-mode-map
-              ("C-c C-s n" . smerge-next)
-              ("C-c C-s p" . smerge-prev)
-              ("C-c C-s r" . smerge-refine)
-              ("C-c C-s a" . smerge-keep-all)
-              ("C-c C-s l" . smerge-keep-lower)
-              ("C-c C-s u" . smerge-keep-upper)))
-
-(use-package iedit
-  :bind ("C-c i" . iedit-mode))
-
-(use-package embrace
-  :bind
-  (("C-c C-," . embrace-commander)
-   (:map org-mode-map
-         ("C-c C-," . embrace-commander))))
-
 (use-package sqlformat)
-
-(use-package transpose-frame
-  :config (defvar julian/transpose-frame-keymap
-            (define-keymap "t" #'transpose-frame
-              "r" #'rotate-frame
-              "h" #'flip-frame
-              "v" #'flop-frame))
-  :bind-keymap ("s-f" . julian/transpose-frame-keymap))
 
 (use-package eat
   :hook ((eshell-first-time-mode . eat-eshell-mode)
@@ -200,10 +102,6 @@
   ;; you can add `[ -x $(which fish) ] && SHELL=$(which fish) exec fish`
   ;; to your .posixshellrc file to make eat use fish
   :config (setq eat-term-name "xterm-256color"))
-
-(use-package gnuplot)
-
-(use-package wgrep)
 
 (use-package dape
   ;; Usage:
@@ -229,13 +127,6 @@
   (unless (server-running-p)
     (server-start)))
 
-(use-package form-feed-st
-  :config (global-form-feed-st-mode))
-
-(use-package dumber-jump
-  :config
-  (add-hook 'xref-backend-functions #'dumber-jump-xref-activate))
-
 (use-package emacs
   :config
   (setq dired-listing-switches "-lGgha")
@@ -255,13 +146,5 @@
           ("0" . tab-close)))
 
 (diminish 'auto-revert-mode)
-(diminish 'sideline-mode)
-
-;; Various Notes
-;; Use C-x 4 4 to do next command in other window
-;; Remember avy-dispatch and ace-window-dispatch exist
-;; Embark exists!
-;; Consult exists!
-;; Tab bar history!!
 
 (provide 'my-packages)

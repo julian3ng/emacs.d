@@ -52,5 +52,7 @@
 (use-package glsl-mode)
 (use-package csv-mode)
 (use-package gdscript-mode)
+(use-package dictionary)
+(use-package gnuplot)
 
 (provide 'my-modes)
