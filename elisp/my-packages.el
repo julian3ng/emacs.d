@@ -10,6 +10,7 @@
   (setq erc-prompt-for-nickserv-password nil))
 
 (use-package exec-path-from-shell
+  :ensure t
   :config
   (setq exec-path-from-shell-arguments nil)
   (exec-path-from-shell-initialize))
@@ -147,6 +148,5 @@
           ("u" . tab-undo)
           ("0" . tab-close)))
 
-(diminish 'auto-revert-mode)
 
 (provide 'my-packages)

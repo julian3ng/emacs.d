@@ -177,9 +177,6 @@
 
 (global-display-fill-column-indicator-mode)
 
-(require 'ace-window)
-(set-face-attribute 'aw-leading-char-face nil :height 100)
-
 (global-hi-lock-mode)
 (setq shr-use-fonts nil)
 
@@ -197,9 +194,6 @@
       which-key-show-docstrings nil)
 
 (setq bs-default-configuration "all-intern-last")
-
-(use-package diminish)
-(use-package delight)
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
@@ -296,5 +290,7 @@
 (minibuffer-depth-indicate-mode t)
 (setq read-answer-short t)
 (setq kill-ring-max 60)
+
+(diminish global-auto-revert-mode)
 
 (provide 'my-ui)

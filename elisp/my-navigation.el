@@ -7,6 +7,7 @@
         aw-dispatch-always nil)
   (set-face-foreground 'aw-mode-line-face "#f0f")
   (ace-window-display-mode t)
+  (set-face-attribute 'aw-leading-char-face nil :height 100)  
   :bind
   (("M-o" . ace-window)
    ("C-x o" . other-window)

@@ -1,10 +1,11 @@
 (setq julian/at-work (eq system-type 'darwin))
 (if init-file-debug
-    (setq use-package-verbose t
+    (setq-default use-package-verbose t
           use-package-expand-minimally nil
           use-package-compute-statistics t
+          use-package-always-ensure t
           debug-on-error t)
-  (setq use-package-verbose nil
+  (setq-default use-package-verbose nil
         use-package-expand-minimally t
         use-package-always-ensure t))
 
@@ -38,21 +39,18 @@
 (put 'upcase-region 'disabled nil)
 
 (add-to-list 'load-path "~/.emacs.d/elisp/")
-
-(add-to-list 'load-path "~/.emacs.d/pico8-mode/")
-(when (file-exists-p "~/.emacs.d/pico8-mode/")
-  (require 'pico8-mode))
-
+(use-package diminish :demand t)
+(use-package delight :demand t)
 (require 'my-system)
 (require 'my-keybinds)
 (require 'my-packages)
 (require 'my-ui)
+(require 'my-navigation)
 (require 'my-autocomplete)
 (require 'my-modes)
 (require 'my-knowledge)
 (require 'my-skeletons)
 (require 'my-editing)
-(require 'my-navigation)
 (require 'my-remember)
 
 (tab-bar-mode t)
